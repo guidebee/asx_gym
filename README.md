@@ -16,4 +16,6 @@ Open AI Gym Env for Australia Stock Exchange (ASX)
 ## price
   store all price based on date
   
+  [code, price_date, price_open, price_close, price_high, price_low, stock_volume]
+  
   
