@@ -18,4 +18,22 @@ Open AI Gym Env for Australia Stock Exchange (ASX)
   
   [code, price_date, price_open, price_close, price_high, price_low, stock_volume]
   
-  
+## Installation
+
+Install the [OpenAI gym](https://gym.openai.com/docs/).
+
+Then install this package via
+
+```
+pip install -e .
+```
+
+## Usage
+
+```
+import gym
+import asx_gym
+
+env = gym.make('AsxGym-v0')
+```
+
