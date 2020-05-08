@@ -4,7 +4,8 @@ Open AI Gym Env for Australia Stock Exchange (ASX)
 
 # Historical stock data
  Download the [SQLite database](https://github.com/asxgym/asx_data/raw/master/db.sqlite3) 
- and put in the same directory
+ and put in the asx_gym directory
+ 
  this data contains 10 years historical stock data (updated till 2020-May-07)
 
 
