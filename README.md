@@ -19,6 +19,24 @@ Open AI Gym Env for Australia Stock Exchange (ASX)
 │       ├── __init__.py
 
 ```
+# Update stock data and ASX index data 
+
+```bash
+  cd scripts
+  python update_stock_data.py
+```
+
+This script retrieves new stock data and ASX index data. the data is updated daily
+
+# Update company Info
+
+some time ,new companies may list on asx ,you may need to run
+this scripts to get new companies .
+
+```bash
+  cd scripts
+  python update_company_info.py
+```
 
 ## Installation
 
