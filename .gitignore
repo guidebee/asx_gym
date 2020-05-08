@@ -117,3 +117,6 @@ media/video_thumbnail
 /australia/data
 data/daily_stock_index_history.csv
 data/daily_stock_price_history.csv
+
+temp_test.py
+scripts/data
