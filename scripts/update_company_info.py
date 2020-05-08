@@ -52,18 +52,18 @@ with open('data/company/sectors.json') as f:
 with open('data/company/companies.json') as f:
     companies = json.load(f)
     for company in companies:
-        pk = sector['pk']
+        pk = company['pk']
         cur.execute(f'SELECT count(*) FROM stock_company WHERE id={pk}')
         row = cur.fetchone()[0]
         name = company['fields']['name']
         if row == 0:
-            description = sector['fields']['description']
-            created_at = sector['fields']['created_at']
-            updated_at = sector['fields']['updated_at']
-            removed = sector['fields']['removed']
-            sector = sector['fields']['sector']
-            code = sector['fields']['code']
-            market_capacity = sector['fields']['market_capacity']
+            description = company['fields']['description']
+            created_at = company['fields']['created_at']
+            updated_at = company['fields']['updated_at']
+            removed = company['fields']['removed']
+            sector = company['fields']['sector']
+            code = company['fields']['code']
+            market_capacity = company['fields']['market_capacity']
             sql = '''
              INSERT INTO stock_company(id,name,description,created_at,updated_at,
              removed,code,market_capacity,sector_id) 
