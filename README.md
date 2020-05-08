@@ -8,6 +8,17 @@ Open AI Gym Env for Australia Stock Exchange (ASX)
  
  this data contains 10 years historical stock data (updated till 2020-May-07)
 
+ ```
+.
+├── LICENSE
+├── README.md
+├── asx_gym
+│   ├── __init__.py
+│   ├── db.sqlite3  <--- download db.sqlite3 and put here.
+│   └── envs
+│       ├── __init__.py
+
+```
 
 ## Installation
 
