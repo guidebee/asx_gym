@@ -102,7 +102,7 @@ for row in rows:
     today = date.today()
     days = (today - update_date).days
 
-    for day in range(-2, days - 1):
+    for day in range(-days + 1, 0):
         retrieve_date = today + timedelta(days=day)
         retrieve_date_str = retrieve_date.strftime('%Y-%m-%d')
 
@@ -128,6 +128,11 @@ for row in rows:
                 else:
                     insert_stock_price_history(conn, line)
                 line = data_file.readline()
+
+            cur.execute(
+                f'UPDATE stock_dataupdatehistory SET updated_date="{retrieve_date_str}" WHERE data_name="{data_name}"')
+            conn.commit()
+            print(f'{data_name} last updated date set to {retrieve_date_str}')
 
         data_file.close()
 
