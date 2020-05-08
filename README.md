@@ -1,23 +1,13 @@
 # asx_gym
 Open AI Gym Env for Australia Stock Exchange (ASX)
 
-# data directory
-## company
-  - sectors.json list all sectors
-  - companies.json list all companies
-  
-## index
-  store all ASX index based on date
-  
-  [code, index_date, index_open, index_close, index_high, index_low]
-  
 
-  
-## price
-  store all price based on date
-  
-  [code, price_date, price_open, price_close, price_high, price_low, stock_volume]
-  
+# Historical stock data
+ Download the [SQLite database](https://github.com/asxgym/asx_data/raw/master/db.sqlite3) 
+ and put in the same directory
+ this data contains 10 years historical stock data (updated till 2020-May-07)
+
+
 ## Installation
 
 Install the [OpenAI gym](https://gym.openai.com/docs/).
