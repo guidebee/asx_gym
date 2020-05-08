@@ -42,6 +42,10 @@ this scripts to get new companies .
 
 Install the [OpenAI gym](https://gym.openai.com/docs/).
 
+```bash
+  pip install -r requirements.txt
+```
+
 Then install this package via
 
 ```
