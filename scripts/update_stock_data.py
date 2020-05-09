@@ -119,6 +119,7 @@ for row in rows:
         data_file = open(f'data/{file_name}')
         line = data_file.readline().strip()
         if line == '':
+            data_file.close()
             os.remove(f'data/{file_name}')
         else:
 
@@ -134,6 +135,6 @@ for row in rows:
             conn.commit()
             print(f'{data_name} last updated date set to {retrieve_date_str}')
 
-        data_file.close()
+            data_file.close()
 
 conn.close()
