@@ -16,7 +16,10 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from django.urls import path, include
+from django.contrib.staticfiles import views
+from django.urls import re_path
 import dash_plotly.bootstrap_app  # pylint: disable=unused-import
+from asx import settings
 
 urlpatterns = [
     path('', include('main.urls')),
@@ -24,3 +27,8 @@ urlpatterns = [
     url('^django_plotly_dash/', include('django_plotly_dash.urls')),
 
 ]
+
+if settings.DEBUG:
+    urlpatterns += [
+        re_path(r'^static/(?P<path>.*)$', views.serve),
+    ]

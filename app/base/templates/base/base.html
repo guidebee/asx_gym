@@ -8,21 +8,19 @@
     {% bootstrap_javascript jquery="full" %}
     {% block extra_header %}{% endblock %}
     {% block app_header_css %}
-        <link rel="stylesheet" type="text/css" href="{% static "demo/demo.css" %}"></link>
+        <link rel="stylesheet" type="text/css" href="{% static "assets/css/material-kit.min.css" %}"></link>
     {% endblock %}
     {% plotly_header %}
     <title>Django Plotly Dash Examples - {% block title %}{% endblock %}</title>
 </head>
 <body>
 <header>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-info">
         <div class="navbar-nav">
             <a class="navbar-brand" href="#">
-                <img class="dpd-logo" src="{% static "demo/logo.svg" %}" alt="Logo"/>
-            </a>
-            {% block demo_items %}
 
-            {% endblock %}
+            </a>
+
         </div>
     </nav>
 </header>
