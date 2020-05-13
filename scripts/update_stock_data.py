@@ -95,6 +95,14 @@ cur = conn.cursor()
 cur.execute("SELECT data_name,updated_date FROM stock_dataupdatehistory")
 rows = cur.fetchall()
 
+if len(rows) == 0:
+    cur.execute("select max(index_date) from stock_asxindexdailyhistory")
+    data_date = cur.fetchone()
+    rows.append(['index', data_date[0]])
+    cur.execute("select max(price_date) from stock_stockpricedailyhistory")
+    data_date = cur.fetchone()
+    rows.append(['price', data_date[0]])
+
 for row in rows:
     data_name = row[0]
     update_date_str = row[1]
