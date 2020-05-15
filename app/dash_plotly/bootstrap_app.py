@@ -14,13 +14,14 @@ from plotly.subplots import make_subplots
 # Data manipulation packages
 import numpy as np
 import pandas as pd
+import sqlite3
+
+con = sqlite3.connect("db.sqlite3")
 
 app = DjangoDash('BootstrapApplication')  # replaces dash.Dash
 
-df = px.data.gapminder()
-fig = px.scatter(df, x="gdpPercap", y="lifeExp", animation_frame="year", animation_group="country",
-                 size="pop", color="continent", hover_name="country",
-                 log_x=True, size_max=55, range_x=[100, 100000], range_y=[25, 90])
+index_df = pd.read_sql_query('SELECT * FROM stock_asxindexdailyhistory', con)
+fig = px.line(index_df, x='index_date', y='open_index', color='index_name')
 
 app.layout = html.Div(children=[
     html.H1(children='Hello Dash'),
