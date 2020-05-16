@@ -23,7 +23,7 @@ con = sqlite3.connect("db.sqlite3")
 app = DjangoDash('StockPriceFragment', add_bootstrap_links=True)  # replaces dash.Dash
 
 company_df = pd.read_sql_query('SELECT id,name,description,code,sector_id FROM stock_company', con)
-sector_df = pd.read_sql_query('SELECT * FROM stock_sector', con)
+sector_df = pd.read_sql_query('SELECT id,name,full_name FROM stock_sector', con)
 
 
 def get_company_stock_data(value):
@@ -35,6 +35,8 @@ def get_company_stock_data(value):
 
     company_name = company.iloc[0, 1]
     company_desc = company.iloc[0, 2]
+    sector_id = company.iloc[0, 4]
+    sector_info = sector_df[sector_df['id'] == sector_id].iloc[0, 2]
     opacity = 1.0
     price_df = pd.read_sql_query(
         f'SELECT * FROM stock_stockpricedailyhistory where company_id={company_id} order by price_date',
@@ -79,10 +81,10 @@ def get_company_stock_data(value):
     )
 
     con.close()
-    return fig, company_desc
+    return fig, company_desc, f'Sector:{sector_info}'
 
 
-fig, company_desc = get_company_stock_data(2)
+fig, company_desc, sector_info = get_company_stock_data(2)
 
 app.layout = dbc.Container(children=[
     dbc.Row(
@@ -99,6 +101,12 @@ app.layout = dbc.Container(children=[
     dbc.Row(
         [
             dbc.Col(html.Div(id='company-info', children=company_desc)),
+
+        ]
+    ),
+    dbc.Row(
+        [
+            dbc.Col(html.Div(id='sector-info', children=sector_info)),
 
         ]
     ),
@@ -125,7 +133,8 @@ def update_options(search_value):
 @app.callback(
     [
         Output('stock-price-graph', 'figure'),
-        Output('company-info', 'children')
+        Output('company-info', 'children'),
+        Output('sector-info', 'children')
     ],
     [Input('company_name', 'value')])
 def update_stock_price(value):

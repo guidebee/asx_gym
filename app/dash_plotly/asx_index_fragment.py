@@ -39,6 +39,11 @@ fig.update_xaxes(
 
 )
 
+fig.update_layout(xaxis_rangeslider_visible=False,
+                  xaxis_title="Date",
+                  yaxis_title="Index",
+                  )
+
 app.layout = html.Div(children=[
     html.H1(children='ASX Indexes'),
 
