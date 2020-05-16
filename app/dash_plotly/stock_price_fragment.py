@@ -16,16 +16,27 @@ import numpy as np
 import pandas as pd
 import sqlite3
 
+from dash.exceptions import PreventUpdate
+
 con = sqlite3.connect("db.sqlite3")
 
-app = DjangoDash('StockPriceFragment')  # replaces dash.Dash
+app = DjangoDash('StockPriceFragment', add_bootstrap_links=True)  # replaces dash.Dash
 
-price_df = pd.read_sql_query('SELECT * FROM stock_stockpricedailyhistory where company_id=2 order by price_date', con)
-fig = go.Figure([go.Scatter(x=price_df['price_date'], y=price_df['high_price'])])
+company_df = pd.read_sql_query('SELECT id,name,description,code,sector_id FROM stock_company', con)
+sector_df = pd.read_sql_query('SELECT * FROM stock_sector', con)
+
+index_df = pd.read_sql_query('SELECT * FROM stock_asxindexdailyhistory order by index_date', con)
+fig = px.line(index_df, x='index_date', y='close_index', color='index_name')
+
+fig.update_layout(xaxis_rangeslider_visible=False,
+
+                  xaxis_title="Date",
+                  yaxis_title="Index",
+                  )
+
 fig.update_xaxes(
-    rangeslider_visible=True,
-    rangeselector=dict(
 
+    rangeselector=dict(
         buttons=list([
             dict(count=1, label="YTD", step="year", stepmode="todate"),
             dict(count=1, label="1m", step="month", stepmode="backward"),
@@ -40,11 +51,110 @@ fig.update_xaxes(
 
 )
 
-app.layout = html.Div(children=[
-    html.H1(children='Stock Price'),
+app.layout = dbc.Container(children=[
+    dbc.Row(
+        [
+            dbc.Col(dcc.Dropdown(id='company_name', placeholder='company name'), width=12),
+        ]
+    ),
 
     dcc.Graph(
-        id='example-graph',
+        id='stock-price-graph',
+        config={
+            'displayModeBar': False
+        },
         figure=fig
-    )
+
+    ),
+    dbc.Row(
+        [
+            dbc.Col(html.Div(id='company-info', children='ASX Indexes')),
+
+        ]
+    ),
 ])
+
+
+@app.callback(
+    Output("company_name", "options"),
+    [Input("company_name", "search_value")],
+)
+def update_options(search_value):
+    if not search_value:
+        raise PreventUpdate
+
+    options = []
+    df = company_df[company_df['name'].str.contains(search_value, case=False)]
+
+    for i in range(len(df)):
+        options.append({"label": df.iloc[i, 1], "value": df.iloc[i, 0]})
+
+    return options
+
+
+@app.callback(
+    [
+        Output('stock-price-graph', 'figure'),
+        Output('company-info', 'children')
+    ],
+    [Input('company_name', 'value')])
+def update_stock_price(value):
+    if not value:
+        raise PreventUpdate
+    try:
+        con = sqlite3.connect("db.sqlite3")
+
+        company_id = int(value)
+
+        company = company_df[company_df['id'] == company_id]
+
+        company_name = company.iloc[0, 1]
+        company_desc = company.iloc[0, 2]
+        opacity = 1.0
+        price_df = pd.read_sql_query(
+            f'SELECT * FROM stock_stockpricedailyhistory where company_id={company_id} order by price_date',
+            con)
+        fig = go.Figure(
+            [
+                go.Scatter(x=price_df['price_date'], y=price_df['high_price'], name="High", opacity=opacity),
+                go.Scatter(x=price_df['price_date'], y=price_df['low_price'], name="Low", opacity=opacity),
+                go.Scatter(x=price_df['price_date'], y=price_df['open_price'], name="Open", opacity=opacity),
+                go.Scatter(x=price_df['price_date'], y=price_df['close_price'], name="Close", opacity=opacity),
+                go.Candlestick(x=price_df['price_date'],
+                               open=price_df['open_price'],
+                               high=price_df['high_price'],
+                               low=price_df['low_price'],
+                               close=price_df['close_price'], name="Candle Stick")
+            ],
+
+        )
+
+        fig.update_layout(xaxis_rangeslider_visible=True,
+                          title=company_name,
+                          xaxis_title="Date",
+                          yaxis_title="Price",
+                          )
+
+        fig.update_xaxes(
+
+            rangeselector=dict(
+
+                buttons=list([
+                    dict(count=1, label="YTD", step="year", stepmode="todate"),
+                    dict(count=1, label="1m", step="month", stepmode="backward"),
+                    dict(count=6, label="6m", step="month", stepmode="backward"),
+
+                    dict(count=1, label="1y", step="year", stepmode="backward"),
+                    dict(count=2, label="2y", step="year", stepmode="backward"),
+                    dict(count=5, label="5y", step="year", stepmode="backward"),
+                    dict(step="all")
+                ])
+            ),
+
+        )
+
+        con.close()
+        return fig, company_desc
+    except Exception as e:
+        print(e)
+        raise PreventUpdate
