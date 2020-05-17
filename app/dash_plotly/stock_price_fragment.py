@@ -20,7 +20,7 @@ from dash.exceptions import PreventUpdate
 
 con = sqlite3.connect("db.sqlite3")
 
-app = DjangoDash('StockPriceFragment', add_bootstrap_links=True)  # replaces dash.Dash
+app = DjangoDash('StockPriceFragment')  # replaces dash.Dash
 
 company_df = pd.read_sql_query('SELECT id,name,description,code,sector_id FROM stock_company', con)
 sector_df = pd.read_sql_query('SELECT id,name,full_name FROM stock_sector', con)

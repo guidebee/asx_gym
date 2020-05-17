@@ -1,5 +1,5 @@
 {% extends "base/base.html" %}
-{% load plotly_dash %}
+{%load plotly_dash%}
 
 {% block title %}Demo Seven - Dash Bootstrap Components{% endblock %}
 
@@ -7,8 +7,8 @@
     <div class="card card-signup">
         <div class="card-body">
 
-            <div class="{% plotly_class name="StockPriceFragment" %}">
-                {% plotly_app_bootstrap name="StockPriceFragment" aspect="16by9" %}
+            <div >
+                {% plotly_direct name="StockPriceFragment" %}
             </div>
         </div>
 
