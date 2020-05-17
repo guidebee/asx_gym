@@ -73,7 +73,7 @@ def insert_stock_index_history(conn, line):
                         INSERT INTO 
                         stock_asxindexdailyhistory(name,index_name,index_date,open_index,
                         close_index,high_index,low_index,created_at,updated_at,removed)
-                        VALUES(?,?,?,?,?,?,?,?,?,?,?,?)
+                        VALUES(?,?,?,?,?,?,?,?,?,?)
                     '''
             cur.execute(sql,
                         (name, code, index_date, index_open, index_close,
@@ -99,9 +99,17 @@ if len(rows) == 0:
     cur.execute("select max(index_date) from stock_asxindexdailyhistory")
     data_date = cur.fetchone()
     rows.append(['index', data_date[0]])
+    cur.execute(
+        f'INSERT INTO stock_dataupdatehistory(updated_date,data_name) VALUES ("{data_date[0]}","index")')
+    conn.commit()
     cur.execute("select max(price_date) from stock_stockpricedailyhistory")
     data_date = cur.fetchone()
     rows.append(['price', data_date[0]])
+
+    cur.execute(
+        f'INSERT INTO stock_dataupdatehistory(updated_date,data_name) VALUES ("{data_date[0]}","price")')
+    conn.commit()
+
 
 for row in rows:
     data_name = row[0]
