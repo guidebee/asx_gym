@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'channels',
     'bootstrap4',
     'dpd_static_support',
-    'dash_plotly'
+    'dash_plotly.apps.DashPlotlyConfig',
 
 ]
 

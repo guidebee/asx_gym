@@ -1,20 +1,13 @@
 # Dash packages
-from django_plotly_dash import DjangoDash
-import dash_core_components as dcc
-import dash_html_components as html
-import dash_bootstrap_components as dbc
-from dash.dependencies import Input, Output, State
-
-# Plotly packages
-import plotly.figure_factory as ff
-import plotly.graph_objects as go
-import plotly.express as px
-from plotly.subplots import make_subplots
+import sqlite3
 
 # Data manipulation packages
-import numpy as np
 import pandas as pd
-import sqlite3
+# Plotly packages
+import plotly.express as px
+from django_plotly_dash import DjangoDash
+
+from dash_plotly.views.index_view import index_layout
 
 con = sqlite3.connect("db.sqlite3")
 
@@ -44,11 +37,4 @@ fig.update_layout(xaxis_rangeslider_visible=False,
                   yaxis_title="Index",
                   )
 
-app.layout = html.Div(children=[
-    html.H3(children='ASX Indexes'),
-
-    dcc.Graph(
-        id='example-graph',
-        figure=fig
-    )
-])
+app.layout = index_layout(fig)

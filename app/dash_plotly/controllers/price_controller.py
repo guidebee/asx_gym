@@ -18,6 +18,8 @@ import sqlite3
 
 from dash.exceptions import PreventUpdate
 
+from dash_plotly.views.price_view import price_layout
+
 con = sqlite3.connect("db.sqlite3")
 
 app = DjangoDash('StockPriceFragment')  # replaces dash.Dash
@@ -86,32 +88,6 @@ def get_company_stock_data(value):
 
 fig, company_desc, sector_info = get_company_stock_data(2)
 
-app.layout = dbc.Container(children=[
-    dbc.Row(
-        [
-            dbc.Col(dcc.Dropdown(id='company_name', placeholder='company name'), width=12),
-        ]
-    ),
-
-    dcc.Graph(
-        id='stock-price-graph',
-        figure=fig,
-
-    ),
-    dbc.Row(
-        [
-            dbc.Col(html.Div(id='company-info', children=company_desc)),
-
-        ]
-    ),
-    dbc.Row(
-        [
-            dbc.Col(html.Div(id='sector-info', children=sector_info)),
-
-        ]
-    ),
-])
-
 
 @app.callback(
     Output("company_name", "options"),
@@ -128,6 +104,9 @@ def update_options(search_value):
         options.append({"label": df.iloc[i, 1], "value": df.iloc[i, 0]})
 
     return options
+
+
+app.layout = price_layout(fig, company_desc, sector_info)
 
 
 @app.callback(

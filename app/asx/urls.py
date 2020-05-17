@@ -18,8 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.contrib.staticfiles import views
 from django.urls import re_path
-import dash_plotly.asx_index_fragment  # pylint: disable=unused-import
-import dash_plotly.stock_price_fragment  # pylint: disable=unused-import
+
 from asx import settings
 
 urlpatterns = [
