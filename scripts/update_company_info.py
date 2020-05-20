@@ -17,8 +17,8 @@ cur = conn.cursor()
 with open('data/company/sectors.json') as f:
     sectors = json.load(f)
     for sector in sectors:
-        pk = sector['pk']
-        cur.execute(f'SELECT count(*) FROM stock_sector WHERE id={pk}')
+        name = sector['fields']['name']
+        cur.execute(f'SELECT count(*) FROM stock_sector WHERE name="{name}"')
         row = cur.fetchone()[0]
         full_name = sector['fields']['full_name']
         if row == 0:
@@ -36,12 +36,12 @@ with open('data/company/sectors.json') as f:
             tree_id = sector['fields']['tree_id']
             sector_level = sector['fields']['sector_level']
             sql = '''
-                INSERT INTO stock_sector(id,name,full_name,created_at,updated_at,
+                INSERT INTO stock_sector(name,full_name,created_at,updated_at,
                 removed,lft,rght,tree_id,sector_level,number_of_companies,
                 sector_id,sector_index,sector_type,parent_sector_id)
-                VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+                VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)
             '''
-            cur.execute(sql, (pk, name, full_name, created_at, updated_at,
+            cur.execute(sql, (name, full_name, created_at, updated_at,
                               removed, lft, rght, tree_id, sector_level, number_of_companies,
                               sector_id, sector_index, sector_type, parent_sector))
             conn.commit()
@@ -52,10 +52,10 @@ with open('data/company/sectors.json') as f:
 with open('data/company/companies.json') as f:
     companies = json.load(f)
     for company in companies:
-        pk = company['pk']
-        cur.execute(f'SELECT count(*) FROM stock_company WHERE id={pk}')
-        row = cur.fetchone()[0]
         name = company['fields']['name']
+        cur.execute(f'SELECT count(*) FROM stock_company WHERE name="{name}"')
+        row = cur.fetchone()[0]
+
         if row == 0:
             description = company['fields']['description']
             created_at = company['fields']['created_at']
@@ -65,11 +65,11 @@ with open('data/company/companies.json') as f:
             code = company['fields']['code']
             market_capacity = company['fields']['market_capacity']
             sql = '''
-             INSERT INTO stock_company(id,name,description,created_at,updated_at,
+             INSERT INTO stock_company(name,description,created_at,updated_at,
              removed,code,market_capacity,sector_id) 
-             VALUES(?,?,?,?,?,?,?,?,?)
+             VALUES(?,?,?,?,?,?,?,?)
             '''
-            cur.execute(sql, (pk, name, description, created_at, updated_at,
+            cur.execute(sql, (name, description, created_at, updated_at,
                               removed, code, market_capacity, sector))
 
             conn.commit()
