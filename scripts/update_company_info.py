@@ -53,7 +53,8 @@ with open('data/company/companies.json') as f:
     companies = json.load(f)
     for company in companies:
         name = company['fields']['name']
-        cur.execute(f'SELECT count(*) FROM stock_company WHERE name="{name}"')
+        code = company['fields']['code']
+        cur.execute(f'SELECT count(*) FROM stock_company WHERE code="{code}"')
         row = cur.fetchone()[0]
 
         if row == 0:
@@ -69,10 +70,14 @@ with open('data/company/companies.json') as f:
              removed,code,market_capacity,sector_id) 
              VALUES(?,?,?,?,?,?,?,?)
             '''
-            cur.execute(sql, (name, description, created_at, updated_at,
-                              removed, code, market_capacity, sector))
+            try:
+                cur.execute(sql, (name, description, created_at, updated_at,
+                                  removed, code, market_capacity, sector))
 
-            conn.commit()
+                conn.commit()
+            except Exception as e:
+                print(name)
+                raise e
             print(f'company {name} created')
         else:
             print(f'company {name} exists')
