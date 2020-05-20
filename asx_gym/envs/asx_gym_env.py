@@ -53,6 +53,8 @@ class AsxGymEnv(gym.Env):
         self.ax.set_xlim(-np.pi, np.pi)
         self.ax.set_xlabel("x")
         self.ax.set_ylabel("y")
+        self.ax.clear()
+        self.step_count = 0
 
         self.ax.plot(x, np.sin(x - self.step_count / (2 * np.pi)), label="sin", color='b')
         self.ax.set_title(f"sin(x) with {self.step_count}")
