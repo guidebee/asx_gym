@@ -2,6 +2,7 @@ aioredis==1.3.1
 appnope==0.1.0
 asgiref==3.2.7
 asn1crypto==1.3.0
+-e git+https://github.com/guidebee/asx_gym.git@95aa8a62bc1ba1165b4cfc43c4c4624a8f61903e#egg=asx_gym
 async-timeout==3.0.1
 attrs==19.3.0
 autobahn==20.4.3
@@ -19,6 +20,7 @@ click==7.1.2
 cloudpickle==1.3.0
 constantly==15.1.0
 cryptography==2.8
+cycler==0.10.0
 daphne==2.5.0
 dash==1.10.0
 dash-bootstrap-components==0.10.0
@@ -48,9 +50,12 @@ ipython-genutils==0.2.0
 itsdangerous==1.1.0
 jedi==0.17.0
 Jinja2==2.11.2
+kiwisolver==1.2.0
 MarkupSafe==1.1.1
+matplotlib==3.2.1
 msgpack==0.6.2
 numpy==1.18.4
+opencv-python==4.2.0.34
 pandas==1.0.3
 parso==0.7.0
 pexpect==4.8.0
@@ -66,6 +71,7 @@ pyglet==1.5.0
 Pygments==2.6.1
 PyHamcrest==2.0.2
 pyOpenSSL==19.1.0
+pyparsing==2.4.7
 pyserial==3.4
 python-dateutil==2.8.1
 pytz==2020.1
