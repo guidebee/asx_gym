@@ -65,6 +65,9 @@ class AsxGymEnv(Env):
         self.number_infinite = 10000000
         self.random_start_days = 100
         self.max_transaction_days = 0
+        self.colors = ['b', 'g', 'r', 'c', 'm', 'y', 'k']
+        self.color = self.colors[0]
+        self.history_fund_values = [self.initial_fund] * 60
 
         # random start date
         offset_days = self.np_random.randint(0, self.random_start_days)
@@ -161,6 +164,7 @@ class AsxGymEnv(Env):
         # print(f'Asx stock data records:\n{self.price_df.count()}')
         conn.close()
         print(colorize("Data initialized", "green"))
+        self.sample_data = np.random.rand(self.display_days)
 
     def history_indexes(self, days=-1):
         pass
@@ -174,11 +178,21 @@ class AsxGymEnv(Env):
 
     def step(self, action):
         self.ax.clear()
-
+        last_fund = self.history_fund_values[self.step_count]
         self.step_count += 1
         self.draw_stock()
+        direction = np.random.randint(100)
+        change_price = np.random.randint(1000)
+
+        if direction > 50:
+            new_value = last_fund + change_price
+        else:
+            new_value = last_fund - change_price
+
+        self.history_fund_values.append(new_value)
+
         done = False
-        if self.step_count > 36:
+        if self.step_count > 500:
             done = True
         return self.step_count, 0, done, {}
 
@@ -187,18 +201,29 @@ class AsxGymEnv(Env):
         start_date = self.start_date + timedelta(days=self.step_count - self.display_days)
         stock_index = self.index_df.loc[start_date:end_date]
         display_date = end_date.strftime(date_fmt)
+
         self.fig, self.ax = mpf.plot(stock_index,
                                      type='candle', mav=(7, 2),
                                      returnfig=True,
                                      title=f'OpenAI ASX Gym - ALL ORD Index {display_date}',
                                      ylabel='Index',
+
                                      )
+
+        logger.info(f'{len(stock_index)}')
+        ax_c = self.ax[0].twinx()
+
+        count = len(stock_index)
+
+        ax_c.plot(self.history_fund_values[self.step_count:self.step_count + count], color='g')
+        ax_c.set_ylabel('Total value')
 
     def reset(self):
 
         # try to close exist fig if possible
         try:
             plt.close(self.fig)
+
         except:
             pass
 
