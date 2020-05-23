@@ -2,7 +2,7 @@ aioredis==1.3.1
 appnope==0.1.0
 asgiref==3.2.7
 asn1crypto==1.3.0
--e git+https://github.com/guidebee/asx_gym.git@4f7fa97404909e57298bbc88b5373ed53a05cc9c#egg=asx_gym
+-e git+https://github.com/guidebee/asx_gym.git@1a676e3db84f6b25fb7bfa53ac3b23fd112a5e69#egg=asx_gym
 async-timeout==3.0.1
 attrs==19.3.0
 autobahn==20.4.3
