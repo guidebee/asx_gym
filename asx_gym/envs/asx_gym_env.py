@@ -40,7 +40,7 @@ class AsxGymEnv(Env):
         self.np_random, seed = seeding.np_random(0)
         seed = seeding.create_seed(32)
         self.seed(seed=seed)
-        self.step_count = 0
+        self.step_day_count = 0
 
         self.viewer = rendering.SimpleImageViewer()
         self.min_stock_date = date(2011, 1, 10)
@@ -51,7 +51,7 @@ class AsxGymEnv(Env):
         if self.user_set_start_date < self.min_stock_date:
             self.user_set_start_date = self.min_stock_date
         self.start_date = self.user_set_start_date
-        self.display_days = kwargs.get('display_days', 60)
+        self.display_days = kwargs.get('display_days', 10)
         self.keep_same_company_when_reset = kwargs.get('keep_same_company_when_reset', True)
         self.keep_same_start_date_when_reset = kwargs.get('keep_same_start_date_when_reset', False)
         self.simulate_company_number = kwargs.get('simulate_company_number', -1)
@@ -146,8 +146,8 @@ class AsxGymEnv(Env):
         print(colorize(f"Stock date range from {self.min_stock_date} to {self.max_stock_date}", "blue"))
         print(colorize("reading asx index data", 'blue'))
         self.index_df = pd.read_sql_query(
-            'SELECT 0 as Seq,index_date as Date,open_index as Open,close_index as Close,high_index as High,low_index as Low,0 as Volume,'
-            '0 as Fund '
+            'SELECT 0 as Seq,index_date as Date,open_index as Open,close_index as Close,high_index as High,low_index as Low,1 as Volume,'
+            '0 as Change '
             'FROM stock_asxindexdailyhistory where index_name="ALL ORD"  order by index_date',
             conn,
             parse_dates={'Date': date_fmt}, index_col=['Date'])
@@ -155,6 +155,7 @@ class AsxGymEnv(Env):
         self.index_df = self.index_df.reset_index()
         self.index_df.Seq = self.index_df.index
         self.index_df = self.index_df.set_index('Date')
+        self.index_df.columns = ['Seq', 'Open', 'Close', 'High', 'Low', 'Volume', 'Change']
         init_seq = self.index_df[self.index_df.index == '2011-01-10']
         self.min_stock_seq = init_seq.Seq[0]
 
@@ -185,42 +186,51 @@ class AsxGymEnv(Env):
         return [seed]
 
     def step(self, action):
-        self.ax.clear()
+        # try to close exist fig if possible
+        try:
+            plt.close(self.fig)
 
-        self.step_count += 1
+        except:
+            pass
+        self.ax.clear()
+        self.index_df.loc[
+            self.index_df.Seq == self.min_stock_seq + self.step_day_count - 1, "Volume"] = self.np_random.randint(100)
+        self.index_df.loc[
+            self.index_df.Seq == self.min_stock_seq + self.step_day_count - 1, "Change"] = self.np_random.randint(20)-10
+        self.step_day_count += 1
         self.draw_stock()
 
         done = False
-        if self.step_count > 500:
+        if self.step_day_count > 500:
             done = True
-        return self.step_count, 0, done, {}
+        return self.step_day_count, 0, done, {}
 
     def get_current_date(self):
-        return self.index_df.iloc[self.min_stock_seq + self.step_count - 1
-                                  :self.min_stock_seq + self.step_count].index.astype(str)[0]
+        return self.index_df.iloc[self.min_stock_seq + self.step_day_count - 1
+                                  :self.min_stock_seq + self.step_day_count].index.astype(str)[0]
 
     def draw_stock(self):
 
         stock_index = self.index_df.iloc[
-                      self.min_stock_seq + self.step_count - self.display_days:self.min_stock_seq + self.step_count]
+                      self.min_stock_seq + self.step_day_count - self.display_days:self.min_stock_seq + self.step_day_count]
 
         display_date = self.get_current_date()
 
         self.fig, self.ax = mpf.plot(stock_index,
                                      type='candle', mav=(7, 2),
                                      returnfig=True,
+                                     volume=True,
 
                                      title=f'OpenAI ASX Gym - ALL ORD Index {display_date}',
                                      ylabel='Index',
                                      ylabel_lower='Total Value'
 
                                      )
-
-        # ax_c = self.ax[0].twinx()
-        # count = len(stock_index)
-        #
-        # ax_c.plot(self.history_fund_values[self.step_count:self.step_count + count], color='g')
-        # ax_c.set_ylabel('Total value')
+        logger.info(f'Simulate date:{display_date}')
+        ax_c = self.ax[0].twinx()
+        changes = stock_index.loc[:, "Change"].to_numpy()
+        ax_c.plot(changes, color='g', marker='.', markeredgecolor='red', alpha=0.5)
+        ax_c.set_ylabel('Value Change')
 
     def reset(self):
 
@@ -237,12 +247,11 @@ class AsxGymEnv(Env):
 
         logger.info(f'Reset date to {self.start_date}')
 
-        self.step_count = 0
+        self.step_day_count = 0
         self.draw_stock()
 
     def render(self, mode='human'):
         img = get_img_from_fig(self.fig)
-        plt.close(self.fig)
         if mode == 'rgb_array':
             return img
         elif mode == 'human':
