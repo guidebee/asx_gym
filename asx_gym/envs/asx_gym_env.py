@@ -194,18 +194,15 @@ class AsxGymEnv(Env):
     def step(self, action):
         self._close_fig()
         self.ax.clear()
-        self.index_df.loc[
-            self.index_df.Seq == self.min_stock_seq + self.step_day_count - 1, "Volume"] = self.np_random.randint(100)
-        self.index_df.loc[
-            self.index_df.Seq == self.min_stock_seq + self.step_day_count - 1, "Change"] = self.np_random.randint(
-            20) - 10
+        reward = self._calculate_reward()
+        # TODO: progress when batch end is True
         self.step_day_count += 1
         self._draw_stock()
 
         done = False
         if self.step_day_count > 50:
             done = True
-        return self.step_day_count, 0, done, {}
+        return self.step_day_count, reward, done, {}
 
     def reset(self):
         self._close_fig()
@@ -272,3 +269,11 @@ class AsxGymEnv(Env):
         changes = stock_index.loc[:, "Change"].to_numpy()
         ax_c.plot(changes, color='g', marker='o', markeredgecolor='red', alpha=0.9)
         ax_c.set_ylabel('Value Change')
+
+    def _calculate_reward(self):
+        self.index_df.loc[
+            self.index_df.Seq == self.min_stock_seq + self.step_day_count, "Volume"] = self.np_random.randint(100)
+        self.index_df.loc[
+            self.index_df.Seq == self.min_stock_seq + self.step_day_count, "Change"] = self.np_random.randint(
+            20) - 10
+        return 0
