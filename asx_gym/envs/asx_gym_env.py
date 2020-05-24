@@ -43,7 +43,8 @@ class AsxGymEnv(Env):
         self.step_count = 0
 
         self.viewer = rendering.SimpleImageViewer()
-        self.min_stock_date = date(2011, 1, 1)
+        self.min_stock_date = date(2011, 1, 10)
+        self.min_stock_seq = 0
 
         # default values
         self.user_set_start_date = kwargs.get('start_date', self.min_stock_date)
@@ -67,7 +68,6 @@ class AsxGymEnv(Env):
         self.max_transaction_days = 0
         self.colors = ['b', 'g', 'r', 'c', 'm', 'y', 'k']
         self.color = self.colors[0]
-        self.history_fund_values = [self.initial_fund] * 60
 
         # random start date
         offset_days = self.np_random.randint(0, self.random_start_days)
@@ -146,9 +146,17 @@ class AsxGymEnv(Env):
         print(colorize(f"Stock date range from {self.min_stock_date} to {self.max_stock_date}", "blue"))
         print(colorize("reading asx index data", 'blue'))
         self.index_df = pd.read_sql_query(
-            'SELECT index_date as Date,open_index as Open,close_index as Close,high_index as High,low_index as Low FROM stock_asxindexdailyhistory where index_name="ALL ORD"  order by index_date',
+            'SELECT 0 as Seq,index_date as Date,open_index as Open,close_index as Close,high_index as High,low_index as Low,0 as Volume,'
+            '0 as Fund '
+            'FROM stock_asxindexdailyhistory where index_name="ALL ORD"  order by index_date',
             conn,
             parse_dates={'Date': date_fmt}, index_col=['Date'])
+
+        self.index_df = self.index_df.reset_index()
+        self.index_df.Seq = self.index_df.index
+        self.index_df = self.index_df.set_index('Date')
+        init_seq = self.index_df[self.index_df.index == '2011-01-10']
+        self.min_stock_seq = init_seq.Seq[0]
 
         print(f'Asx index records:\n{self.index_df.count()}')
         print(colorize("reading asx company data", 'blue'))
@@ -178,45 +186,41 @@ class AsxGymEnv(Env):
 
     def step(self, action):
         self.ax.clear()
-        last_fund = self.history_fund_values[self.step_count]
+
         self.step_count += 1
         self.draw_stock()
-        direction = np.random.randint(100)
-        change_price = np.random.randint(1000)
-
-        if direction > 50:
-            new_value = last_fund + change_price
-        else:
-            new_value = last_fund - change_price
-
-        self.history_fund_values.append(new_value)
 
         done = False
         if self.step_count > 500:
             done = True
         return self.step_count, 0, done, {}
 
+    def get_current_date(self):
+        return self.index_df.iloc[self.min_stock_seq + self.step_count - 1
+                                  :self.min_stock_seq + self.step_count].index.astype(str)[0]
+
     def draw_stock(self):
-        end_date = self.start_date + timedelta(days=self.step_count)
-        start_date = self.start_date + timedelta(days=self.step_count - self.display_days)
-        stock_index = self.index_df.loc[start_date:end_date]
-        display_date = end_date.strftime(date_fmt)
+
+        stock_index = self.index_df.iloc[
+                      self.min_stock_seq + self.step_count - self.display_days:self.min_stock_seq + self.step_count]
+
+        display_date = self.get_current_date()
 
         self.fig, self.ax = mpf.plot(stock_index,
                                      type='candle', mav=(7, 2),
                                      returnfig=True,
+
                                      title=f'OpenAI ASX Gym - ALL ORD Index {display_date}',
                                      ylabel='Index',
+                                     ylabel_lower='Total Value'
 
                                      )
 
-        logger.info(f'{len(stock_index)}')
-        ax_c = self.ax[0].twinx()
-
-        count = len(stock_index)
-
-        ax_c.plot(self.history_fund_values[self.step_count:self.step_count + count], color='g')
-        ax_c.set_ylabel('Total value')
+        # ax_c = self.ax[0].twinx()
+        # count = len(stock_index)
+        #
+        # ax_c.plot(self.history_fund_values[self.step_count:self.step_count + count], color='g')
+        # ax_c.set_ylabel('Total value')
 
     def reset(self):
 
