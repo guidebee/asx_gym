@@ -1,18 +1,18 @@
-import numpy as np
 import io
-import cv2
-from datetime import datetime, timedelta, date, time
+import pathlib
+import sqlite3
+from datetime import datetime, timedelta, date
 
+import cv2
 import matplotlib.pyplot as plt
+import mplfinance as mpf
+import numpy as np
+# Data manipulation packages
+import pandas as pd
 from gym import Env
 from gym import spaces, logger
 from gym.utils import seeding
-import sqlite3
 from gym.utils.colorize import *
-# Data manipulation packages
-import pandas as pd
-import pathlib
-import mplfinance as mpf
 
 from asx_gym.envs.asx_image_viewer import AsxImageViewer
 
@@ -32,6 +32,7 @@ def get_img_from_fig(fig, dpi=60):
 
 
 class AsxGymEnv(Env):
+    metadata = {'render.modes': ['human', 'ansi', 'rgb_array']}
 
     def __init__(self, **kwargs):
         self.fig, self.ax = plt.subplots()
@@ -53,6 +54,7 @@ class AsxGymEnv(Env):
         self.keep_same_company_when_reset = kwargs.get('keep_same_company_when_reset', True)
         self.keep_same_start_date_when_reset = kwargs.get('keep_same_start_date_when_reset', False)
         self.simulate_company_number = kwargs.get('simulate_company_number', -1)
+        self.simulate_company_list = kwargs.get('simulate_company_list', None)
 
         self.initial_fund = kwargs.get('initial_fund', 100000)
         self.expected_fund_increase_ratio = kwargs.get('expected_fund_increase_ratio', 2.0)
@@ -64,13 +66,11 @@ class AsxGymEnv(Env):
         self.number_infinite = 10000000
         self.random_start_days = 100
         self.max_transaction_days = 0
-        self.colors = ['b', 'g', 'r', 'c', 'm', 'y', 'k']
-        self.color = self.colors[0]
 
         # plot styles
-        mc = mpf.make_marketcolors(up='r', down='g',
+        mc = mpf.make_marketcolors(up='g', down='r',
                                    edge='inherit',
-                                   wick='black',
+                                   wick={'up': 'blue', 'down': 'orange'},
                                    volume='b',
                                    ohlc='i')
         self.style = mpf.make_mpf_style(base_mpl_style='seaborn-whitegrid', marketcolors=mc)
@@ -179,7 +179,7 @@ class AsxGymEnv(Env):
         # print(f'Asx stock data records:\n{self.price_df.count()}')
         conn.close()
         print(colorize("Data initialized", "green"))
-        self.sample_data = np.random.rand(self.display_days)
+        self.seed()
 
     def history_indexes(self, days=-1):
         pass
@@ -209,6 +209,7 @@ class AsxGymEnv(Env):
 
     def reset(self):
         self._close_fig()
+        self.step_day_count = 0
         if not self.keep_same_start_date_when_reset:
             offset_days = self.np_random.randint(0, self.random_start_days)
             self.start_date = self.user_set_start_date + timedelta(days=offset_days)
@@ -216,19 +217,20 @@ class AsxGymEnv(Env):
         self._set_start_date()
         logger.info(f'Reset date to {self.start_date}')
 
-        self.step_day_count = 0
         self._draw_stock()
 
     def render(self, mode='human'):
-        img = get_img_from_fig(self.fig)
-        if mode == 'rgb_array':
-            return img
-        elif mode == 'human':
-            from gym.envs.classic_control import rendering
-            self.viewer.imshow(img)
-            return self.viewer.is_open
+        if mode == 'ansi':
+            pass
+        else:
+            img = get_img_from_fig(self.fig)
+            if mode == 'rgb_array':
+                return img
+            elif mode == 'human':
+                self.viewer.imshow(img)
+                return self.viewer.is_open
 
-    def _get_current_date(self):
+    def _get_current_display_date(self):
         return self.index_df.iloc[self.min_stock_seq + self.step_day_count
                                   :self.min_stock_seq
                                    + self.step_day_count + 1].index.astype(str)[0]
@@ -237,12 +239,12 @@ class AsxGymEnv(Env):
         # try to close exist fig if possible
         try:
             plt.close(self.fig)
-
         except:
             pass
 
     def _set_start_date(self):
         start_date_index = self.start_date.strftime(date_fmt)
+        # find first available index data point
         init_seq = self.index_df[self.index_df.index >= start_date_index].iloc[:1, ]
         new_start_date = str(init_seq.index[0])
         self.start_date = datetime.strptime(new_start_date, f'{date_fmt} %H:%M:%S').date()
@@ -253,7 +255,7 @@ class AsxGymEnv(Env):
                       self.min_stock_seq + self.step_day_count
                       - self.display_days:self.min_stock_seq + self.step_day_count]
 
-        display_date = self._get_current_date()
+        display_date = self._get_current_display_date()
 
         self.fig, self.axes = mpf.plot(stock_index,
                                        type='candle', mav=(2, 4),
