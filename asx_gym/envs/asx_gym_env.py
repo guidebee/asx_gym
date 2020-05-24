@@ -1,9 +1,7 @@
 import numpy as np
 import io
-
-from datetime import datetime, timedelta, date, time
 import cv2
-from gym.envs.classic_control import rendering
+from datetime import datetime, timedelta, date, time
 
 import matplotlib.pyplot as plt
 from gym import Env
@@ -16,15 +14,15 @@ import pandas as pd
 import pathlib
 import mplfinance as mpf
 
-date_fmt = '%Y-%m-%d'
+from asx_gym.envs.asx_image_viewer import AsxImageViewer
 
+date_fmt = '%Y-%m-%d'
 plt.xticks(rotation=90)
 
 
-# define a function which returns an image as numpy array from figure
-def get_img_from_fig(fig, dpi=90):
+def get_img_from_fig(fig, dpi=60):
     buf = io.BytesIO()
-    fig.savefig(buf, format="png", dpi=dpi, papertype='a4')
+    fig.savefig(buf, format="png", dpi=dpi)
     buf.seek(0)
     img_arr = np.frombuffer(buf.getvalue(), dtype=np.uint8)
     buf.close()
@@ -42,7 +40,7 @@ class AsxGymEnv(Env):
         self.seed(seed=seed)
         self.step_day_count = 0
 
-        self.viewer = rendering.SimpleImageViewer()
+        self.viewer = AsxImageViewer()
         self.min_stock_date = date(2011, 1, 10)
         self.min_stock_seq = 0
 
@@ -51,7 +49,7 @@ class AsxGymEnv(Env):
         if self.user_set_start_date < self.min_stock_date:
             self.user_set_start_date = self.min_stock_date
         self.start_date = self.user_set_start_date
-        self.display_days = kwargs.get('display_days', 10)
+        self.display_days = kwargs.get('display_days', 20)
         self.keep_same_company_when_reset = kwargs.get('keep_same_company_when_reset', True)
         self.keep_same_start_date_when_reset = kwargs.get('keep_same_start_date_when_reset', False)
         self.simulate_company_number = kwargs.get('simulate_company_number', -1)
@@ -186,41 +184,73 @@ class AsxGymEnv(Env):
         return [seed]
 
     def step(self, action):
+        self._close_fig()
+        self.ax.clear()
+        self.index_df.loc[
+            self.index_df.Seq == self.min_stock_seq + self.step_day_count - 1, "Volume"] = self.np_random.randint(100)
+        self.index_df.loc[
+            self.index_df.Seq == self.min_stock_seq + self.step_day_count - 1, "Change"] = self.np_random.randint(
+            20) - 10
+        self.step_day_count += 1
+        self._draw_stock()
+
+        done = False
+        if self.step_day_count > 50:
+            done = True
+        return self.step_day_count, 0, done, {}
+
+    def reset(self):
+        self._close_fig()
+        if not self.keep_same_start_date_when_reset:
+            offset_days = self.np_random.randint(0, self.random_start_days)
+            self.start_date = self.user_set_start_date + timedelta(days=offset_days)
+
+        self._set_start_date()
+        logger.info(f'Reset date to {self.start_date}')
+
+        self.step_day_count = 0
+        self._draw_stock()
+
+    def render(self, mode='human'):
+        img = get_img_from_fig(self.fig)
+        if mode == 'rgb_array':
+            return img
+        elif mode == 'human':
+            from gym.envs.classic_control import rendering
+            self.viewer.imshow(img)
+            return self.viewer.is_open
+
+    def _get_current_date(self):
+        return self.index_df.iloc[self.min_stock_seq + self.step_day_count
+                                  :self.min_stock_seq
+                                   + self.step_day_count + 1].index.astype(str)[0]
+
+    def _close_fig(self):
         # try to close exist fig if possible
         try:
             plt.close(self.fig)
 
         except:
             pass
-        self.ax.clear()
-        self.index_df.loc[
-            self.index_df.Seq == self.min_stock_seq + self.step_day_count - 1, "Volume"] = self.np_random.randint(100)
-        self.index_df.loc[
-            self.index_df.Seq == self.min_stock_seq + self.step_day_count - 1, "Change"] = self.np_random.randint(20)-10
-        self.step_day_count += 1
-        self.draw_stock()
 
-        done = False
-        if self.step_day_count > 500:
-            done = True
-        return self.step_day_count, 0, done, {}
+    def _set_start_date(self):
+        start_date_index = self.start_date.strftime(date_fmt)
+        init_seq = self.index_df[self.index_df.index >= start_date_index].iloc[:1, ]
+        new_start_date = str(init_seq.index[0])
+        self.start_date = datetime.strptime(new_start_date, f'{date_fmt} %H:%M:%S').date()
+        self.min_stock_seq = init_seq.Seq[0]
 
-    def get_current_date(self):
-        return self.index_df.iloc[self.min_stock_seq + self.step_day_count - 1
-                                  :self.min_stock_seq + self.step_day_count].index.astype(str)[0]
-
-    def draw_stock(self):
-
+    def _draw_stock(self):
         stock_index = self.index_df.iloc[
-                      self.min_stock_seq + self.step_day_count - self.display_days:self.min_stock_seq + self.step_day_count]
+                      self.min_stock_seq + self.step_day_count
+                      - self.display_days:self.min_stock_seq + self.step_day_count]
 
-        display_date = self.get_current_date()
+        display_date = self._get_current_date()
 
         self.fig, self.ax = mpf.plot(stock_index,
                                      type='candle', mav=(7, 2),
                                      returnfig=True,
                                      volume=True,
-
                                      title=f'OpenAI ASX Gym - ALL ORD Index {display_date}',
                                      ylabel='Index',
                                      ylabel_lower='Total Value'
@@ -231,30 +261,3 @@ class AsxGymEnv(Env):
         changes = stock_index.loc[:, "Change"].to_numpy()
         ax_c.plot(changes, color='g', marker='.', markeredgecolor='red', alpha=0.5)
         ax_c.set_ylabel('Value Change')
-
-    def reset(self):
-
-        # try to close exist fig if possible
-        try:
-            plt.close(self.fig)
-
-        except:
-            pass
-
-        if not self.keep_same_start_date_when_reset:
-            offset_days = self.np_random.randint(0, self.random_start_days)
-            self.start_date = self.user_set_start_date + timedelta(days=offset_days)
-
-        logger.info(f'Reset date to {self.start_date}')
-
-        self.step_day_count = 0
-        self.draw_stock()
-
-    def render(self, mode='human'):
-        img = get_img_from_fig(self.fig)
-        if mode == 'rgb_array':
-            return img
-        elif mode == 'human':
-            from gym.envs.classic_control import rendering
-            self.viewer.imshow(img)
-            return self.viewer.isopen
