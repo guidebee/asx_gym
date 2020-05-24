@@ -67,6 +67,14 @@ class AsxGymEnv(Env):
         self.colors = ['b', 'g', 'r', 'c', 'm', 'y', 'k']
         self.color = self.colors[0]
 
+        # plot styles
+        mc = mpf.make_marketcolors(up='r', down='g',
+                                   edge='inherit',
+                                   wick='black',
+                                   volume='b',
+                                   ohlc='i')
+        self.style = mpf.make_mpf_style(base_mpl_style='seaborn-whitegrid', marketcolors=mc)
+
         # random start date
         offset_days = self.np_random.randint(0, self.random_start_days)
         self.start_date = self.user_set_start_date + timedelta(days=offset_days)
@@ -247,17 +255,18 @@ class AsxGymEnv(Env):
 
         display_date = self._get_current_date()
 
-        self.fig, self.ax = mpf.plot(stock_index,
-                                     type='candle', mav=(7, 2),
-                                     returnfig=True,
-                                     volume=True,
-                                     title=f'OpenAI ASX Gym - ALL ORD Index {display_date}',
-                                     ylabel='Index',
-                                     ylabel_lower='Total Value'
+        self.fig, self.axes = mpf.plot(stock_index,
+                                       type='candle', mav=(2, 4),
+                                       returnfig=True,
+                                       volume=True,
+                                       title=f'OpenAI ASX Gym - ALL ORD Index {display_date}',
+                                       ylabel='Index',
+                                       ylabel_lower='Total Value',
+                                       style=self.style
 
-                                     )
-        logger.info(f'Simulate date:{display_date}')
-        ax_c = self.ax[0].twinx()
+                                       )
+        # logger.info(f'Simulate date:{display_date}')
+        ax_c = self.axes[3].twinx()
         changes = stock_index.loc[:, "Change"].to_numpy()
-        ax_c.plot(changes, color='g', marker='.', markeredgecolor='red', alpha=0.5)
+        ax_c.plot(changes, color='g', marker='o', markeredgecolor='red', alpha=0.9)
         ax_c.set_ylabel('Value Change')
