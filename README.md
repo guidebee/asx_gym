@@ -78,6 +78,6 @@ env.close()
 
 ```
 
-[asx gym rendering](https://github.com/guidebee/asx_gym/blob/master/docs/asx_gym_render.png "ASX GYM Rendering")
+![asx gym rendering](https://github.com/guidebee/asx_gym/blob/master/docs/asx_gym_render.png "ASX GYM Rendering")
 
 
