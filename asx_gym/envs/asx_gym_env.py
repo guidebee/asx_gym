@@ -2,7 +2,7 @@ import io
 import pathlib
 import sqlite3
 from datetime import datetime, timedelta, date
-
+import random
 import cv2
 import matplotlib.pyplot as plt
 import mplfinance as mpf
@@ -15,9 +15,9 @@ from gym.utils import seeding
 from gym.utils.colorize import *
 
 from asx_gym.envs.asx_image_viewer import AsxImageViewer
+from asx_gym.envs.models import StockDailySimulationPrices
 
 date_fmt = '%Y-%m-%d'
-plt.xticks(rotation=90)
 
 
 class AsxGymEnv(Env):
@@ -40,6 +40,9 @@ class AsxGymEnv(Env):
         self.style = mpf.make_mpf_style(base_mpl_style='seaborn-whitegrid', marketcolors=mc)
 
         self.step_day_count = 0
+        self.step_minute_count = 0  # step is 15 min
+        self.transaction_start_time = 10 * 4  # 10:00
+        self.transaction_end_time = 16 * 4  # 16:00
         self.min_stock_date = date(2011, 1, 10)
         self.min_stock_seq = 0
 
@@ -61,6 +64,7 @@ class AsxGymEnv(Env):
 
         # company index start from 1, 0 means empty slot
         self.max_company_number = 3000
+        self.INVALID_COMPANY_ID = 2999
         self.max_stock_price = 100000
         self.number_infinite = 10000000
         self.random_start_days = 100
@@ -91,6 +95,8 @@ class AsxGymEnv(Env):
         self._close_fig()
         self.ax.clear()
         reward = self._calculate_reward()
+        display_date = self._get_current_display_date()
+        self._generate_daily_simulation_price_for_companies(current_date=display_date)
         # TODO: progress when batch end is True
         self.step_day_count += 1
         self._draw_stock()
@@ -108,8 +114,10 @@ class AsxGymEnv(Env):
             self.start_date = self.user_set_start_date + timedelta(days=offset_days)
 
         self._set_start_date()
-        logger.info(f'Reset date to {self.start_date}')
+        display_date = self._get_current_display_date()
+        logger.info(f'Reset date to {display_date}')
 
+        self._generate_daily_simulation_price_for_companies(current_date=display_date)
         self._draw_stock()
 
     def render(self, mode='human'):
@@ -176,7 +184,8 @@ class AsxGymEnv(Env):
                 "portfolio_company_count": spaces.Discrete(self.max_company_number),
                 "portfolios": spaces.Dict(
                     {
-                        "company_id": spaces.MultiDiscrete([self.max_company_number] * self.max_company_number),
+                        "company_id": spaces.MultiDiscrete([self.max_company_number]
+                                                           * self.max_company_number),
 
                         "volume": spaces.Box(np.float32(0),
                                              high=np.float32(self.number_infinite),
@@ -286,13 +295,65 @@ class AsxGymEnv(Env):
         print(colorize("reading asx sector data", 'blue'))
         self.sector_df = pd.read_sql_query('SELECT id,name,full_name FROM stock_sector', conn)
         print(f'Asx sector count:\n{self.sector_df.count()}')
-        # print(colorize("reading asx stock data, please wait...", 'blue'))
-        # self.price_df = pd.read_sql_query(
-        #     f'SELECT * FROM stock_stockpricedailyhistory order by price_date', con,
-        #     parse_dates={'price_date': date_fmt})
-        # print(f'Asx stock data records:\n{self.price_df.count()}')
+        print(colorize("reading asx stock data, please wait...", 'blue'))
+        self.price_df = pd.read_sql_query(
+            f'SELECT price_date,open_price,close_price,high_price,low_price,company_id FROM stock_stockpricedailyhistory order by price_date',
+            conn,
+            parse_dates={'price_date': date_fmt}, index_col=['price_date', 'company_id'])
+        print(f'Asx stock data records:\n{self.price_df.count()}')
         conn.close()
+        print(colorize("reading stock price simulation data", 'blue'))
+        daily_simulation_file = f'{pathlib.Path().absolute()}/asx_gym/daily_stock_price.csv'
+        self.daily_simulation_df = pd.read_csv(daily_simulation_file)
+        self.daily_simulation_df.columns = ['cid', 'day', 'seconds', 'normalized_ask_price', 'normalized_bid_price',
+                                            'normalized_stock_price', 'normalized_low_price', 'normalized_high_price']
+        self.daily_simulation_df = self.daily_simulation_df.set_index(['cid', 'day'])
+        self.min_company_id = 0
+        self.max_company_id = max((self.daily_simulation_df.index.get_level_values('cid')))
+
+        self.daily_simulation_data = {}
         print(colorize("Data initialized", "green"))
+
+    @staticmethod
+    def normalized_price(high_price, price):
+        return round(price / high_price, 3)
+
+    def _generate_daily_simulation_price_for_company(self, company_id, open_price, close_price, high_price, low_price):
+        simulations = StockDailySimulationPrices(company_id, open_price, close_price, high_price, low_price)
+        ratio = self.normalized_price(high_price, low_price)
+        selected_simulations = self.daily_simulation_df[self.daily_simulation_df.normalized_low_price == ratio]
+        if len(selected_simulations) > 0:
+            numbers = selected_simulations.index.get_level_values('day').unique().to_list()
+            random.shuffle(numbers)
+            selected_day = numbers[0]
+            selected_simulations = selected_simulations.query(f'day=={selected_day}')
+            companies = selected_simulations.index.get_level_values('cid').unique().to_list()
+            random.shuffle(companies)
+            selected_company = companies[0]
+            selected_simulation_prices = selected_simulations.query(f'cid=={selected_company}').sort_values('seconds')[
+                                         :22]
+            prices = []
+            for index, (seconds, normalized_ask_price, normalized_bid_price,
+                        normalized_stock_price, normalized_low_price, normalized_high_price) \
+                    in selected_simulation_prices.iterrows():
+                prices.append((normalized_ask_price, normalized_bid_price,
+                               normalized_stock_price))
+
+            simulations.init_simulation_prices(prices)
+        else:
+            simulations.init_simulation_prices([])
+        return simulations
+
+    def _generate_daily_simulation_price_for_companies(self, current_date):
+        price_on_current_date_df = self.price_df.query(f'price_date=="{current_date}"')
+        self.daily_simulation_data = {}
+        for (day, company_id), (open_price, close_price, high_price, low_price) \
+                in price_on_current_date_df.iterrows():
+            simulations = self._generate_daily_simulation_price_for_company(company_id, open_price, close_price,
+                                                                            high_price, low_price)
+            if simulations:
+                self.daily_simulation_data[simulations.company_id] = simulations
+        logger.info(f'Generate simulation data on {current_date} for {len(self.daily_simulation_data)} companies')
 
     @staticmethod
     def _get_img_from_fig(fig, dpi=60):
