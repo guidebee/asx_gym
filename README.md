@@ -55,9 +55,26 @@ pip install -e .
 ## Usage
 
 ```
-import gym
-import asx_gym
+from logging import INFO
 
-env = gym.make('AsxGym-v0')
+import gym
+
+import asx_gym
+from datetime import datetime, date
+
+gym.logger.set_level(INFO)
+start_date = date(2018, 1, 1)
+env = gym.make("AsxGym-v0", start_date=start_date)
+observation = env.reset()
+for _ in range(1000):
+    env.render()
+    action = {}  # your agent here (this takes random actions)
+    observation, reward, done, info = env.step(action)
+
+    if done:
+        observation = env.reset()
+
+env.close()
+
 ```
 
