@@ -312,6 +312,7 @@ class AsxGymEnv(Env):
         self.max_company_id = max((self.daily_simulation_df.index.get_level_values('cid')))
 
         self.daily_simulation_data = {}
+        self.cached_simulation_records = {}
         print(colorize("Data initialized", "green"))
 
     @staticmethod
@@ -321,7 +322,12 @@ class AsxGymEnv(Env):
     def _generate_daily_simulation_price_for_company(self, company_id, open_price, close_price, high_price, low_price):
         simulations = StockDailySimulationPrices(company_id, open_price, close_price, high_price, low_price)
         ratio = self.normalized_price(high_price, low_price)
-        selected_simulations = self.daily_simulation_df[self.daily_simulation_df.normalized_low_price == ratio]
+        key_ration = str(ratio)
+        if key_ration in self.cached_simulation_records:
+            selected_simulations = self.cached_simulation_records.get(key_ration)
+        else:
+            selected_simulations = self.daily_simulation_df[self.daily_simulation_df.normalized_low_price == ratio]
+            self.cached_simulation_records[key_ration] = selected_simulations
         if len(selected_simulations) > 0:
             numbers = selected_simulations.index.get_level_values('day').unique().to_list()
             random.shuffle(numbers)
@@ -347,6 +353,7 @@ class AsxGymEnv(Env):
     def _generate_daily_simulation_price_for_companies(self, current_date):
         price_on_current_date_df = self.price_df.query(f'price_date=="{current_date}"')
         self.daily_simulation_data = {}
+        self.cached_simulation_records = {}
         for (day, company_id), (open_price, close_price, high_price, low_price) \
                 in price_on_current_date_df.iterrows():
             simulations = self._generate_daily_simulation_price_for_company(company_id, open_price, close_price,
