@@ -95,12 +95,14 @@ class AsxGymEnv(Env):
         self._close_fig()
         self.ax.clear()
         reward = self._calculate_reward()
-        display_date = self._get_current_display_date()
-        self._generate_daily_simulation_price_for_companies(current_date=display_date)
+        self.step_minute_count += 1
+        if self.step_minute_count > 24:
+            self.step_day_count += 1
+            self.step_minute_count = 0
+            display_date = self._get_current_display_date()
+            self._generate_daily_simulation_price_for_companies(current_date=display_date)
         # TODO: progress when batch end is True
-        self.step_day_count += 1
         self._draw_stock()
-
         done = False
         if self.step_day_count > 50:
             done = True
@@ -109,6 +111,7 @@ class AsxGymEnv(Env):
     def reset(self):
         self._close_fig()
         self.step_day_count = 0
+        self.step_minute_count = 0
         if not self.keep_same_start_date_when_reset:
             offset_days = self.np_random.randint(0, self.random_start_days)
             self.start_date = self.user_set_start_date + timedelta(days=offset_days)
@@ -243,12 +246,16 @@ class AsxGymEnv(Env):
                       - self.display_days:self.min_stock_seq + self.step_day_count]
 
         display_date = self._get_current_display_date()
+        total_minutes = self.step_minute_count * 15
+        hour = total_minutes // 60
+        minutes = total_minutes - hour * 60
+        display_time = f'{hour + 10}:{str(minutes).zfill(2)}'
 
         self.fig, self.axes = mpf.plot(stock_index,
                                        type='candle', mav=(2, 4),
                                        returnfig=True,
                                        volume=True,
-                                       title=f'OpenAI ASX Gym - ALL ORD Index {display_date}',
+                                       title=f'ASX Gym - ALL ORD Index {display_date} {display_time}',
                                        ylabel='Index',
                                        ylabel_lower='Total Value',
                                        style=self.style
@@ -376,16 +383,16 @@ class AsxGymEnv(Env):
             if need_simulate:
                 company = self.company_df[self.company_df.id == company_id].iloc[0, 1]
                 logger.info(
-                    f'Generating simulation data for company for {colorize(company_id, "red")}:'
-                    f'{colorize(company, "green")} on {colorize(current_date, "red")}')
+                    f'Generating simulation data for company for {colorize(company_id, "blue")}:'
+                    f'{colorize(company, "blue")} on {colorize(current_date, "green")}')
 
                 simulations = self._generate_daily_simulation_price_for_company(company_id, open_price, close_price,
                                                                                 high_price, low_price)
                 if simulations:
                     self.daily_simulation_data[simulations.company_id] = simulations
         logger.info(
-            f'Generate simulation data on {colorize(current_date, "red")} '
-            f'for {len(self.daily_simulation_data)} companies')
+            f'Generate simulation data on {colorize(current_date, "green")} '
+            f'for {colorize(len(self.daily_simulation_data), "red")} companies')
 
     @staticmethod
     def _get_img_from_fig(fig, dpi=60):
