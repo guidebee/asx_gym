@@ -94,15 +94,15 @@ class AsxGymEnv(Env):
     def step(self, action):
         self._close_fig()
         self.ax.clear()
-        reward = self._calculate_reward()
-        self.step_minute_count += 1
         if self.step_minute_count > 24:
             self.step_day_count += 1
             self.step_minute_count = 0
             display_date = self._get_current_display_date()
             self._generate_daily_simulation_price_for_companies(current_date=display_date)
         # TODO: progress when batch end is True
+        reward = self._calculate_reward()
         self._draw_stock()
+        self.step_minute_count += 1
         done = False
         if self.step_day_count > 50:
             done = True
@@ -243,7 +243,7 @@ class AsxGymEnv(Env):
     def _draw_stock(self):
         stock_index = self.index_df.iloc[
                       self.min_stock_seq + self.step_day_count
-                      - self.display_days:self.min_stock_seq + self.step_day_count]
+                      - self.display_days:self.min_stock_seq + self.step_day_count + 1]
 
         display_date = self._get_current_display_date()
         total_minutes = self.step_minute_count * 15
@@ -383,7 +383,7 @@ class AsxGymEnv(Env):
             if need_simulate:
                 company = self.company_df[self.company_df.id == company_id].iloc[0, 1]
                 logger.info(
-                    f'Generating simulation data for company for {colorize(company_id, "blue")}:'
+                    f'Generating simulation data for company {colorize(company_id, "blue")}:'
                     f'{colorize(company, "blue")} on {colorize(current_date, "green")}')
 
                 simulations = self._generate_daily_simulation_price_for_company(company_id, open_price, close_price,
