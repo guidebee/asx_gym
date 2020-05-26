@@ -292,6 +292,13 @@ class AsxGymEnv(Env):
         print(colorize("reading asx company data", 'blue'))
         self.company_df = pd.read_sql_query('SELECT id,name,description,code,sector_id FROM stock_company', conn)
         print(f'Asx company count:\n{self.company_df.count()}')
+
+        for index, (cid, name, description, code, sector_id) in self.company_df.iterrows():
+            print(f'{str(cid).rjust(4)}:{code}', end="\t")
+            if (index+1) % 5 == 0:
+                print('')
+        print('')
+
         print(colorize("reading asx sector data", 'blue'))
         self.sector_df = pd.read_sql_query('SELECT id,name,full_name FROM stock_sector', conn)
         print(f'Asx sector count:\n{self.sector_df.count()}')
