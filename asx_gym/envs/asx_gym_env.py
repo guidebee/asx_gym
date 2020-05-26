@@ -117,6 +117,13 @@ class AsxGymEnv(Env):
         display_date = self._get_current_display_date()
         logger.info(f'Reset date to {display_date}')
 
+        if self.simulate_company_list:
+            count = len(self.simulate_company_list)
+            if (self.simulate_company_number > 0) and (self.simulate_company_number < count):
+                company_list = self.simulate_company_list
+                random.shuffle(company_list)
+                self.simulate_company_list = company_list[:self.simulate_company_number]
+
         self._generate_daily_simulation_price_for_companies(current_date=display_date)
         self._draw_stock()
 
@@ -247,7 +254,6 @@ class AsxGymEnv(Env):
                                        style=self.style
 
                                        )
-        logger.info(f'Simulate date:{display_date}')
         ax_c = self.axes[3].twinx()
         changes = stock_index.loc[:, "Change"].to_numpy()
         ax_c.plot(changes, color='g', marker='o', markeredgecolor='red', alpha=0.9)
@@ -292,10 +298,10 @@ class AsxGymEnv(Env):
         print(colorize("reading asx company data", 'blue'))
         self.company_df = pd.read_sql_query('SELECT id,name,description,code,sector_id FROM stock_company', conn)
         print(f'Asx company count:\n{self.company_df.count()}')
-
+        print(colorize("ASX listed companies", 'blue'))
         for index, (cid, name, description, code, sector_id) in self.company_df.iterrows():
-            print(f'{str(cid).rjust(4)}:{code}', end="\t")
-            if (index+1) % 5 == 0:
+            print(f'{colorize(str(cid).rjust(4), "red")}:{colorize(code, "green")}', end="\t")
+            if (index + 1) % 5 == 0:
                 print('')
         print('')
 
@@ -363,11 +369,23 @@ class AsxGymEnv(Env):
         self.cached_simulation_records = {}
         for (day, company_id), (open_price, close_price, high_price, low_price) \
                 in price_on_current_date_df.iterrows():
-            simulations = self._generate_daily_simulation_price_for_company(company_id, open_price, close_price,
-                                                                            high_price, low_price)
-            if simulations:
-                self.daily_simulation_data[simulations.company_id] = simulations
-        logger.info(f'Generate simulation data on {current_date} for {len(self.daily_simulation_data)} companies')
+            need_simulate = True
+            if self.simulate_company_list is not None:
+                if company_id not in self.simulate_company_list:
+                    need_simulate = False
+            if need_simulate:
+                company = self.company_df[self.company_df.id == company_id].iloc[0, 1]
+                logger.info(
+                    f'Generating simulation data for company for {colorize(company_id, "red")}:'
+                    f'{colorize(company, "green")} on {colorize(current_date, "red")}')
+
+                simulations = self._generate_daily_simulation_price_for_company(company_id, open_price, close_price,
+                                                                                high_price, low_price)
+                if simulations:
+                    self.daily_simulation_data[simulations.company_id] = simulations
+        logger.info(
+            f'Generate simulation data on {colorize(current_date, "red")} '
+            f'for {len(self.daily_simulation_data)} companies')
 
     @staticmethod
     def _get_img_from_fig(fig, dpi=60):
