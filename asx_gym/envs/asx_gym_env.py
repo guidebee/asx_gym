@@ -15,7 +15,7 @@ from gym.utils import seeding
 from gym.utils.colorize import *
 
 from asx_gym.envs.asx_image_viewer import AsxImageViewer
-from asx_gym.envs.models import StockDailySimulationPrices
+from asx_gym.envs.models import StockDailySimulationPrices, StockRecord
 
 date_fmt = '%Y-%m-%d'
 
@@ -57,7 +57,7 @@ class AsxGymEnv(Env):
         self.simulate_company_number = kwargs.get('simulate_company_number', -1)
         self.simulate_company_list = kwargs.get('simulate_company_list', None)
 
-        self.initial_fund = kwargs.get('initial_fund', 100000)
+        self.available_fund = kwargs.get('initial_fund', 100000)
         self.expected_fund_increase_ratio = kwargs.get('expected_fund_increase_ratio', 2.0)
         self.expected_fund_decrease_ratio = kwargs.get('expected_fund_decrease_ratio', 0.2)
         self.transaction_fee_list = kwargs.get('transaction_fee_list', None)
@@ -83,6 +83,7 @@ class AsxGymEnv(Env):
             "bid_price": np.array([0.0] * self.max_company_number),
             "price": np.array([0.0] * self.max_company_number),
         }
+        self.daily_simulation_prices = {}
 
         # random start date
         offset_days = self.np_random.randint(0, self.random_start_days)
@@ -108,13 +109,17 @@ class AsxGymEnv(Env):
     def step(self, action):
         self._close_fig()
         self.ax.clear()
+
+        assert self.action_space.contains(action), "%r (%s) invalid" % (action, type(action))
+        end_batch, fulfilled = self._apply_asx_action(action)
+
+        reward = self._calculate_reward()
         if self.step_minute_count > 24:
             self.step_day_count += 1
             self.step_minute_count = 0
             display_date = self._get_current_display_date()
             self._generate_daily_simulation_price_for_companies(current_date=display_date)
-        # TODO: progress when batch end is True
-        reward = self._calculate_reward()
+
         self._draw_stock()
         self.step_minute_count += 1
         done = False
@@ -167,7 +172,6 @@ class AsxGymEnv(Env):
                                      dtype=np.float32),
                 "price": spaces.Box(low=np.float32(0),
                                     high=np.float32(self.max_stock_price),
-                                    shape=(self.max_company_number,),
                                     dtype=np.float32),
                 "end_batch": spaces.Discrete(2)
             }
@@ -243,6 +247,61 @@ class AsxGymEnv(Env):
             }
         )
 
+    def _buy_stock(self, company_id, price, volume):
+        fulfilled = False
+        total_amount = round(volume * price, 3)
+        if self.available_fund >= total_amount:
+            stock_record: StockRecord = self.portfolios.get(company_id, None)
+            if stock_record is None:
+                stock_record = StockRecord(company_id, volume, price, 0, price)
+                self.portfolios[company_id] = stock_record
+            else:
+                stock_record.volume += volume
+                stock_record.buy_price = price
+                stock_record.price = price
+            self.available_fund -= total_amount
+            fulfilled = True
+
+        return fulfilled
+
+    def _sell_stock(self, company_id, price, volume):
+        fulfilled = False
+        stock_record: StockRecord = self.portfolios.get(company_id, None)
+        if stock_record is not None:
+            if stock_record.volume >= volume:
+                total_amount = round(volume * price, 3)
+                stock_record.volume -= volume
+                stock_record.sell_price = price
+                stock_record.price = price
+                self.available_fund += total_amount
+                fulfilled = True
+
+        return fulfilled
+
+    def _apply_asx_action(self, action):
+        fulfilled = False
+        buy_or_sell = action['buy_or_sell']
+        company_id = action['company_id']
+        price = float(action['price'])
+        volume = float(action['volume'])
+        end_batch = action['end_batch']
+        if company_id in self.daily_simulation_data:
+            ask_price = self.daily_simulation_prices[company_id]['ask_price']
+            bid_price = self.daily_simulation_prices[company_id]['bid_price']
+            if buy_or_sell == 1 and price >= ask_price:  # buy
+                fulfilled = self._buy_stock(company_id, ask_price, volume)
+            elif buy_or_sell == 2 and price <= bid_price:  # sell
+                fulfilled = self._sell_stock(company_id, bid_price, volume)
+
+        return end_batch, fulfilled
+
+    def _get_total_fund(self):
+        total_amount = self.available_fund
+        for key, stock_record in self.portfolios.items():
+            total_amount += stock_record.volume * stock_record.price
+
+        return round(total_amount, 2)
+
     def _get_asx_prices(self):
         count = 0
         for key, simulations in self.daily_simulation_data.items():
@@ -251,6 +310,14 @@ class AsxGymEnv(Env):
             self.env_prices['ask_price'][count] = prices.ask_price
             self.env_prices['bid_price'][count] = prices.bid_price
             self.env_prices['price'][count] = prices.price
+
+            self.daily_simulation_prices[simulations.company_id] = {
+                'ask_price': prices.ask_price,
+                'bid_price': prices.bid_price,
+                'price': prices.price,
+
+            }
+
             count += 1
         return self.env_prices
 
@@ -295,17 +362,19 @@ class AsxGymEnv(Env):
         hour = total_minutes // 60
         minutes = total_minutes - hour * 60
         display_time = f'{hour + 10}:{str(minutes).zfill(2)}'
+        total_fund = self._get_total_fund()
 
+        display_title = f'ASX Gym Env {display_date} {display_time}\nTotal Fund:{total_fund}'
         self.fig, self.axes = mpf.plot(stock_index,
                                        type='candle', mav=(2, 4),
                                        returnfig=True,
                                        volume=True,
-                                       title=f'ASX Gym - ALL ORD Index {display_date} {display_time}',
+                                       title=display_title,
                                        ylabel='Index',
                                        ylabel_lower='Total Value',
                                        style=self.style
-
                                        )
+
         ax_c = self.axes[3].twinx()
         changes = stock_index.loc[:, "Change"].to_numpy()
         ax_c.plot(changes, color='g', marker='o', markeredgecolor='red', alpha=0.9)
@@ -390,8 +459,8 @@ class AsxGymEnv(Env):
                       :self.min_stock_seq + self.step_day_count + 1]
 
         obs = {
-            "total_value": np.array(self.initial_fund),
-            "available_fund": np.array(self.initial_fund),
+            "total_value": np.array(self.available_fund),
+            "available_fund": np.array(self.available_fund),
             "fulfilled_last_action": 0,
             "day": self.step_day_count,
             "second": self.step_minute_count * 15 * 60 + 10 * 3600,
@@ -446,6 +515,7 @@ class AsxGymEnv(Env):
     def _generate_daily_simulation_price_for_companies(self, current_date):
         price_on_current_date_df = self.price_df.query(f'price_date=="{current_date}"')
         self.daily_simulation_data = {}
+
         self.cached_simulation_records = {}
         for (day, company_id), (open_price, close_price, high_price, low_price) \
                 in price_on_current_date_df.iterrows():
