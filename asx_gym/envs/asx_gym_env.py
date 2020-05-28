@@ -69,6 +69,20 @@ class AsxGymEnv(Env):
         self.number_infinite = 10000000
         self.random_start_days = 100
         self.max_transaction_days = 0
+        self.portfolios = {}
+        self.env_portfolios = {
+            "company_id": np.array([self.INVALID_COMPANY_ID] * self.max_company_number),
+            "volume": np.array([0.0] * self.max_company_number),
+            "buy_price": np.array([0.0] * self.max_company_number),
+            "sell_price": np.array([0.0] * self.max_company_number),
+            "price": np.array([0.0] * self.max_company_number),
+        }
+        self.env_prices = {
+            "company_id": np.array([self.INVALID_COMPANY_ID] * self.max_company_number),
+            "ask_price": np.array([0.0] * self.max_company_number),
+            "bid_price": np.array([0.0] * self.max_company_number),
+            "price": np.array([0.0] * self.max_company_number),
+        }
 
         # random start date
         offset_days = self.np_random.randint(0, self.random_start_days)
@@ -106,7 +120,8 @@ class AsxGymEnv(Env):
         done = False
         if self.step_day_count > 50:
             done = True
-        return self.step_day_count, reward, done, {}
+
+        return self._get_current_obs(), reward, done, {}
 
     def reset(self):
         self._close_fig()
@@ -129,6 +144,7 @@ class AsxGymEnv(Env):
 
         self._generate_daily_simulation_price_for_companies(current_date=display_date)
         self._draw_stock()
+        return self._get_current_obs()
 
     def render(self, mode='human'):
         if mode == 'ansi':
@@ -178,6 +194,8 @@ class AsxGymEnv(Env):
                 "seconds": spaces.Discrete(24 * 3600),
                 "company_count": spaces.Discrete(self.max_company_number),
                 "prices:": spaces.Dict({
+                    "company_id": spaces.MultiDiscrete([self.max_company_number]
+                                                       * self.max_company_number),
                     "ask_price": spaces.Box(low=np.float32(0),
                                             high=np.float32(self.max_stock_price),
                                             shape=(self.max_company_number,),
@@ -209,16 +227,43 @@ class AsxGymEnv(Env):
                                                  high=np.float32(self.max_stock_price),
                                                  shape=(self.max_company_number,),
                                                  dtype=np.float32),
+                        "price": spaces.Box(low=np.float32(0),
+                                            high=np.float32(self.max_stock_price),
+                                            shape=(self.max_company_number,),
+                                            dtype=np.float32),
                     }),
                 "total_value:": spaces.Box(low=np.float32(0),
                                            high=np.float32(self.number_infinite),
                                            dtype=np.float32),
                 "available_fund:": spaces.Box(low=np.float32(0),
                                               high=np.float32(self.number_infinite),
-                                              dtype=np.float32)
+                                              dtype=np.float32),
+                "fulfilled_last_action": spaces.Discrete(1)
 
             }
         )
+
+    def _get_asx_prices(self):
+        count = 0
+        for key, simulations in self.daily_simulation_data.items():
+            self.env_prices['company_id'][count] = simulations.company_id
+            prices = simulations.get_next_prices()
+            self.env_prices['ask_price'][count] = prices.ask_price
+            self.env_prices['bid_price'][count] = prices.bid_price
+            self.env_prices['price'][count] = prices.price
+            count += 1
+        return self.env_prices
+
+    def _get_asx_portfolios(self):
+        count = 0
+        for key, portfolio in self.portfolios.items():
+            self.env_portfolios['company_id'][count] = portfolio.company_id
+            self.env_portfolios['volume'][count] = portfolio.volume
+            self.env_portfolios['buy_price'][count] = portfolio.buy_price
+            self.env_portfolios['sell_price'][count] = portfolio.sell_price
+            self.env_portfolios['price'][count] = portfolio.sell_price
+            count += 1
+        return self.env_portfolios
 
     def _get_current_display_date(self):
         return self.index_df.iloc[self.min_stock_seq + self.step_day_count
@@ -339,6 +384,31 @@ class AsxGymEnv(Env):
     def normalized_price(high_price, price):
         return round(price / high_price, 3)
 
+    def _get_current_obs(self):
+        stock_index = self.index_df.iloc[
+                      self.min_stock_seq + self.step_day_count
+                      :self.min_stock_seq + self.step_day_count + 1]
+
+        obs = {
+            "total_value": np.array(self.initial_fund),
+            "available_fund": np.array(self.initial_fund),
+            "fulfilled_last_action": 0,
+            "day": self.step_day_count,
+            "second": self.step_minute_count * 15 * 60 + 10 * 3600,
+            "company_count": self._get_company_count(),
+            "prices": self._get_asx_prices(),
+            "indexes": {
+                "open": np.array(stock_index.Open[0]),
+                "close": np.array(stock_index.Close[0]),
+                "high": np.array(stock_index.High[0]),
+                "low": np.array(stock_index.Low[0]),
+            },
+            "portfolio_company_count": len(self.portfolios),
+            "portfolios": self._get_asx_portfolios()
+
+        }
+        return obs
+
     def _generate_daily_simulation_price_for_company(self, company_id, open_price, close_price, high_price, low_price):
         simulations = StockDailySimulationPrices(company_id, open_price, close_price, high_price, low_price)
         ratio = self.normalized_price(high_price, low_price)
@@ -370,6 +440,9 @@ class AsxGymEnv(Env):
             simulations.init_simulation_prices([])
         return simulations
 
+    def _get_company_count(self):
+        return len(self.daily_simulation_data)
+
     def _generate_daily_simulation_price_for_companies(self, current_date):
         price_on_current_date_df = self.price_df.query(f'price_date=="{current_date}"')
         self.daily_simulation_data = {}
@@ -391,7 +464,7 @@ class AsxGymEnv(Env):
                 if simulations:
                     self.daily_simulation_data[simulations.company_id] = simulations
         logger.info(
-            f'Generate simulation data on {colorize(current_date, "green")} '
+            f'Generated simulation data on {colorize(current_date, "green")} '
             f'for {colorize(len(self.daily_simulation_data), "red")} companies')
 
     @staticmethod
