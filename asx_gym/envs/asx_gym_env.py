@@ -72,6 +72,7 @@ class AsxGymEnv(Env):
         self.random_start_days = 100
         self.max_transaction_days = 0
         self.portfolios = {}
+        self.info = {}
         self.env_portfolios = {
             "company_id": np.array([self.INVALID_COMPANY_ID] * self.max_company_number),
             "volume": np.array([0.0] * self.max_company_number),
@@ -113,7 +114,7 @@ class AsxGymEnv(Env):
         self.ax.clear()
 
         assert self.action_space.contains(action), "%r (%s) invalid" % (action, type(action))
-        end_batch, fulfilled = self._apply_asx_action(action)
+        end_batch = self._apply_asx_action(action)
 
         reward = self._calculate_reward()
         if self.step_minute_count > 24:
@@ -128,7 +129,7 @@ class AsxGymEnv(Env):
         if self.step_day_count > 20:
             done = True
 
-        return self._get_current_obs(), reward, done, {}
+        return self._get_current_obs(), reward, done, self.info
 
     def reset(self):
         self._close_fig()
@@ -167,13 +168,18 @@ class AsxGymEnv(Env):
     def _init_spaces(self):
         self.action_space = spaces.Dict(
             {
-                "company_id": spaces.Discrete(self.max_company_number),
-                "buy_or_sell": spaces.Discrete(3),
+                "company_count": spaces.Discrete(self.max_company_number),
+                "company_id": spaces.MultiDiscrete([self.max_company_number]
+                                                   * self.max_company_number),
+                "buy_or_sell": spaces.MultiDiscrete([3]
+                                                    * self.max_company_number),
                 "volume": spaces.Box(np.float32(0),
                                      high=np.float32(self.number_infinite),
+                                     shape=(self.max_company_number,),
                                      dtype=np.float32),
                 "price": spaces.Box(low=np.float32(0),
                                     high=np.float32(self.max_stock_price),
+                                    shape=(self.max_company_number,),
                                     dtype=np.float32),
                 "end_batch": spaces.Discrete(2)
             }
@@ -243,8 +249,7 @@ class AsxGymEnv(Env):
                                            dtype=np.float32),
                 "available_fund:": spaces.Box(low=np.float32(0),
                                               high=np.float32(self.number_infinite),
-                                              dtype=np.float32),
-                "fulfilled_last_action": spaces.Discrete(1)
+                                              dtype=np.float32)
 
             }
         )
@@ -282,20 +287,26 @@ class AsxGymEnv(Env):
 
     def _apply_asx_action(self, action):
         fulfilled = False
-        buy_or_sell = action['buy_or_sell']
-        company_id = action['company_id']
-        price = float(action['price'])
-        volume = float(action['volume'])
+        self.info["fulfilled"] = {}
+        company_count = action['company_count']
         end_batch = action['end_batch']
-        if company_id in self.daily_simulation_data:
-            ask_price = self.daily_simulation_prices[company_id]['ask_price']
-            bid_price = self.daily_simulation_prices[company_id]['bid_price']
-            if buy_or_sell == 1 and price >= ask_price:  # buy
-                fulfilled = self._buy_stock(company_id, ask_price, volume)
-            elif buy_or_sell == 2 and price <= bid_price:  # sell
-                fulfilled = self._sell_stock(company_id, bid_price, volume)
+        for i in range(company_count):
+            buy_or_sell = action['buy_or_sell'][i]
+            company_id = action['company_id'][i]
+            price = float(action['price'][i])
+            volume = float(action['volume'][i])
 
-        return end_batch, fulfilled
+            if company_id in self.daily_simulation_data:
+                ask_price = self.daily_simulation_prices[company_id]['ask_price']
+                bid_price = self.daily_simulation_prices[company_id]['bid_price']
+                if buy_or_sell == 1 and price >= ask_price:  # buy
+                    fulfilled = self._buy_stock(company_id, ask_price, volume)
+                elif buy_or_sell == 2 and price <= bid_price:  # sell
+                    fulfilled = self._sell_stock(company_id, bid_price, volume)
+
+                self.info["fulfilled"][company_id] = fulfilled
+
+        return end_batch
 
     def _get_total_value(self):
         total_amount = self.available_fund
@@ -467,7 +478,6 @@ class AsxGymEnv(Env):
         obs = {
             "total_value": np.array(total_value),
             "available_fund": np.array(self.available_fund),
-            "fulfilled_last_action": 0,
             "day": self.step_day_count,
             "second": self.step_minute_count * 15 * 60 + 10 * 3600,
             "company_count": self._get_company_count(),
