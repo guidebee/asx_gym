@@ -60,7 +60,7 @@ class AsxGymEnv(Env):
         self.initial_fund = kwargs.get('initial_fund', 100000)
         self.available_fund = self.initial_fund
         self.previous_total_fund = self.available_fund
-        self.expected_fund_increase_ratio = kwargs.get('expected_fund_increase_ratio', 2.0)
+        self.expected_fund_increase_ratio = kwargs.get('expected_fund_increase_ratio', 4.0)
         self.expected_fund_decrease_ratio = kwargs.get('expected_fund_decrease_ratio', 0.2)
         self.transaction_fee_list = kwargs.get('transaction_fee_list', None)
 
@@ -96,6 +96,8 @@ class AsxGymEnv(Env):
         # action and observation spaces
         self._init_spaces()
 
+        self.total_value_history_file = None
+
         # loading data from database
         self._load_stock_data()
         self.seed()
@@ -117,8 +119,19 @@ class AsxGymEnv(Env):
 
         assert self.action_space.contains(action), "%r (%s) invalid" % (action, type(action))
         end_batch = self._apply_asx_action(action)
-
         reward = self._calculate_reward()
+        self._draw_stock()
+
+        done = self._is_done()
+        if done:
+            if self.total_value_history_file:
+                self.total_value_history_file.close()
+                self.total_value_history_file = None
+
+        obs = self._get_current_obs()
+
+        self.step_minute_count += 1
+        self.step_count += 1
         if self.step_minute_count > 24 or end_batch:
             if end_batch:
                 logger.info("Move forward to next day due to the end batch flag")
@@ -127,18 +140,20 @@ class AsxGymEnv(Env):
             display_date = self._get_current_display_date()
             self._generate_daily_simulation_price_for_companies(current_date=display_date)
 
-        self._draw_stock()
-        self.step_minute_count += 1
-        done = self._is_done()
-        self.step_count += 1
-
-        return self._get_current_obs(), reward, done, self.info
+        return obs, reward, done, self.info
 
     def reset(self):
         self._close_fig()
         self.step_day_count = 0
         self.step_minute_count = 0
         self.step_count = 0
+        if self.total_value_history_file:
+            self.total_value_history_file.close()
+
+        day = datetime.now()
+        date_prefix = day.strftime('%Y-%m-%d_%H-%M-%S.%f')
+        self.total_value_history_file = open(f'history_value_{date_prefix}.csv', 'w')
+
         if not self.keep_same_start_date_when_reset:
             offset_days = self.np_random.randint(0, self.random_start_days)
             self.start_date = self.user_set_start_date + timedelta(days=offset_days)
@@ -322,7 +337,7 @@ class AsxGymEnv(Env):
                     'description': company_description
                 }
                 sector_id = company.iloc[0, 4]
-                if sector_id:
+                if sector_id and not np.math.isnan(sector_id):
                     sector_id = int(sector_id)
                     sector = self.sector_df[self.sector_df.id == sector_id]
                     if len(sector) > 0:
@@ -421,6 +436,8 @@ class AsxGymEnv(Env):
         minutes = total_minutes - hour * 60
         display_time = f'{hour + 10}:{str(minutes).zfill(2)}'
         total_fund = self._get_total_value()
+        if self.total_value_history_file:
+            self.total_value_history_file.write(f'{display_date} {display_time}:00,{total_fund}\n')
 
         display_title = f'ASX Gym Env {display_date} {display_time}\nTotal Value:{total_fund}'
         self.fig, self.axes = mpf.plot(stock_index,
