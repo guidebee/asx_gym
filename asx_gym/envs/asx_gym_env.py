@@ -112,6 +112,7 @@ class AsxGymEnv(Env):
     def step(self, action):
         self._close_fig()
         self.ax.clear()
+        self.info = {}
 
         assert self.action_space.contains(action), "%r (%s) invalid" % (action, type(action))
         end_batch = self._apply_asx_action(action)
@@ -287,7 +288,8 @@ class AsxGymEnv(Env):
 
     def _apply_asx_action(self, action):
         fulfilled = False
-        self.info["fulfilled"] = {}
+        self.info["transactions"] = {}
+        self.info["companies"] = {}
         company_count = action['company_count']
         end_batch = action['end_batch']
         for i in range(company_count):
@@ -297,14 +299,43 @@ class AsxGymEnv(Env):
             volume = float(action['volume'][i])
 
             if company_id in self.daily_simulation_data:
+                company = self.company_df[self.company_df.id == company_id]
+                company_name = company.iloc[0, 1]
+                company_description = company.iloc[0, 2]
+
+                self.info["companies"][company_id] = {
+                    'name': company_name,
+                    'description': company_description
+                }
+                sector_id = company.iloc[0, 4]
+                if sector_id:
+                    sector_id = int(sector_id)
+                    sector = self.sector_df[self.sector_df.id == sector_id]
+                    if len(sector) > 0:
+                        sector_name = sector.iloc[0, 2]
+                        self.info["companies"][company_id]['sector'] = sector_name
+
                 ask_price = self.daily_simulation_prices[company_id]['ask_price']
                 bid_price = self.daily_simulation_prices[company_id]['bid_price']
+                current_price = self.daily_simulation_prices[company_id]['price']
                 if buy_or_sell == 1 and price >= ask_price:  # buy
                     fulfilled = self._buy_stock(company_id, ask_price, volume)
+                    self.info["transactions"][company_id] = {'action': 'buy',
+                                                             'price': bid_price,
+                                                             'volume': volume,
+                                                             'fulfilled': fulfilled}
                 elif buy_or_sell == 2 and price <= bid_price:  # sell
                     fulfilled = self._sell_stock(company_id, bid_price, volume)
-
-                self.info["fulfilled"][company_id] = fulfilled
+                    self.info["transactions"][company_id] = {'action': 'sell',
+                                                             'price': bid_price,
+                                                             'volume': volume,
+                                                             'fulfilled': fulfilled}
+                else:
+                    self.info["transactions"][company_id] = {'action': 'hold',
+                                                             'price': current_price,
+                                                             'volume': -1,
+                                                             'fulfilled': fulfilled
+                                                             }
 
         return end_batch
 
