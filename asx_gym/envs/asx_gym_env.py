@@ -35,7 +35,7 @@ class AsxGymEnv(Env):
         mc = mpf.make_marketcolors(up='g', down='r',
                                    edge='inherit',
                                    wick={'up': 'blue', 'down': 'orange'},
-                                   volume='b',
+                                   volume='skyblue',
                                    ohlc='i')
         self.style = mpf.make_mpf_style(base_mpl_style='seaborn-whitegrid', marketcolors=mc)
 
@@ -57,7 +57,9 @@ class AsxGymEnv(Env):
         self.simulate_company_number = kwargs.get('simulate_company_number', -1)
         self.simulate_company_list = kwargs.get('simulate_company_list', None)
 
-        self.available_fund = kwargs.get('initial_fund', 100000)
+        self.initial_fund = kwargs.get('initial_fund', 100000)
+        self.available_fund = self.initial_fund
+        self.previous_total_fund = self.available_fund
         self.expected_fund_increase_ratio = kwargs.get('expected_fund_increase_ratio', 2.0)
         self.expected_fund_decrease_ratio = kwargs.get('expected_fund_decrease_ratio', 0.2)
         self.transaction_fee_list = kwargs.get('transaction_fee_list', None)
@@ -123,7 +125,7 @@ class AsxGymEnv(Env):
         self._draw_stock()
         self.step_minute_count += 1
         done = False
-        if self.step_day_count > 50:
+        if self.step_day_count > 20:
             done = True
 
         return self._get_current_obs(), reward, done, {}
@@ -295,7 +297,7 @@ class AsxGymEnv(Env):
 
         return end_batch, fulfilled
 
-    def _get_total_fund(self):
+    def _get_total_value(self):
         total_amount = self.available_fund
         for key, stock_record in self.portfolios.items():
             total_amount += stock_record.volume * stock_record.price
@@ -362,9 +364,9 @@ class AsxGymEnv(Env):
         hour = total_minutes // 60
         minutes = total_minutes - hour * 60
         display_time = f'{hour + 10}:{str(minutes).zfill(2)}'
-        total_fund = self._get_total_fund()
+        total_fund = self._get_total_value()
 
-        display_title = f'ASX Gym Env {display_date} {display_time}\nTotal Fund:{total_fund}'
+        display_title = f'ASX Gym Env {display_date} {display_time}\nTotal Value:{total_fund}'
         self.fig, self.axes = mpf.plot(stock_index,
                                        type='candle', mav=(2, 4),
                                        returnfig=True,
@@ -377,16 +379,19 @@ class AsxGymEnv(Env):
 
         ax_c = self.axes[3].twinx()
         changes = stock_index.loc[:, "Change"].to_numpy()
-        ax_c.plot(changes, color='g', marker='o', markeredgecolor='red', alpha=0.9)
+        ax_c.plot(changes, color='navy', marker='o', markeredgecolor='red')
         ax_c.set_ylabel('Value Change')
 
     def _calculate_reward(self):
+        total_fund = self._get_total_value()
         self.index_df.loc[
-            self.index_df.Seq == self.min_stock_seq + self.step_day_count, "Volume"] = self.np_random.randint(100)
+            self.index_df.Seq == self.min_stock_seq + self.step_day_count, "Volume"] = round(total_fund, 1)
+        diff = total_fund - self.previous_total_fund
         self.index_df.loc[
-            self.index_df.Seq == self.min_stock_seq + self.step_day_count, "Change"] = self.np_random.randint(
-            20) - 10
-        return 0
+            self.index_df.Seq == self.min_stock_seq + self.step_day_count, "Change"] = round(
+            total_fund - self.initial_fund, 1)
+        self.previous_total_fund = total_fund
+        return diff
 
     def _load_stock_data(self):
         print(colorize("Initializing data, it may take a couple minutes,please wait...", 'red'))
@@ -457,9 +462,10 @@ class AsxGymEnv(Env):
         stock_index = self.index_df.iloc[
                       self.min_stock_seq + self.step_day_count
                       :self.min_stock_seq + self.step_day_count + 1]
+        total_value = self._get_total_value()
 
         obs = {
-            "total_value": np.array(self.available_fund),
+            "total_value": np.array(total_value),
             "available_fund": np.array(self.available_fund),
             "fulfilled_last_action": 0,
             "day": self.step_day_count,
