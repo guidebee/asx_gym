@@ -71,6 +71,7 @@ class AsxGymEnv(Env):
         self.number_infinite = 10000000
         self.random_start_days = 100
         self.max_transaction_days = 0
+        self.step_count = 0
         self.portfolios = {}
         self.info = {}
         self.env_portfolios = {
@@ -118,7 +119,9 @@ class AsxGymEnv(Env):
         end_batch = self._apply_asx_action(action)
 
         reward = self._calculate_reward()
-        if self.step_minute_count > 24:
+        if self.step_minute_count > 24 or end_batch:
+            if end_batch:
+                logger.info("Move forward to next day due to the end batch flag")
             self.step_day_count += 1
             self.step_minute_count = 0
             display_date = self._get_current_display_date()
@@ -126,9 +129,8 @@ class AsxGymEnv(Env):
 
         self._draw_stock()
         self.step_minute_count += 1
-        done = False
-        if self.step_day_count > 20:
-            done = True
+        done = self._is_done()
+        self.step_count += 1
 
         return self._get_current_obs(), reward, done, self.info
 
@@ -136,6 +138,7 @@ class AsxGymEnv(Env):
         self._close_fig()
         self.step_day_count = 0
         self.step_minute_count = 0
+        self.step_count = 0
         if not self.keep_same_start_date_when_reset:
             offset_days = self.np_random.randint(0, self.random_start_days)
             self.start_date = self.user_set_start_date + timedelta(days=offset_days)
@@ -285,6 +288,17 @@ class AsxGymEnv(Env):
                 fulfilled = True
 
         return fulfilled
+
+    def _is_done(self):
+        done = False
+        total_value = self._get_total_value()
+        min_lost = round(self.initial_fund * self.expected_fund_decrease_ratio, 3)
+        max_gain = round(self.initial_fund * self.expected_fund_increase_ratio, 3)
+        if (self.step_day_count > self.max_transaction_days) \
+                or (total_value < min_lost) or (total_value > max_gain):
+            done = True
+
+        return done
 
     def _apply_asx_action(self, action):
         fulfilled = False
@@ -584,10 +598,10 @@ class AsxGymEnv(Env):
             f'Generated simulation data on {colorize(current_date, "green")} '
             f'for {colorize(len(self.daily_simulation_data), "red")} companies')
 
-    @staticmethod
-    def _get_img_from_fig(fig, dpi=60):
+    def _get_img_from_fig(self, fig, dpi=60):
         buf = io.BytesIO()
         fig.savefig(buf, format="png", dpi=dpi)
+        fig.savefig(f'images/fig_{self.step_count}.png', dpi=180)
         buf.seek(0)
         img_arr = np.frombuffer(buf.getvalue(), dtype=np.uint8)
         buf.close()
