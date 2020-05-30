@@ -295,6 +295,10 @@ class AsxGymEnv(Env):
                                             shape=(self.max_company_number,),
                                             dtype=np.float32),
                     }),
+                "bank_balance:": spaces.Box(low=np.float32(0),
+                                            high=np.float32(self.number_infinite),
+                                            dtype=np.float32),
+
                 "total_value:": spaces.Box(low=np.float32(0),
                                            high=np.float32(self.number_infinite),
                                            dtype=np.float32),
@@ -584,6 +588,7 @@ class AsxGymEnv(Env):
         total_value = self._get_total_value()
 
         obs = {
+            "bank_balance": np.array(self.bank_balance),
             "total_value": np.array(total_value),
             "available_fund": np.array(self.available_fund),
             "day": self.step_day_count,
