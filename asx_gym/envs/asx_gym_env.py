@@ -72,6 +72,7 @@ class AsxGymEnv(Env):
         self.random_start_days = 100
         self.max_transaction_days = 0
         self.step_count = 0
+        self.need_move_day_forward = False
         self.portfolios = {}
         self.info = {}
         self.env_portfolios = {
@@ -97,6 +98,8 @@ class AsxGymEnv(Env):
         self._init_spaces()
 
         self.total_value_history_file = None
+        self.save_figure = False
+        self.episode = 0
 
         # loading data from database
         self._load_stock_data()
@@ -116,7 +119,8 @@ class AsxGymEnv(Env):
         self._close_fig()
         self.ax.clear()
         self.info = {}
-
+        if self.need_move_day_forward:
+            self._move_day_forward()
         assert self.action_space.contains(action), "%r (%s) invalid" % (action, type(action))
         end_batch = self._apply_asx_action(action)
         reward = self._calculate_reward()
@@ -127,26 +131,21 @@ class AsxGymEnv(Env):
             if self.total_value_history_file:
                 self.total_value_history_file.close()
                 self.total_value_history_file = None
-
-        obs = self._get_current_obs()
-
-        self.step_minute_count += 1
-        self.step_count += 1
-        if self.step_minute_count > 24 or end_batch:
-            if end_batch:
-                logger.info("Move forward to next day due to the end batch flag")
-            self.step_day_count += 1
-            self.step_minute_count = 0
-            display_date = self._get_current_display_date()
-            self._generate_daily_simulation_price_for_companies(current_date=display_date)
-
-        return obs, reward, done, self.info
+                return None, 0, True, {}
+        else:
+            obs = self._get_current_obs()
+            self.step_minute_count += 1
+            self.step_count += 1
+            self.need_move_day_forward = self.step_minute_count > 24 or end_batch
+            return obs, reward, False, self.info
 
     def reset(self):
         self._close_fig()
+        self.episode += 1
         self.step_day_count = 0
         self.step_minute_count = 0
         self.step_count = 0
+        self.need_move_day_forward = False
         if self.total_value_history_file:
             self.total_value_history_file.close()
 
@@ -183,6 +182,14 @@ class AsxGymEnv(Env):
             elif mode == 'human':
                 self.viewer.imshow(img)
                 return self.viewer.is_open
+
+    def _move_day_forward(self):
+        self.step_day_count += 1
+        self.step_minute_count = 0
+        display_date = self._get_current_display_date()
+        if display_date:
+            self._generate_daily_simulation_price_for_companies(current_date=display_date)
+        self.need_move_day_forward = False
 
     def _init_spaces(self):
         self.action_space = spaces.Dict(
@@ -306,10 +313,11 @@ class AsxGymEnv(Env):
 
     def _is_done(self):
         done = False
+        today = self._get_current_display_date()
         total_value = self._get_total_value()
         min_lost = round(self.initial_fund * self.expected_fund_decrease_ratio, 3)
         max_gain = round(self.initial_fund * self.expected_fund_increase_ratio, 3)
-        if (self.step_day_count > self.max_transaction_days) \
+        if (today is None) or (self.step_day_count >= self.max_transaction_days - 1) \
                 or (total_value < min_lost) or (total_value > max_gain):
             done = True
 
@@ -406,9 +414,12 @@ class AsxGymEnv(Env):
         return self.env_portfolios
 
     def _get_current_display_date(self):
-        return self.index_df.iloc[self.min_stock_seq + self.step_day_count
-                                  :self.min_stock_seq
-                                   + self.step_day_count + 1].index.astype(str)[0]
+        asx_index = self.index_df.iloc[self.min_stock_seq + self.step_day_count
+                                       :self.min_stock_seq
+                                        + self.step_day_count + 1].index
+        if not asx_index.empty:
+            return asx_index.astype(str)[0]
+        return None
 
     def _close_fig(self):
         # try to close exist fig if possible
@@ -426,34 +437,36 @@ class AsxGymEnv(Env):
         self.min_stock_seq = init_seq.Seq[0]
 
     def _draw_stock(self):
-        stock_index = self.index_df.iloc[
-                      self.min_stock_seq + self.step_day_count
-                      - self.display_days:self.min_stock_seq + self.step_day_count + 1]
-
         display_date = self._get_current_display_date()
-        total_minutes = self.step_minute_count * 15
-        hour = total_minutes // 60
-        minutes = total_minutes - hour * 60
-        display_time = f'{hour + 10}:{str(minutes).zfill(2)}'
-        total_fund = self._get_total_value()
-        if self.total_value_history_file:
-            self.total_value_history_file.write(f'{display_date} {display_time}:00,{total_fund}\n')
+        if display_date:
+            stock_index = self.index_df.iloc[
+                          self.min_stock_seq + self.step_day_count
+                          - self.display_days:self.min_stock_seq + self.step_day_count + 1]
 
-        display_title = f'ASX Gym Env {display_date} {display_time}\nTotal Value:{total_fund}'
-        self.fig, self.axes = mpf.plot(stock_index,
-                                       type='candle', mav=(2, 4),
-                                       returnfig=True,
-                                       volume=True,
-                                       title=display_title,
-                                       ylabel='Index',
-                                       ylabel_lower='Total Value',
-                                       style=self.style
-                                       )
+            total_minutes = self.step_minute_count * 15
+            hour = total_minutes // 60
+            minutes = total_minutes - hour * 60
+            display_time = f'{hour + 10}:{str(minutes).zfill(2)}'
+            total_fund = self._get_total_value()
+            if self.total_value_history_file:
+                self.total_value_history_file.write(f'{display_date} {display_time}:00,{total_fund}\n')
 
-        ax_c = self.axes[3].twinx()
-        changes = stock_index.loc[:, "Change"].to_numpy()
-        ax_c.plot(changes, color='navy', marker='o', markeredgecolor='red')
-        ax_c.set_ylabel('Value Change')
+            display_title = f'ASX Gym Env Episode:{self.episode} Step:{self.step_count}\n' \
+                            f'{display_date} {display_time} Total Value:{total_fund}'
+            self.fig, self.axes = mpf.plot(stock_index,
+                                           type='candle', mav=(2, 4),
+                                           returnfig=True,
+                                           volume=True,
+                                           title=display_title,
+                                           ylabel='Index',
+                                           ylabel_lower='Total Value',
+                                           style=self.style
+                                           )
+
+            ax_c = self.axes[3].twinx()
+            changes = stock_index.loc[:, "Change"].to_numpy()
+            ax_c.plot(changes, color='navy', marker='o', markeredgecolor='red')
+            ax_c.set_ylabel('Value Change')
 
     def _calculate_reward(self):
         total_fund = self._get_total_value()
@@ -618,7 +631,8 @@ class AsxGymEnv(Env):
     def _get_img_from_fig(self, fig, dpi=60):
         buf = io.BytesIO()
         fig.savefig(buf, format="png", dpi=dpi)
-        fig.savefig(f'images/fig_{self.step_count}.png', dpi=180)
+        if self.save_figure:
+            fig.savefig(f'images/fig_{self.step_count}.png', dpi=180)
         buf.seek(0)
         img_arr = np.frombuffer(buf.getvalue(), dtype=np.uint8)
         buf.close()
