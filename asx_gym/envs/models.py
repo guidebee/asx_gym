@@ -58,13 +58,33 @@ class StockDailySimulationPrices(object):
             self.offset = random.randint(1, empty_count)
 
 
-class AsxAction(object):
-    def __init__(self, company_id, stock_operation, volume, price, flag):
+class AsxTransaction(object):
+    def __init__(self, company_id, stock_operation, volume, price):
         self.company_id = company_id
         self.stock_operation = stock_operation
         self.volume = volume
         self.price = price
-        self.flag = flag
+
+
+class AsxAction(object):
+    def __init__(self, end_batch):
+        self.end_batch = end_batch
+        self.transactions = []
+
+    def add_transaction(self, transaction: AsxTransaction):
+        self.transactions.append(transaction)
+
+    def copy_to_env_action(self, action):
+        company_count = len(self.transactions)
+        action['company_count'] = company_count
+        action['end_batch'] = self.end_batch
+        for c in range(company_count):
+            asx_transaction: AsxTransaction = self.transactions[c]
+            action['company_id'][c] = asx_transaction.company_id
+            action['volume'][c] = asx_transaction.volume
+            action['price'][c] = asx_transaction.price
+            action['stock_operation'][c] = asx_transaction.stock_operation
+        return action
 
 
 class StockIndex(object):
