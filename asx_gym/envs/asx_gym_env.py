@@ -20,13 +20,11 @@ from asx_gym.envs.models import StockDailySimulationPrices, StockRecord
 
 date_fmt = '%Y-%m-%d'
 
-
-class StockOperation(Enum):
-    HOLD = 0
-    BUY = 1
-    SELL = 2
-    TOP_UP = 3
-    WITHDRAW = 4
+HOLD_STOCK = 0
+BUY_STOCK = 1
+SELL_STOCK = 2
+TOP_UP_FUND = 3
+WITHDRAW_FUND = 4
 
 
 class AsxGymEnv(Env):
@@ -34,10 +32,12 @@ class AsxGymEnv(Env):
 
     def __init__(self, **kwargs):
 
+        # random seeds
         self.np_random, seed = seeding.np_random(0)
         seed = seeding.create_seed(32)
         self.seed(seed=seed)
 
+        # figures
         self.fig, self.ax = plt.subplots()
         self.viewer = AsxImageViewer()
         # plot styles
@@ -48,46 +48,56 @@ class AsxGymEnv(Env):
                                    ohlc='i')
         self.style = mpf.make_mpf_style(base_mpl_style='seaborn-whitegrid', marketcolors=mc)
 
+        self.episode = 0
         self.step_day_count = 0
+        self.global_step_count = 0
         self.step_minute_count = 0  # step is 15 min
+        self.step_count = 0
+
         self.transaction_start_time = 10 * 4  # 10:00
         self.transaction_end_time = 16 * 4  # 16:00
         self.min_stock_date = date(2011, 1, 10)
         self.min_stock_seq = 0
 
-        # default values
+        # default values and configurations
         self.user_set_start_date = kwargs.get('start_date', self.min_stock_date)
         if self.user_set_start_date < self.min_stock_date:
             self.user_set_start_date = self.min_stock_date
         self.user_set_max_simulation_days = kwargs.get('max_days', -1)
         self.start_date = self.user_set_start_date
         self.display_days = kwargs.get('display_days', 20)
+
         self.keep_same_company_when_reset = kwargs.get('keep_same_company_when_reset', True)
         self.keep_same_start_date_when_reset = kwargs.get('keep_same_start_date_when_reset', False)
         self.simulate_company_number = kwargs.get('simulate_company_number', -1)
         self.simulate_company_list = kwargs.get('simulate_company_list', None)
 
         self.initial_fund = kwargs.get('initial_fund', 100000)
-        self.available_fund = self.initial_fund
-        self.previous_total_fund = self.available_fund
-        self.bank_account = 0
+        self.initial_bank_balance = kwargs.get('initial_bank_balance', 0)
 
         self.expected_fund_increase_ratio = kwargs.get('expected_fund_increase_ratio', 2.50)
         self.expected_fund_decrease_ratio = kwargs.get('expected_fund_decrease_ratio', 0.25)
         self.transaction_fee_list = kwargs.get('transaction_fee_list', None)
 
-        # company index start from 1, 0 means empty slot
+        self.total_value_history_file = None
+        self.save_figure = True
+
+        # stock transaction and simulation data
+        self.max_transaction_days = 0
+        self.need_move_day_forward = False
+        self.available_fund = self.initial_fund
+        self.previous_total_fund = self.available_fund
+        self.bank_balance = self.initial_bank_balance
+        self.portfolios = {}
+        self.info = {}
+
+        # some constants
         self.max_company_number = 3000
         self.INVALID_COMPANY_ID = 2999
         self.max_stock_price = 100000
         self.number_infinite = 10000000
         self.random_start_days = 100
-        self.max_transaction_days = 0
-        self.step_count = 0
-        self.global_step_count = 0
-        self.need_move_day_forward = False
-        self.portfolios = {}
-        self.info = {}
+
         self.env_portfolios = {
             "company_id": np.array([self.INVALID_COMPANY_ID] * self.max_company_number),
             "volume": np.array([0.0] * self.max_company_number),
@@ -103,16 +113,8 @@ class AsxGymEnv(Env):
         }
         self.daily_simulation_prices = {}
 
-        # random start date
-        offset_days = self.np_random.randint(0, self.random_start_days)
-        self.start_date = self.user_set_start_date + timedelta(days=offset_days)
-
         # action and observation spaces
         self._init_spaces()
-
-        self.total_value_history_file = None
-        self.save_figure = True
-        self.episode = 0
 
         # loading data from database
         self._load_stock_data()
@@ -155,16 +157,16 @@ class AsxGymEnv(Env):
     def reset(self):
         self._close_fig()
         self.episode += 1
+
         self.step_day_count = 0
         self.step_minute_count = 0
         self.step_count = 0
+        self.available_fund = self.initial_fund
+        self.previous_total_fund = self.available_fund
+        self.bank_balance = self.initial_bank_balance
+        self.portfolios = {}
         self.need_move_day_forward = False
-        if self.total_value_history_file:
-            self.total_value_history_file.close()
-
-        day = datetime.now()
-        date_prefix = day.strftime('%Y-%m-%d_%H-%M-%S.%f')
-        self.total_value_history_file = open(f'history_value_{date_prefix}.csv', 'w')
+        self._init_episode_storage()
 
         if not self.keep_same_start_date_when_reset:
             offset_days = self.np_random.randint(0, self.random_start_days)
@@ -196,6 +198,13 @@ class AsxGymEnv(Env):
                 self.viewer.imshow(img)
                 return self.viewer.is_open
 
+    def _init_episode_storage(self):
+        if self.total_value_history_file:
+            self.total_value_history_file.close()
+        day = datetime.now()
+        date_prefix = day.strftime('%Y-%m-%d_%H-%M-%S.%f')
+        self.total_value_history_file = open(f'history_value_{date_prefix}.csv', 'w')
+
     def _move_day_forward(self):
         self.step_day_count += 1
         self.step_minute_count = 0
@@ -210,8 +219,8 @@ class AsxGymEnv(Env):
                 "company_count": spaces.Discrete(self.max_company_number),
                 "company_id": spaces.MultiDiscrete([self.max_company_number]
                                                    * self.max_company_number),
-                "stock_operation": spaces.MultiDiscrete([3]
-                                                    * self.max_company_number),
+                "stock_operation": spaces.MultiDiscrete([5]
+                                                        * self.max_company_number),
                 "volume": spaces.Box(np.float32(0),
                                      high=np.float32(self.number_infinite),
                                      shape=(self.max_company_number,),
@@ -369,18 +378,22 @@ class AsxGymEnv(Env):
                 ask_price = self.daily_simulation_prices[company_id]['ask_price']
                 bid_price = self.daily_simulation_prices[company_id]['bid_price']
                 current_price = self.daily_simulation_prices[company_id]['price']
-                if stock_operation == 1 and price >= ask_price:  # buy
+                if stock_operation == BUY_STOCK and price >= ask_price:  # buy
                     fulfilled = self._buy_stock(company_id, ask_price, volume)
                     self.info["transactions"][company_id] = {'action': 'buy',
                                                              'price': bid_price,
                                                              'volume': volume,
                                                              'fulfilled': fulfilled}
-                elif stock_operation == 2 and price <= bid_price:  # sell
+                elif stock_operation == SELL_STOCK and price <= bid_price:  # sell
                     fulfilled = self._sell_stock(company_id, bid_price, volume)
                     self.info["transactions"][company_id] = {'action': 'sell',
                                                              'price': bid_price,
                                                              'volume': volume,
                                                              'fulfilled': fulfilled}
+                elif stock_operation == TOP_UP_FUND:
+                    pass
+                elif stock_operation == WITHDRAW_FUND:
+                    pass
                 else:
                     self.info["transactions"][company_id] = {'action': 'hold',
                                                              'price': current_price,
