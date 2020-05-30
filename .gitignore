@@ -106,11 +106,7 @@ env
 # Rope project settings
 .ropeproject
 
-media/actor_thumbnail
-media/video_thumbnail
-/applets.bak
-/applets/static
-/applets/static/applets/
+
 .idea
 **/db.sqlite3
 **/db.sqlite3.bak
@@ -120,3 +116,4 @@ data/daily_stock_price_history.csv
 
 temp_test.py
 scripts/data
+simulations/

@@ -17,6 +17,7 @@ from gym.utils.colorize import *
 
 from asx_gym.envs.asx_image_viewer import AsxImageViewer
 from asx_gym.envs.models import StockDailySimulationPrices, StockRecord
+from asx_gym.envs.utils import create_directory_if_not_exist
 
 date_fmt = '%Y-%m-%d'
 
@@ -203,7 +204,9 @@ class AsxGymEnv(Env):
             self.total_value_history_file.close()
         day = datetime.now()
         date_prefix = day.strftime('%Y-%m-%d_%H-%M-%S.%f')
-        self.total_value_history_file = open(f'history_value_{date_prefix}.csv', 'w')
+        directory_name = f'simulations/{date_prefix}/episode_{str(self.episode).zfill(4)}'
+        create_directory_if_not_exist(directory_name)
+        self.total_value_history_file = open(f'{directory_name}/history_values.csv', 'w')
 
     def _move_day_forward(self):
         self.step_day_count += 1
