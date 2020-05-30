@@ -59,9 +59,9 @@ class StockDailySimulationPrices(object):
 
 
 class AsxAction(object):
-    def __init__(self, company_id, buy_or_sell, volume, price, flag):
+    def __init__(self, company_id, stock_operation, volume, price, flag):
         self.company_id = company_id
-        self.buy_or_sell = buy_or_sell
+        self.stock_operation = stock_operation
         self.volume = volume
         self.price = price
         self.flag = flag

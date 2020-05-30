@@ -1,4 +1,5 @@
 import io
+from enum import Enum
 import pathlib
 import sqlite3
 from datetime import datetime, timedelta, date
@@ -18,6 +19,14 @@ from asx_gym.envs.asx_image_viewer import AsxImageViewer
 from asx_gym.envs.models import StockDailySimulationPrices, StockRecord
 
 date_fmt = '%Y-%m-%d'
+
+
+class StockOperation(Enum):
+    HOLD = 0
+    BUY = 1
+    SELL = 2
+    TOP_UP = 3
+    WITHDRAW = 4
 
 
 class AsxGymEnv(Env):
@@ -61,8 +70,10 @@ class AsxGymEnv(Env):
         self.initial_fund = kwargs.get('initial_fund', 100000)
         self.available_fund = self.initial_fund
         self.previous_total_fund = self.available_fund
-        self.expected_fund_increase_ratio = kwargs.get('expected_fund_increase_ratio', 2.00)
-        self.expected_fund_decrease_ratio = kwargs.get('expected_fund_decrease_ratio', 0.20)
+        self.bank_account = 0
+
+        self.expected_fund_increase_ratio = kwargs.get('expected_fund_increase_ratio', 2.50)
+        self.expected_fund_decrease_ratio = kwargs.get('expected_fund_decrease_ratio', 0.25)
         self.transaction_fee_list = kwargs.get('transaction_fee_list', None)
 
         # company index start from 1, 0 means empty slot
@@ -199,7 +210,7 @@ class AsxGymEnv(Env):
                 "company_count": spaces.Discrete(self.max_company_number),
                 "company_id": spaces.MultiDiscrete([self.max_company_number]
                                                    * self.max_company_number),
-                "buy_or_sell": spaces.MultiDiscrete([3]
+                "stock_operation": spaces.MultiDiscrete([3]
                                                     * self.max_company_number),
                 "volume": spaces.Box(np.float32(0),
                                      high=np.float32(self.number_infinite),
@@ -332,7 +343,7 @@ class AsxGymEnv(Env):
         company_count = action['company_count']
         end_batch = action['end_batch']
         for i in range(company_count):
-            buy_or_sell = action['buy_or_sell'][i]
+            stock_operation = action['stock_operation'][i]
             company_id = action['company_id'][i]
             price = float(action['price'][i])
             volume = float(action['volume'][i])
@@ -358,13 +369,13 @@ class AsxGymEnv(Env):
                 ask_price = self.daily_simulation_prices[company_id]['ask_price']
                 bid_price = self.daily_simulation_prices[company_id]['bid_price']
                 current_price = self.daily_simulation_prices[company_id]['price']
-                if buy_or_sell == 1 and price >= ask_price:  # buy
+                if stock_operation == 1 and price >= ask_price:  # buy
                     fulfilled = self._buy_stock(company_id, ask_price, volume)
                     self.info["transactions"][company_id] = {'action': 'buy',
                                                              'price': bid_price,
                                                              'volume': volume,
                                                              'fulfilled': fulfilled}
-                elif buy_or_sell == 2 and price <= bid_price:  # sell
+                elif stock_operation == 2 and price <= bid_price:  # sell
                     fulfilled = self._sell_stock(company_id, bid_price, volume)
                     self.info["transactions"][company_id] = {'action': 'sell',
                                                              'price': bid_price,
