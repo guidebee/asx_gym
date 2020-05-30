@@ -50,6 +50,7 @@ class AsxGymEnv(Env):
         self.user_set_start_date = kwargs.get('start_date', self.min_stock_date)
         if self.user_set_start_date < self.min_stock_date:
             self.user_set_start_date = self.min_stock_date
+        self.user_set_max_simulation_days = kwargs.get('max_days', -1)
         self.start_date = self.user_set_start_date
         self.display_days = kwargs.get('display_days', 20)
         self.keep_same_company_when_reset = kwargs.get('keep_same_company_when_reset', True)
@@ -60,8 +61,8 @@ class AsxGymEnv(Env):
         self.initial_fund = kwargs.get('initial_fund', 100000)
         self.available_fund = self.initial_fund
         self.previous_total_fund = self.available_fund
-        self.expected_fund_increase_ratio = kwargs.get('expected_fund_increase_ratio', 4.0)
-        self.expected_fund_decrease_ratio = kwargs.get('expected_fund_decrease_ratio', 0.2)
+        self.expected_fund_increase_ratio = kwargs.get('expected_fund_increase_ratio', 2.00)
+        self.expected_fund_decrease_ratio = kwargs.get('expected_fund_decrease_ratio', 0.20)
         self.transaction_fee_list = kwargs.get('transaction_fee_list', None)
 
         # company index start from 1, 0 means empty slot
@@ -72,6 +73,7 @@ class AsxGymEnv(Env):
         self.random_start_days = 100
         self.max_transaction_days = 0
         self.step_count = 0
+        self.global_step_count = 0
         self.need_move_day_forward = False
         self.portfolios = {}
         self.info = {}
@@ -98,7 +100,7 @@ class AsxGymEnv(Env):
         self._init_spaces()
 
         self.total_value_history_file = None
-        self.save_figure = False
+        self.save_figure = True
         self.episode = 0
 
         # loading data from database
@@ -125,7 +127,7 @@ class AsxGymEnv(Env):
         end_batch = self._apply_asx_action(action)
         reward = self._calculate_reward()
         self._draw_stock()
-
+        self.global_step_count += 1
         done = self._is_done()
         if done:
             if self.total_value_history_file:
@@ -335,7 +337,8 @@ class AsxGymEnv(Env):
             price = float(action['price'][i])
             volume = float(action['volume'][i])
 
-            if company_id in self.daily_simulation_data:
+            if (company_id in self.daily_simulation_data) and \
+                    (company_id in self.daily_simulation_prices):
                 company = self.company_df[self.company_df.id == company_id]
                 company_name = company.iloc[0, 1]
                 company_description = company.iloc[0, 2]
@@ -492,6 +495,9 @@ class AsxGymEnv(Env):
             self.user_set_start_date = self.min_stock_date + timedelta(days=-100)
             self.start_date = self.user_set_start_date
         self.max_transaction_days = (self.max_stock_date - self.min_stock_date).days
+        if self.user_set_max_simulation_days > 0:
+            self.max_transaction_days = min(self.max_transaction_days,
+                                            self.user_set_max_simulation_days)
         print(colorize(f"Stock date range from {self.min_stock_date} to {self.max_stock_date}", "blue"))
         print(colorize("reading asx index data", 'blue'))
         self.index_df = pd.read_sql_query(
@@ -632,7 +638,7 @@ class AsxGymEnv(Env):
         buf = io.BytesIO()
         fig.savefig(buf, format="png", dpi=dpi)
         if self.save_figure:
-            fig.savefig(f'images/fig_{self.step_count}.png', dpi=180)
+            fig.savefig(f'images/fig_{self.global_step_count}.png', dpi=180)
         buf.seek(0)
         img_arr = np.frombuffer(buf.getvalue(), dtype=np.uint8)
         buf.close()
