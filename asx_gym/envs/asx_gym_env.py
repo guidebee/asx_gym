@@ -98,6 +98,7 @@ class AsxGymEnv(Env):
         self.reward = 0
         self.observation = None
         self.total_value = 0
+        self.current_display_date_time = ''
 
         # some constants
         self.max_company_number = 3000
@@ -147,10 +148,10 @@ class AsxGymEnv(Env):
         assert self.action_space.contains(action), "%r (%s) invalid" % (action, type(action))
         end_batch = self._apply_asx_action(action)
         reward = self._calculate_reward()
-        self.global_step_count += 1
+
         self._draw_stock()
         self.save_episode_history_data()
-
+        self.global_step_count += 1
         done = self._is_done()
         if done:
             if self.total_value_history_file:
@@ -495,6 +496,7 @@ class AsxGymEnv(Env):
             asx_action = AsxAction.from_env_action(self.action)
             asx_observation = AsxObservation(self.observation)
             episode = {
+                'date_time': self.current_display_date_time,
                 'action': asx_action.to_json_obj(),
                 'observation': asx_observation.to_json_obj(),
                 'reward': round(self.reward, 2),
@@ -516,8 +518,9 @@ class AsxGymEnv(Env):
             minutes = total_minutes - hour * 60
             display_time = f'{hour + 10}:{str(minutes).zfill(2)}'
             total_fund = self.total_value
+            self.current_display_date_time = f'{display_date} {display_time}:00'
             if self.total_value_history_file:
-                self.total_value_history_file.write(f'{display_date} {display_time}:00,{total_fund}\n')
+                self.total_value_history_file.write(f'{self.current_display_date_time},{total_fund}\n')
 
             display_title = f'ASX Gym Env Episode:{self.episode} Step:{self.step_count}\n' \
                             f'{display_date} {display_time} Total Value:{total_fund}'
