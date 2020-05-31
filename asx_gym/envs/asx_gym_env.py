@@ -213,7 +213,7 @@ class AsxGymEnv(Env):
         if self.total_value_history_file:
             self.total_value_history_file.close()
         day = datetime.now()
-        date_prefix = day.strftime('%Y-%m-%d_%H-%M-%S.%f')
+        date_prefix = day.strftime('%Y-%m-%d_%H-%M-%S')
         self.directory_name = f'simulations/{date_prefix}/episode_{str(self.episode).zfill(4)}'
         create_directory_if_not_exist(self.directory_name)
         self.total_value_history_file = open(f'{self.directory_name}/history_values.csv', 'w')
@@ -463,7 +463,7 @@ class AsxGymEnv(Env):
             self.env_portfolios['volume'][count] = portfolio.volume
             self.env_portfolios['buy_price'][count] = portfolio.buy_price
             self.env_portfolios['sell_price'][count] = portfolio.sell_price
-            self.env_portfolios['price'][count] = portfolio.sell_price
+            self.env_portfolios['price'][count] = portfolio.price
             count += 1
         return self.env_portfolios
 
