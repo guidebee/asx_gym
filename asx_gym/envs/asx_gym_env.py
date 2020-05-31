@@ -410,10 +410,16 @@ class AsxGymEnv(Env):
 
         return end_batch
 
+    def _get_current_price_for_company(self, company_id, price):
+        if company_id in self.daily_simulation_prices:
+            return self.daily_simulation_prices[company_id]['price']
+        return price
+
     def _get_total_value(self):
         total_amount = self.available_fund
         for key, stock_record in self.portfolios.items():
-            total_amount += stock_record.volume * stock_record.price
+            current_price = self._get_current_price_for_company(key, stock_record.price)
+            total_amount += stock_record.volume * current_price
 
         return round(total_amount, 2)
 

@@ -65,6 +65,15 @@ class AsxTransaction:
         self.volume = volume
         self.price = price
 
+    def to_json_obj(self):
+        json_obj = {
+            'company_id': self.company_id,
+            'stock_operation': self.stock_operation,
+            'volume': self.volume,
+            'price': self.price
+        }
+        return json_obj
+
 
 class AsxAction:
     def __init__(self, end_batch):
@@ -86,9 +95,28 @@ class AsxAction:
             action['stock_operation'][c] = asx_transaction.stock_operation
         return action
 
+    def to_json_obj(self):
+        json_obj = {
+            'end_batch': self.end_batch,
+            'transactions': []
+        }
+        for transaction in self.transactions:
+            json_obj['transactions'].append(transaction.to_json_obj())
+        return json_obj
+
     @staticmethod
     def from_env_action(action):
-        pass
+        company_count = action['company_count']
+        end_batch = action['end_batch']
+        asx_action = AsxAction(end_batch)
+        for c in range(company_count):
+            company_id = action['company_id'][c]
+            volume = action['volume'][c]
+            price = action['price'][c]
+            stock_operation = action['stock_operation'][c]
+            asx_transaction = AsxTransaction(company_id, stock_operation, volume, price)
+            asx_action.add_transaction(asx_transaction)
+        return asx_action
 
 
 class StockIndex:
@@ -98,6 +126,17 @@ class StockIndex:
         self.close_index = close_index
         self.high_index = high_index
         self.low_index = low_index
+
+    def to_json_obj(self):
+        json_obj = {
+            'index_date': self.index_date,
+            'open_index': round(self.open_index, 2),
+            'close_index': round(self.close_index, 2),
+            'high_index': round(self.high_index, 2),
+            'low_index': round(self.low_index, 2)
+
+        }
+        return json_obj
 
 
 class StockPrice:
@@ -109,6 +148,17 @@ class StockPrice:
         self.close_price = close_price
         self.high_price = high_price
         self.low_price = low_price
+
+    def to_json_obj(self):
+        json_obj = {
+            'price_date': self.price_date,
+            'company_id': self.company_id,
+            'open_price': round(self.open_price, 2),
+            'close_price': round(self.close_price, 2),
+            'high_price': round(self.high_price, 2),
+            'low_price': round(self.low_price, 2)
+        }
+        return json_obj
 
 
 class StockRecord:
