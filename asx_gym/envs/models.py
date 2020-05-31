@@ -67,10 +67,10 @@ class AsxTransaction:
 
     def to_json_obj(self):
         json_obj = {
-            'company_id': self.company_id,
-            'stock_operation': self.stock_operation,
-            'volume': self.volume,
-            'price': self.price
+            'company_id': int(self.company_id),
+            'stock_operation': int(self.stock_operation),
+            'volume': round(float(self.volume), 2),
+            'price': round(float(self.price), 2)
         }
         return json_obj
 
@@ -97,7 +97,7 @@ class AsxAction:
 
     def to_json_obj(self):
         json_obj = {
-            'end_batch': self.end_batch,
+            'end_batch': int(self.end_batch),
             'transactions': []
         }
         for transaction in self.transactions:
@@ -152,7 +152,7 @@ class StockPrice:
     def to_json_obj(self):
         json_obj = {
             'price_date': self.price_date,
-            'company_id': self.company_id,
+            'company_id': int(self.company_id),
             'open_price': round(self.open_price, 2),
             'close_price': round(self.close_price, 2),
             'high_price': round(self.high_price, 2),
@@ -205,8 +205,8 @@ class AsxObservation:
             self.portfolios.append(stock_record)
 
     def to_json_obj(self):
-        json_obj = {"day": self.day,
-                    "seconds": self.seconds,
+        json_obj = {"day": int(self.day),
+                    "seconds": int(self.seconds),
                     "total_value": round(self.total_value, 2),
                     "available_fund": round(self.available_fund, 2),
                     "bank_balance": round(self.bank_balance, 2),

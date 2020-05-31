@@ -1,4 +1,5 @@
 import io
+import json
 from enum import Enum
 import pathlib
 import sqlite3
@@ -16,7 +17,7 @@ from gym.utils import seeding
 from gym.utils.colorize import *
 
 from asx_gym.envs.asx_image_viewer import AsxImageViewer
-from asx_gym.envs.models import StockDailySimulationPrices, StockRecord
+from asx_gym.envs.models import StockDailySimulationPrices, StockRecord, AsxAction, AsxObservation
 from asx_gym.envs.utils import create_directory_if_not_exist
 
 date_fmt = '%Y-%m-%d'
@@ -82,6 +83,7 @@ class AsxGymEnv(Env):
 
         self.total_value_history_file = None
         self.save_figure = True
+        self.save_episode_history = True
 
         # stock transaction and simulation data
         self.max_transaction_days = 0
@@ -91,6 +93,11 @@ class AsxGymEnv(Env):
         self.bank_balance = self.initial_bank_balance
         self.portfolios = {}
         self.info = {}
+        self.action = None
+        self.directory_name = None
+        self.reward = 0
+        self.observation = None
+        self.total_value = 0
 
         # some constants
         self.max_company_number = 3000
@@ -140,8 +147,10 @@ class AsxGymEnv(Env):
         assert self.action_space.contains(action), "%r (%s) invalid" % (action, type(action))
         end_batch = self._apply_asx_action(action)
         reward = self._calculate_reward()
-        self._draw_stock()
         self.global_step_count += 1
+        self._draw_stock()
+        self.save_episode_history_data()
+
         done = self._is_done()
         if done:
             if self.total_value_history_file:
@@ -204,9 +213,9 @@ class AsxGymEnv(Env):
             self.total_value_history_file.close()
         day = datetime.now()
         date_prefix = day.strftime('%Y-%m-%d_%H-%M-%S.%f')
-        directory_name = f'simulations/{date_prefix}/episode_{str(self.episode).zfill(4)}'
-        create_directory_if_not_exist(directory_name)
-        self.total_value_history_file = open(f'{directory_name}/history_values.csv', 'w')
+        self.directory_name = f'simulations/{date_prefix}/episode_{str(self.episode).zfill(4)}'
+        create_directory_if_not_exist(self.directory_name)
+        self.total_value_history_file = open(f'{self.directory_name}/history_values.csv', 'w')
 
     def _move_day_forward(self):
         self.step_day_count += 1
@@ -313,10 +322,11 @@ class AsxGymEnv(Env):
         fulfilled = False
         total_amount = round(volume * price, 3)
         if self.available_fund >= total_amount:
-            stock_record: StockRecord = self.portfolios.get(company_id, None)
+            key = str(company_id)
+            stock_record: StockRecord = self.portfolios.get(key, None)
             if stock_record is None:
                 stock_record = StockRecord(company_id, volume, price, 0, price)
-                self.portfolios[company_id] = stock_record
+                self.portfolios[key] = stock_record
             else:
                 stock_record.volume += volume
                 stock_record.buy_price = price
@@ -328,7 +338,8 @@ class AsxGymEnv(Env):
 
     def _sell_stock(self, company_id, price, volume):
         fulfilled = False
-        stock_record: StockRecord = self.portfolios.get(company_id, None)
+        key = str(company_id)
+        stock_record: StockRecord = self.portfolios.get(key, None)
         if stock_record is not None:
             if stock_record.volume >= volume:
                 total_amount = round(volume * price, 3)
@@ -343,7 +354,7 @@ class AsxGymEnv(Env):
     def _is_done(self):
         done = False
         today = self._get_current_display_date()
-        total_value = self._get_total_value()
+        total_value = self.total_value
         min_lost = round(self.initial_fund * self.expected_fund_decrease_ratio, 3)
         max_gain = round(self.initial_fund * self.expected_fund_increase_ratio, 3)
         if (today is None) or (self.step_day_count >= self.max_transaction_days - 1) \
@@ -358,6 +369,7 @@ class AsxGymEnv(Env):
         self.info["companies"] = {}
         company_count = action['company_count']
         end_batch = action['end_batch']
+        self.action = action
         for i in range(company_count):
             stock_operation = action['stock_operation'][i]
             company_id = action['company_id'][i]
@@ -369,8 +381,9 @@ class AsxGymEnv(Env):
                 company = self.company_df[self.company_df.id == company_id]
                 company_name = company.iloc[0, 1]
                 company_description = company.iloc[0, 2]
+                key = str(company_id)
 
-                self.info["companies"][company_id] = {
+                self.info["companies"][key] = {
                     'name': company_name,
                     'description': company_description
                 }
@@ -380,33 +393,33 @@ class AsxGymEnv(Env):
                     sector = self.sector_df[self.sector_df.id == sector_id]
                     if len(sector) > 0:
                         sector_name = sector.iloc[0, 2]
-                        self.info["companies"][company_id]['sector'] = sector_name
+                        self.info["companies"][key]['sector'] = sector_name
 
                 ask_price = self.daily_simulation_prices[company_id]['ask_price']
                 bid_price = self.daily_simulation_prices[company_id]['bid_price']
                 current_price = self.daily_simulation_prices[company_id]['price']
                 if stock_operation == BUY_STOCK and price >= ask_price:  # buy
                     fulfilled = self._buy_stock(company_id, ask_price, volume)
-                    self.info["transactions"][company_id] = {'action': 'buy',
-                                                             'price': bid_price,
-                                                             'volume': volume,
-                                                             'fulfilled': fulfilled}
+                    self.info["transactions"][key] = {'action': 'buy',
+                                                      'price': bid_price,
+                                                      'volume': volume,
+                                                      'fulfilled': fulfilled}
                 elif stock_operation == SELL_STOCK and price <= bid_price:  # sell
                     fulfilled = self._sell_stock(company_id, bid_price, volume)
-                    self.info["transactions"][company_id] = {'action': 'sell',
-                                                             'price': bid_price,
-                                                             'volume': volume,
-                                                             'fulfilled': fulfilled}
+                    self.info["transactions"][key] = {'action': 'sell',
+                                                      'price': bid_price,
+                                                      'volume': volume,
+                                                      'fulfilled': fulfilled}
                 elif stock_operation == TOP_UP_FUND:
                     pass
                 elif stock_operation == WITHDRAW_FUND:
                     pass
                 else:
-                    self.info["transactions"][company_id] = {'action': 'hold',
-                                                             'price': current_price,
-                                                             'volume': -1,
-                                                             'fulfilled': fulfilled
-                                                             }
+                    self.info["transactions"][key] = {'action': 'hold',
+                                                      'price': current_price,
+                                                      'volume': -1,
+                                                      'fulfilled': fulfilled
+                                                      }
 
         return end_batch
 
@@ -476,6 +489,21 @@ class AsxGymEnv(Env):
         self.start_date = datetime.strptime(new_start_date, f'{date_fmt} %H:%M:%S').date()
         self.min_stock_seq = init_seq.Seq[0]
 
+    def save_episode_history_data(self):
+        if self.save_episode_history and self.directory_name and self.action and self.observation:
+            episode_history_file = open(f'{self.directory_name}/step_{str(self.step_count).zfill(6)}.json', 'w')
+            asx_action = AsxAction.from_env_action(self.action)
+            asx_observation = AsxObservation(self.observation)
+            episode = {
+                'action': asx_action.to_json_obj(),
+                'observation': asx_observation.to_json_obj(),
+                'reward': round(self.reward, 2),
+                'info': self.info,
+                'total_value': self.total_value
+            }
+            json.dump(episode, episode_history_file, indent=2)
+            # print(episode)
+
     def _draw_stock(self):
         display_date = self._get_current_display_date()
         if display_date:
@@ -487,7 +515,7 @@ class AsxGymEnv(Env):
             hour = total_minutes // 60
             minutes = total_minutes - hour * 60
             display_time = f'{hour + 10}:{str(minutes).zfill(2)}'
-            total_fund = self._get_total_value()
+            total_fund = self.total_value
             if self.total_value_history_file:
                 self.total_value_history_file.write(f'{display_date} {display_time}:00,{total_fund}\n')
 
@@ -510,6 +538,7 @@ class AsxGymEnv(Env):
 
     def _calculate_reward(self):
         total_fund = self._get_total_value()
+        self.total_value = total_fund
         self.index_df.loc[
             self.index_df.Seq == self.min_stock_seq + self.step_day_count, "Volume"] = round(total_fund, 1)
         diff = total_fund - self.previous_total_fund
@@ -517,6 +546,7 @@ class AsxGymEnv(Env):
             self.index_df.Seq == self.min_stock_seq + self.step_day_count, "Change"] = round(
             total_fund - self.initial_fund, 1)
         self.previous_total_fund = total_fund
+        self.reward = diff
         return diff
 
     def _load_stock_data(self):
@@ -591,7 +621,7 @@ class AsxGymEnv(Env):
         stock_index = self.index_df.iloc[
                       self.min_stock_seq + self.step_day_count
                       :self.min_stock_seq + self.step_day_count + 1]
-        total_value = self._get_total_value()
+        total_value = self.total_value
 
         obs = {
             "bank_balance": np.array(self.bank_balance),
@@ -611,6 +641,7 @@ class AsxGymEnv(Env):
             "portfolios": self._get_asx_portfolios()
 
         }
+        self.observation = obs
         return obs
 
     def _generate_daily_simulation_price_for_company(self, company_id, open_price, close_price, high_price, low_price):
