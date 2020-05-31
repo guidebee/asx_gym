@@ -76,8 +76,8 @@ class AsxGymEnv(Env):
         self.initial_fund = kwargs.get('initial_fund', 100000)
         self.initial_bank_balance = kwargs.get('initial_bank_balance', 0)
 
-        self.expected_fund_increase_ratio = kwargs.get('expected_fund_increase_ratio', 2.50)
-        self.expected_fund_decrease_ratio = kwargs.get('expected_fund_decrease_ratio', 0.25)
+        self.expected_fund_increase_ratio = kwargs.get('expected_fund_increase_ratio', 2.00)
+        self.expected_fund_decrease_ratio = kwargs.get('expected_fund_decrease_ratio', 0.20)
         self.transaction_fee_list = kwargs.get('transaction_fee_list', None)
 
         self.total_value_history_file = None

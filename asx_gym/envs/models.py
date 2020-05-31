@@ -86,6 +86,10 @@ class AsxAction:
             action['stock_operation'][c] = asx_transaction.stock_operation
         return action
 
+    @staticmethod
+    def from_env_action(action):
+        pass
+
 
 class StockIndex:
     def __init__(self, index_date, open_index, close_index, high_index, low_index):
