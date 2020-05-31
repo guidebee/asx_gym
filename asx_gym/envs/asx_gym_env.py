@@ -93,6 +93,60 @@ class AsxGymEnv(Env):
         self.bank_balance = self.initial_bank_balance
         self.portfolios = {}
         self.info = {}
+        self.summaries = {
+            "episode": 0,
+            "steps": 0,
+
+            "state_date": "2020-01-01",
+            "end_date": "2020-01-01",
+            "indexes": {
+                "open": {
+                    "date": "2020-01-01",
+                    "index": 0,
+                },
+                "close": {
+                    "date": "2020-01-01",
+                    "index": 0,
+                },
+                "high": {
+                    "date": "2020-01-01",
+                    "index": 0,
+                },
+                "low": {
+                    "date": "2020-01-01",
+                    "index": 0,
+                }
+            },
+            "values": {
+                "open": {
+                    "date": "2020-01-01",
+                    "value": 0,
+                },
+                "close": {
+                    "date": "2020-01-01",
+                    "value": 0,
+                },
+                "high": {
+                    "date": "2020-01-01",
+                    "value": 0,
+                },
+                "low": {
+                    "date": "2020-01-01",
+                    "value": 0,
+                }
+            },
+            "transactions": {
+                "buy": {
+                    "total": 0,
+                    "fulfilled": 0,
+                },
+                "sell": {
+                    "total": 0,
+                    "fulfilled": 0,
+                },
+            }
+
+        }
         self.action = None
         self.directory_name = None
         self.reward = 0
