@@ -207,6 +207,7 @@ class AsxGymEnv(Env):
         self.save_episode_history_data()
         self.global_step_count += 1
         done = self._is_done()
+
         if done:
             if self.total_value_history_file:
                 self.total_value_history_file.close()
@@ -616,7 +617,7 @@ class AsxGymEnv(Env):
         updated_date = updated_date[0]
         self.max_stock_date = datetime.strptime(updated_date, date_fmt).date()
         if self.user_set_start_date > self.max_stock_date + timedelta(days=-100):
-            self.user_set_start_date = self.min_stock_date + timedelta(days=-100)
+            self.user_set_start_date = self.max_stock_date + timedelta(days=-100)
             self.start_date = self.user_set_start_date
         self.max_transaction_days = (self.max_stock_date - self.min_stock_date).days
         if self.user_set_max_simulation_days > 0:
