@@ -84,7 +84,7 @@ class AsxGymEnv(Env):
 
         self.total_value_history_file = None
         self.save_figure = True
-        self.save_episode_history = True
+        self.save_episode_history = False
 
         # stock transaction and simulation data
         self.max_transaction_days = 0
