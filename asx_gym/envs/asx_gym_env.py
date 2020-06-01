@@ -1,5 +1,6 @@
 import io
 import json
+import math
 from enum import Enum
 import pathlib
 import sqlite3
@@ -376,6 +377,11 @@ class AsxGymEnv(Env):
 
     def _buy_stock(self, company_id, price, volume):
         fulfilled = False
+        if (volume < 1e-5) and (price > 1e-5):  # buy all available fund
+            volume = round(self.available_fund / price, 0)
+            if self.available_fund < volume * price:
+                volume -= 1
+
         total_amount = round(volume * price, 3)
         if self.available_fund >= total_amount:
             key = str(company_id)
@@ -431,14 +437,13 @@ class AsxGymEnv(Env):
             company_id = action['company_id'][i]
             price = float(action['price'][i])
             volume = float(action['volume'][i])
+            key = str(company_id)
 
-            if (company_id in self.daily_simulation_data) and \
-                    (company_id in self.daily_simulation_prices):
+            if (key in self.daily_simulation_data) and \
+                    (key in self.daily_simulation_prices):
                 company = self.company_df[self.company_df.id == company_id]
                 company_name = company.iloc[0, 1]
                 company_description = company.iloc[0, 2]
-                key = str(company_id)
-
                 self.info["companies"][key] = {
                     'name': company_name,
                     'description': company_description
@@ -451,9 +456,9 @@ class AsxGymEnv(Env):
                         sector_name = sector.iloc[0, 2]
                         self.info["companies"][key]['sector'] = sector_name
 
-                ask_price = self.daily_simulation_prices[company_id]['ask_price']
-                bid_price = self.daily_simulation_prices[company_id]['bid_price']
-                current_price = self.daily_simulation_prices[company_id]['price']
+                ask_price = self.daily_simulation_prices[key]['ask_price']
+                bid_price = self.daily_simulation_prices[key]['bid_price']
+                current_price = self.daily_simulation_prices[key]['price']
                 if stock_operation == BUY_STOCK and price >= ask_price:  # buy
                     fulfilled = self._buy_stock(company_id, ask_price, volume)
                     self.info["transactions"][key] = {'action': 'buy',
@@ -480,8 +485,9 @@ class AsxGymEnv(Env):
         return end_batch
 
     def _get_current_price_for_company(self, company_id, price):
-        if company_id in self.daily_simulation_prices:
-            return self.daily_simulation_prices[company_id]['price']
+        key = str(company_id)
+        if key in self.daily_simulation_prices:
+            return self.daily_simulation_prices[key]['price']
         return price
 
     def _get_total_value(self):
@@ -501,7 +507,7 @@ class AsxGymEnv(Env):
             self.env_prices['bid_price'][count] = prices.bid_price
             self.env_prices['price'][count] = prices.price
 
-            self.daily_simulation_prices[simulations.company_id] = {
+            self.daily_simulation_prices[str(simulations.company_id)] = {
                 'ask_price': prices.ask_price,
                 'bid_price': prices.bid_price,
                 'price': prices.price,
@@ -756,7 +762,7 @@ class AsxGymEnv(Env):
                 simulations = self._generate_daily_simulation_price_for_company(company_id, open_price, close_price,
                                                                                 high_price, low_price)
                 if simulations:
-                    self.daily_simulation_data[simulations.company_id] = simulations
+                    self.daily_simulation_data[str(simulations.company_id)] = simulations
         logger.info(
             f'Generated simulation data on {colorize(current_date, "green")} '
             f'for {colorize(len(self.daily_simulation_data), "red")} companies')
