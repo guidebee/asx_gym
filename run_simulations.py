@@ -5,7 +5,7 @@ import gym
 import asx_gym
 # from agents.buy_and_keep_agent import BuyAndKeepAgent
 from agents.random_agent import RandomAgent
-from asx_gym.envs.models import AsxObservation
+from asx_gym.envs import AsxObservation
 
 gym.logger.set_level(INFO)
 start_date = date(2010, 6, 15)

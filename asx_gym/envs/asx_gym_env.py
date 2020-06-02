@@ -1,11 +1,10 @@
 import io
 import json
-import math
-from enum import Enum
 import pathlib
-import sqlite3
-from datetime import datetime, timedelta, date
 import random
+import sqlite3
+from datetime import datetime, timedelta
+
 import cv2
 import matplotlib.pyplot as plt
 import mplfinance as mpf
@@ -18,17 +17,11 @@ from gym.utils import seeding
 from gym.utils.colorize import *
 
 from .asx_image_viewer import AsxImageViewer
+from .constants import TOP_UP_FUND, WITHDRAW_FUND, \
+    BUY_STOCK, SELL_STOCK, \
+    MIN_STOCK_DATE, date_fmt
 from .models import StockDailySimulationPrices, StockRecord, AsxAction, AsxObservation
 from .utils import create_directory_if_not_exist
-
-date_fmt = '%Y-%m-%d'
-
-HOLD_STOCK = 0
-BUY_STOCK = 1
-SELL_STOCK = 2
-TOP_UP_FUND = 3
-WITHDRAW_FUND = 4
-MIN_STOCK_DATE = date(2010, 10, 10)
 
 
 class AsxGymEnv(Env):
@@ -84,7 +77,7 @@ class AsxGymEnv(Env):
 
         self.total_value_history_file = None
         self.save_figure = True
-        self.save_episode_history = True
+        self.save_episode_history = False
 
         # stock transaction and simulation data
         self.max_transaction_days = 0

@@ -1,10 +1,8 @@
 import random
 
-HOLD_STOCK = 0
-BUY_STOCK = 1
-SELL_STOCK = 2
-TOP_UP_FUND = 3
-WITHDRAW_FUND = 4
+from .constants import TOP_UP_FUND, WITHDRAW_FUND, \
+    BUY_STOCK, SELL_STOCK, \
+    HOLD_STOCK
 
 
 class TransactionFee:
