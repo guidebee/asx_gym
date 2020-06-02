@@ -80,6 +80,9 @@ env.close()
 
 ![asx gym rendering](https://github.com/guidebee/asx_gym/blob/master/docs/asx_gym_render.png "ASX GYM Rendering")
 
+## Support us at Patreon
+[https://www.patreon.com/asx_gym](https://www.patreon.com/asx_gym)
+
 ## ASX Listed Companies
 
 ```text
