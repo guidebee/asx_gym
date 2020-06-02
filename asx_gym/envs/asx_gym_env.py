@@ -20,7 +20,8 @@ from .asx_image_viewer import AsxImageViewer
 from .constants import TOP_UP_FUND, WITHDRAW_FUND, \
     BUY_STOCK, SELL_STOCK, \
     MIN_STOCK_DATE, date_fmt
-from .models import StockDailySimulationPrices, StockRecord, AsxAction, AsxObservation
+from .models import StockDailySimulationPrices, StockRecord, \
+    AsxAction, AsxObservation
 from .utils import create_directory_if_not_exist
 
 
@@ -177,6 +178,8 @@ class AsxGymEnv(Env):
         # loading data from database
         self._load_stock_data()
         self.seed()
+        if self.save_figure:
+            create_directory_if_not_exist('images')
 
     def history_indexes(self, days=-1):
         pass

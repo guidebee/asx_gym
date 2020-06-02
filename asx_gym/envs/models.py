@@ -80,6 +80,8 @@ class AsxTransaction:
             stock_operation = 'top_up'
         elif self.stock_operation == WITHDRAW_FUND:
             stock_operation = 'withdraw'
+        else:
+            stock_operation = 'unknown'
         json_obj = {
             'company_id': int(self.company_id),
             'stock_operation': stock_operation,
