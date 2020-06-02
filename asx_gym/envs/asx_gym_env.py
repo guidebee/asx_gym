@@ -92,7 +92,7 @@ class AsxGymEnv(Env):
         self.summaries = {
             "episode": 0,
             "steps": 0,
-
+            "available_fund": 0,
             "state_date": "2020-01-01",
             "end_date": "2020-01-01",
             "indexes": {
@@ -180,6 +180,10 @@ class AsxGymEnv(Env):
         self.seed()
         if self.save_figure:
             create_directory_if_not_exist('images')
+        day = datetime.now()
+        self.date_prefix = f"simulations/{day.strftime('%Y-%m-%d_%H-%M-%S')}"
+
+        self.directory_name = f'{self.date_prefix}/episode_{str(self.episode).zfill(4)}'
 
     def history_indexes(self, days=-1):
         pass
@@ -313,9 +317,7 @@ class AsxGymEnv(Env):
     def _init_episode_storage(self):
         if self.total_value_history_file:
             self.total_value_history_file.close()
-        day = datetime.now()
-        date_prefix = day.strftime('%Y-%m-%d_%H-%M-%S')
-        self.directory_name = f'simulations/{date_prefix}/episode_{str(self.episode).zfill(4)}'
+        self.directory_name = f'{self.date_prefix}/episode_{str(self.episode).zfill(4)}'
         create_directory_if_not_exist(self.directory_name)
         self.total_value_history_file = open(f'{self.directory_name}/history_values.csv', 'w')
 
@@ -552,6 +554,7 @@ class AsxGymEnv(Env):
             current_price = self._get_current_price_for_company(key, stock_record.price)
             total_amount += stock_record.volume * current_price
 
+        self.summaries['available_fund'] = self.available_fund
         return round(total_amount, 2)
 
     def _get_asx_prices(self):
@@ -672,6 +675,7 @@ class AsxGymEnv(Env):
         self.reward = diff
 
         # update summary
+
         high_value = self.summaries['values']['high']['value']
         low_value = self.summaries['values']['low']['value']
         display_date = self.display_date
