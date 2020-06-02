@@ -59,13 +59,12 @@ class AsxGymEnv(Env):
 
         self.transaction_start_time = 10 * 4  # 10:00
         self.transaction_end_time = 16 * 4  # 16:00
-        self.min_stock_date = date(2011, 1, 10)
+        self.min_stock_date = date(2010, 10, 10)
         self.min_stock_seq = 0
 
         # default values and configurations
         self.user_set_start_date = kwargs.get('start_date', self.min_stock_date)
-        if self.user_set_start_date < self.min_stock_date:
-            self.user_set_start_date = self.min_stock_date
+
         self.user_set_max_simulation_days = kwargs.get('max_days', -1)
         self.start_date = self.user_set_start_date
         self.display_days = kwargs.get('display_days', 20)
@@ -621,6 +620,12 @@ class AsxGymEnv(Env):
         cur.execute("SELECT min(updated_date) as updated_date from stock_dataupdatehistory")
         updated_date = cur.fetchone()
         updated_date = updated_date[0]
+        cur.execute("SELECT min(index_date) FROM stock_asxindexdailyhistory")
+        min_date = cur.fetchone()
+        self.min_stock_date = datetime.strptime(min_date[0], date_fmt).date()
+        if self.user_set_start_date < self.min_stock_date:
+            self.user_set_start_date = self.min_stock_date
+
         self.max_stock_date = datetime.strptime(updated_date, date_fmt).date()
         if self.user_set_start_date > self.max_stock_date + timedelta(days=-100):
             self.user_set_start_date = self.max_stock_date + timedelta(days=-100)
