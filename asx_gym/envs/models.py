@@ -1,5 +1,11 @@
 import random
 
+HOLD_STOCK = 0
+BUY_STOCK = 1
+SELL_STOCK = 2
+TOP_UP_FUND = 3
+WITHDRAW_FUND = 4
+
 
 class TransactionFee:
     def __init__(self, amount, fee, is_percentage=False):
@@ -66,9 +72,19 @@ class AsxTransaction:
         self.price = price
 
     def to_json_obj(self):
+        if self.stock_operation == BUY_STOCK:
+            stock_operation = 'buy'
+        elif self.stock_operation == SELL_STOCK:
+            stock_operation = 'sell'
+        elif self.stock_operation == HOLD_STOCK:
+            stock_operation = 'hold'
+        elif self.stock_operation == TOP_UP_FUND:
+            stock_operation = 'top_up'
+        elif self.stock_operation == WITHDRAW_FUND:
+            stock_operation = 'withdraw'
         json_obj = {
             'company_id': int(self.company_id),
-            'stock_operation': int(self.stock_operation),
+            'stock_operation': stock_operation,
             'volume': round(float(self.volume), 2),
             'price': round(float(self.price), 2)
         }

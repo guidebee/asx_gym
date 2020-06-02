@@ -3,12 +3,12 @@ from logging import INFO
 
 import gym
 import asx_gym
-from agents.buy_and_keep_agent import BuyAndKeepAgent
+# from agents.buy_and_keep_agent import BuyAndKeepAgent
 from agents.random_agent import RandomAgent
 from asx_gym.envs.models import AsxObservation
 
 gym.logger.set_level(INFO)
-start_date = date(2010, 5, 15)
+start_date = date(2010, 6, 15)
 simulate_company_list = [2, 3, 4, 5, 6, 44, 300, 67, 100, 200]
 # simulate_company_list = [3]
 env = gym.make("AsxGym-v0", start_date=start_date,

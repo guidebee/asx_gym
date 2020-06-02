@@ -17,9 +17,9 @@ from gym import spaces, logger
 from gym.utils import seeding
 from gym.utils.colorize import *
 
-from asx_gym.envs.asx_image_viewer import AsxImageViewer
-from asx_gym.envs.models import StockDailySimulationPrices, StockRecord, AsxAction, AsxObservation
-from asx_gym.envs.utils import create_directory_if_not_exist
+from .asx_image_viewer import AsxImageViewer
+from .models import StockDailySimulationPrices, StockRecord, AsxAction, AsxObservation
+from .utils import create_directory_if_not_exist
 
 date_fmt = '%Y-%m-%d'
 
@@ -28,6 +28,7 @@ BUY_STOCK = 1
 SELL_STOCK = 2
 TOP_UP_FUND = 3
 WITHDRAW_FUND = 4
+MIN_STOCK_DATE = date(2010, 10, 10)
 
 
 class AsxGymEnv(Env):
@@ -59,7 +60,7 @@ class AsxGymEnv(Env):
 
         self.transaction_start_time = 10 * 4  # 10:00
         self.transaction_end_time = 16 * 4  # 16:00
-        self.min_stock_date = date(2010, 10, 10)
+        self.min_stock_date = MIN_STOCK_DATE
         self.min_stock_seq = 0
 
         # default values and configurations
@@ -83,11 +84,12 @@ class AsxGymEnv(Env):
 
         self.total_value_history_file = None
         self.save_figure = True
-        self.save_episode_history = False
+        self.save_episode_history = True
 
         # stock transaction and simulation data
         self.max_transaction_days = 0
         self.need_move_day_forward = False
+        self.display_date = ''
         self.available_fund = self.initial_fund
         self.previous_total_fund = self.available_fund
         self.bank_balance = self.initial_bank_balance
@@ -114,7 +116,7 @@ class AsxGymEnv(Env):
                 },
                 "low": {
                     "date": "2020-01-01",
-                    "index": 0,
+                    "index": 100000000,
                 }
             },
             "values": {
@@ -132,7 +134,7 @@ class AsxGymEnv(Env):
                 },
                 "low": {
                     "date": "2020-01-01",
-                    "value": 0,
+                    "value": 100000000,
                 }
             },
             "transactions": {
@@ -197,14 +199,16 @@ class AsxGymEnv(Env):
         self._close_fig()
         self.ax.clear()
         self.info = {}
+        display_date = self._get_current_display_date()
         if self.need_move_day_forward:
             self._move_day_forward()
         assert self.action_space.contains(action), "%r (%s) invalid" % (action, type(action))
         end_batch = self._apply_asx_action(action)
         reward = self._calculate_reward()
 
-        self._draw_stock()
         self.save_episode_history_data()
+        self._draw_stock()
+
         self.global_step_count += 1
         done = self._is_done()
 
@@ -218,6 +222,23 @@ class AsxGymEnv(Env):
             self.step_minute_count += 1
             self.step_count += 1
             self.need_move_day_forward = self.step_minute_count > 24 or end_batch
+
+            # update summary
+            self.summaries['steps'] = self.step_count
+
+            self.summaries['end_date'] = display_date
+            self.summaries['indexes']['close']['index'] = obs['indexes']['close'].item()
+            self.summaries['indexes']['close']['date'] = display_date
+            high_index = obs['indexes']['high'].item()
+            if self.summaries['indexes']['high']['index'] < high_index:
+                self.summaries['indexes']['high']['index'] = high_index
+                self.summaries['indexes']['high']['date'] = display_date
+
+            low_index = obs['indexes']['low'].item()
+            if self.summaries['indexes']['low']['index'] > low_index:
+                self.summaries['indexes']['low']['index'] = low_index
+                self.summaries['indexes']['low']['date'] = display_date
+
             return obs, reward, False, self.info
 
     def reset(self):
@@ -251,7 +272,36 @@ class AsxGymEnv(Env):
 
         self._generate_daily_simulation_price_for_companies(current_date=display_date)
         self._draw_stock()
-        return self._get_current_obs()
+
+        obs = self._get_current_obs()
+        # update summary
+        self.summaries['episode'] = self.episode
+        self.summaries['steps'] = self.step_count
+        self.summaries['state_date'] = display_date
+        self.summaries['end_date'] = display_date
+        self.summaries['indexes']['open']['index'] = obs['indexes']['open'].item()
+        self.summaries['indexes']['open']['date'] = display_date
+        self.summaries['indexes']['close']['index'] = obs['indexes']['close'].item()
+        self.summaries['indexes']['close']['date'] = display_date
+        self.summaries['indexes']['high']['index'] = obs['indexes']['high'].item()
+        self.summaries['indexes']['high']['date'] = display_date
+        self.summaries['indexes']['low']['index'] = obs['indexes']['low'].item()
+        self.summaries['indexes']['low']['date'] = display_date
+        self.summaries['values']['open']['value'] = self.available_fund
+        self.summaries['values']['open']['date'] = display_date
+        self.summaries['values']['close']['value'] = self.available_fund
+        self.summaries['values']['close']['date'] = display_date
+        self.summaries['values']['high']['value'] = self.available_fund
+        self.summaries['values']['high']['date'] = display_date
+        self.summaries['values']['low']['value'] = self.available_fund
+        self.summaries['values']['low']['date'] = display_date
+
+        self.summaries['transactions']['buy']['total'] = 0
+        self.summaries['transactions']['buy']['fulfilled'] = 0
+        self.summaries['transactions']['sell']['total'] = 0
+        self.summaries['transactions']['buy']['fulfilled'] = 0
+
+        return obs
 
     def render(self, mode='human'):
         if mode == 'ansi':
@@ -276,7 +326,7 @@ class AsxGymEnv(Env):
     def _move_day_forward(self):
         self.step_day_count += 1
         self.step_minute_count = 0
-        display_date = self._get_current_display_date()
+        display_date = self.display_date
         if display_date:
             self._generate_daily_simulation_price_for_companies(current_date=display_date)
         self.need_move_day_forward = False
@@ -395,6 +445,10 @@ class AsxGymEnv(Env):
             self.available_fund -= total_amount
             fulfilled = True
 
+        # update summary
+        self.summaries['transactions']['buy']['total'] += 1
+        if fulfilled:
+            self.summaries['transactions']['buy']['fulfilled'] += 1
         return fulfilled
 
     def _sell_stock(self, company_id, price, volume):
@@ -410,11 +464,15 @@ class AsxGymEnv(Env):
                 self.available_fund += total_amount
                 fulfilled = True
 
+        # update summary
+        self.summaries['transactions']['sell']['total'] += 1
+        if fulfilled:
+            self.summaries['transactions']['sell']['fulfilled'] += 1
         return fulfilled
 
     def _is_done(self):
         done = False
-        today = self._get_current_display_date()
+        today = self.display_date
         total_value = self.total_value
         min_lost = round(self.initial_fund * self.expected_fund_decrease_ratio, 3)
         max_gain = round(self.initial_fund * self.expected_fund_increase_ratio, 3)
@@ -532,8 +590,10 @@ class AsxGymEnv(Env):
                                        :self.min_stock_seq
                                         + self.step_day_count + 1].index
         if not asx_index.empty:
-            return asx_index.astype(str)[0]
-        return None
+            self.display_date = asx_index.astype(str)[0]
+        else:
+            self.display_date = None
+        return self.display_date
 
     def _close_fig(self):
         # try to close exist fig if possible
@@ -561,13 +621,14 @@ class AsxGymEnv(Env):
                 'observation': asx_observation.to_json_obj(),
                 'reward': round(self.reward, 2),
                 'info': self.info,
-                'total_value': self.total_value
+                'total_value': self.total_value,
+                'summaries': self.summaries
             }
             json.dump(episode, episode_history_file, indent=2)
             # print(episode)
 
     def _draw_stock(self):
-        display_date = self._get_current_display_date()
+        display_date = self.display_date
         if display_date:
             stock_index = self.index_df.iloc[
                           self.min_stock_seq + self.step_day_count
@@ -610,6 +671,21 @@ class AsxGymEnv(Env):
             total_fund - self.initial_fund, 1)
         self.previous_total_fund = total_fund
         self.reward = diff
+
+        # update summary
+        high_value = self.summaries['values']['high']['value']
+        low_value = self.summaries['values']['low']['value']
+        display_date = self.display_date
+        if high_value < self.total_value:
+            self.summaries['values']['high']['value'] = total_fund
+            self.summaries['values']['high']['date'] = display_date
+        if low_value > self.total_value:
+            self.summaries['values']['low']['value'] = total_fund
+            self.summaries['values']['low']['date'] = display_date
+
+        self.summaries['values']['close']['value'] = total_fund
+        self.summaries['values']['close']['date'] = display_date
+
         return diff
 
     def _load_stock_data(self):
@@ -623,6 +699,8 @@ class AsxGymEnv(Env):
         cur.execute("SELECT min(index_date) FROM stock_asxindexdailyhistory")
         min_date = cur.fetchone()
         self.min_stock_date = datetime.strptime(min_date[0], date_fmt).date()
+        if self.min_stock_date < MIN_STOCK_DATE:
+            self.min_stock_date = MIN_STOCK_DATE
         if self.user_set_start_date < self.min_stock_date:
             self.user_set_start_date = self.min_stock_date
 
@@ -711,6 +789,9 @@ class AsxGymEnv(Env):
 
         }
         self.observation = obs
+
+        # update summary
+
         return obs
 
     def _generate_daily_simulation_price_for_company(self, company_id, open_price, close_price, high_price, low_price):
