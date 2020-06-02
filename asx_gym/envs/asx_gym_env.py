@@ -472,7 +472,10 @@ class AsxGymEnv(Env):
         total_value = self.total_value
         min_lost = round(self.initial_fund * self.expected_fund_decrease_ratio, 3)
         max_gain = round(self.initial_fund * self.expected_fund_increase_ratio, 3)
-        if (today is None) or (self.step_day_count >= self.max_transaction_days - 1) \
+        stock_index = self.index_df.iloc[
+                      self.min_stock_seq + self.step_day_count
+                      :self.min_stock_seq + self.step_day_count + 1]
+        if (today is None) or stock_index.empty or (self.step_day_count >= self.max_transaction_days - 1) \
                 or (total_value < min_lost) or (total_value > max_gain):
             done = True
 
@@ -704,7 +707,7 @@ class AsxGymEnv(Env):
         if self.user_set_start_date > self.max_stock_date + timedelta(days=-100):
             self.user_set_start_date = self.max_stock_date + timedelta(days=-100)
             self.start_date = self.user_set_start_date
-        self.max_transaction_days = (self.max_stock_date - self.min_stock_date).days
+        self.max_transaction_days = (self.max_stock_date - self.start_date).days
         if self.user_set_max_simulation_days > 0:
             self.max_transaction_days = min(self.max_transaction_days,
                                             self.user_set_max_simulation_days)
@@ -785,9 +788,6 @@ class AsxGymEnv(Env):
 
         }
         self.observation = obs
-
-        # update summary
-
         return obs
 
     def _generate_daily_simulation_price_for_company(self, company_id, open_price, close_price, high_price, low_price):
