@@ -206,7 +206,7 @@ class AsxGymEnv(Env):
         end_batch = self._apply_asx_action(action)
         reward = self._calculate_reward()
 
-        self.save_episode_history_data()
+        self._save_episode_history_data()
         self._draw_stock()
 
         self.global_step_count += 1
@@ -251,6 +251,7 @@ class AsxGymEnv(Env):
         self.available_fund = self.initial_fund
         self.previous_total_fund = self.available_fund
         self.bank_balance = self.initial_bank_balance
+        self.total_value = round(self.available_fund, 2)
         self.portfolios = {}
         self.need_move_day_forward = False
         self._init_episode_storage()
@@ -299,9 +300,15 @@ class AsxGymEnv(Env):
         self.summaries['transactions']['buy']['total'] = 0
         self.summaries['transactions']['buy']['fulfilled'] = 0
         self.summaries['transactions']['sell']['total'] = 0
-        self.summaries['transactions']['buy']['fulfilled'] = 0
+        self.summaries['transactions']['sell']['fulfilled'] = 0
 
         return obs
+
+    def insert_summary_images(self, repeats=5):
+        for _ in range(repeats):
+            self._draw_summary()
+            self.render()
+            self.global_step_count += 1
 
     def render(self, mode='human'):
         if mode == 'ansi':
@@ -554,7 +561,7 @@ class AsxGymEnv(Env):
             current_price = self._get_current_price_for_company(key, stock_record.price)
             total_amount += stock_record.volume * current_price
 
-        self.summaries['available_fund'] = self.available_fund
+        self.summaries['available_fund'] = round(self.available_fund, 2)
         return round(total_amount, 2)
 
     def _get_asx_prices(self):
@@ -612,7 +619,8 @@ class AsxGymEnv(Env):
         self.start_date = datetime.strptime(new_start_date, f'{date_fmt} %H:%M:%S').date()
         self.min_stock_seq = init_seq.Seq[0]
 
-    def save_episode_history_data(self):
+    def _save_episode_history_data(self):
+        self._save_history_total_value()
         if self.save_episode_history and self.directory_name and self.action and self.observation:
             episode_history_file = open(f'{self.directory_name}/step_{str(self.step_count).zfill(6)}.json', 'w')
             asx_action = AsxAction.from_env_action(self.action)
@@ -629,6 +637,18 @@ class AsxGymEnv(Env):
             json.dump(episode, episode_history_file, indent=2)
             # print(episode)
 
+    def _save_history_total_value(self):
+        display_date = self.display_date
+        if display_date:
+            total_minutes = self.step_minute_count * 15
+            hour = total_minutes // 60
+            minutes = total_minutes - hour * 60
+            display_time = f'{hour + 10}:{str(minutes).zfill(2)}'
+            total_fund = self.total_value
+            self.current_display_date_time = f'{display_date} {display_time}:00'
+            if self.total_value_history_file:
+                self.total_value_history_file.write(f'{self.current_display_date_time},{total_fund}\n')
+
     def _draw_stock(self):
         display_date = self.display_date
         if display_date:
@@ -641,10 +661,6 @@ class AsxGymEnv(Env):
             minutes = total_minutes - hour * 60
             display_time = f'{hour + 10}:{str(minutes).zfill(2)}'
             total_fund = self.total_value
-            self.current_display_date_time = f'{display_date} {display_time}:00'
-            if self.total_value_history_file:
-                self.total_value_history_file.write(f'{self.current_display_date_time},{total_fund}\n')
-
             display_title = f'ASX Gym Env Episode:{self.episode} Step:{self.step_count}\n' \
                             f'{display_date} {display_time} Total Value:{total_fund}'
             self.fig, self.axes = mpf.plot(stock_index,
@@ -661,6 +677,45 @@ class AsxGymEnv(Env):
             changes = stock_index.loc[:, "Change"].to_numpy()
             ax_c.plot(changes, color='navy', marker='o', markeredgecolor='red')
             ax_c.set_ylabel('Value Change')
+
+    def _draw_summary(self):
+        if self.fig:
+            size = self.fig.get_size_inches()
+        else:
+            size = (11, 8)
+        self._close_fig()
+        plt.style.use('seaborn-colorblind')
+        summary = self.summaries
+        dates = [summary['values']['open']['date'],
+                 summary['values']['close']['date'],
+                 summary['values']['high']['date'],
+                 summary['values']['low']['date']]
+
+        labels = ['open', 'close', 'high', 'low']
+
+        values = [summary['values']['open']['value'],
+                  summary['values']['close']['value'],
+                  summary['values']['high']['value'],
+                  summary['values']['low']['value']]
+        buy_total = summary['transactions']['buy']['total']
+        buy_fulfilled = summary['transactions']['buy']['fulfilled']
+        sell_total = summary['transactions']['sell']['total']
+        sell_fulfilled = summary['transactions']['sell']['fulfilled']
+        colors = ['b', 'k', 'g', 'r']
+        self.fig, ax = plt.subplots()
+        self.fig.set_size_inches(size)
+        display_title = f'ASX Gym Env Episode:{self.episode} Summary\n' \
+                        f'Buy {buy_fulfilled}/{buy_total} Sell {sell_fulfilled}/{sell_total} (fulfilled/total)'
+        self.fig.suptitle(display_title, fontweight='bold')
+        bar = ax.bar(labels, values, color=colors, edgecolor="none")
+        index = 0
+        for rect in bar:
+            height = rect.get_height()
+            ax.text(rect.get_x() + rect.get_width() / 2.0, height, '%d' % int(height), ha='center', va='bottom',
+                    bbox=dict(facecolor='yellow', alpha=0.5))
+            ax.text(rect.get_x() + rect.get_width() / 2.0, height / 2, dates[index], ha='center', va='bottom',
+                    bbox=dict(facecolor='cyan', alpha=0.5))
+            index += 1
 
     def _calculate_reward(self):
         total_fund = self._get_total_value()

@@ -22,6 +22,7 @@ for _ in range(200000 * 24):
 
     observation, reward, done, info = env.step(stock_agent.action())
     if done:
+        env.insert_summary_images()
         observation = env.reset()
         # stock_agent.reset()
     if observation is not None:
