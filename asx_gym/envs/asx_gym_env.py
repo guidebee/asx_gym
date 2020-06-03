@@ -213,6 +213,11 @@ class AsxGymEnv(Env):
         done = self._is_done()
 
         if done:
+            if self.directory_name:
+                summary_file = open(f'{self.directory_name}/summary.json', 'w')
+                json.dump(self.summaries, summary_file, indent=2)
+                summary_file.close()
+
             if self.total_value_history_file:
                 self.total_value_history_file.close()
                 self.total_value_history_file = None
@@ -635,7 +640,7 @@ class AsxGymEnv(Env):
                 'summaries': self.summaries
             }
             json.dump(episode, episode_history_file, indent=2)
-            # print(episode)
+            episode_history_file.close()
 
     def _save_history_total_value(self):
         display_date = self.display_date
@@ -912,7 +917,7 @@ class AsxGymEnv(Env):
         buf = io.BytesIO()
         fig.savefig(buf, format="png", dpi=dpi)
         if self.save_figure:
-            fig.savefig(f'images/fig_{self.global_step_count}.png', dpi=180)
+            fig.savefig(f'images/fig_{str(self.global_step_count).zfill(6)}.png', dpi=180)
         buf.seek(0)
         img_arr = np.frombuffer(buf.getvalue(), dtype=np.uint8)
         buf.close()
