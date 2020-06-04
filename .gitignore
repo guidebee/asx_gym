@@ -119,3 +119,7 @@ temp_test.py
 scripts/data
 simulations/
 images/
+company_images
+audios/
+create_video.sh
+
