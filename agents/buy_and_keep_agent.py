@@ -1,8 +1,9 @@
+from agents.dummy_agent import DummyAgent
 from asx_gym.envs import BUY_STOCK, HOLD_STOCK
 from asx_gym.envs import AsxAction, AsxTransaction
 
 
-class BuyAndKeepAgent:
+class BuyAndKeepAgent(DummyAgent):
     def __init__(self, env, company_id, min_volume=10, max_volume=100):
         self.env = env
         self.env_action = self.env.action_space.sample()

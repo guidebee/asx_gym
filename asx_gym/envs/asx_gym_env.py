@@ -18,8 +18,12 @@ from gym.utils.colorize import *
 
 from .asx_image_viewer import AsxImageViewer
 from .constants import TOP_UP_FUND, WITHDRAW_FUND, \
-    BUY_STOCK, SELL_STOCK, \
-    MIN_STOCK_DATE, date_fmt
+    BUY_STOCK, SELL_STOCK, MINIMUM_SIMULATION_DAYS, \
+    MIN_STOCK_DATE, DB_FILE_NAME, RANDOM_START_DAYS_PERIOD, \
+    DEFAULT_INITIAL_FUND, date_fmt, TRANSACTION_START_HOUR, TRANSACTION_END_HOUR, \
+    RENDER_DEFAULT_DISPLAY_DAYS, DEFAULT_EXPECTED_FUND_INCREASE_RATIO, \
+    DEFAULT_EXPECTED_FUND_DECREASE_RATIO
+
 from .models import StockDailySimulationPrices, StockRecord, \
     AsxAction, AsxObservation
 from .utils import create_directory_if_not_exist
@@ -52,8 +56,8 @@ class AsxGymEnv(Env):
         self.step_minute_count = 0  # step is 15 min
         self.step_count = 0
 
-        self.transaction_start_time = 10 * 4  # 10:00
-        self.transaction_end_time = 16 * 4  # 16:00
+        self.transaction_start_time = TRANSACTION_START_HOUR * 4  # 10:00
+        self.transaction_end_time = TRANSACTION_END_HOUR * 4  # 16:00
         self.min_stock_date = MIN_STOCK_DATE
         self.min_stock_seq = 0
 
@@ -62,18 +66,20 @@ class AsxGymEnv(Env):
 
         self.user_set_max_simulation_days = kwargs.get('max_days', -1)
         self.start_date = self.user_set_start_date
-        self.display_days = kwargs.get('display_days', 20)
+        self.display_days = kwargs.get('display_days', RENDER_DEFAULT_DISPLAY_DAYS)
 
         self.keep_same_company_when_reset = kwargs.get('keep_same_company_when_reset', True)
         self.keep_same_start_date_when_reset = kwargs.get('keep_same_start_date_when_reset', False)
         self.simulate_company_number = kwargs.get('simulate_company_number', -1)
         self.simulate_company_list = kwargs.get('simulate_company_list', None)
 
-        self.initial_fund = kwargs.get('initial_fund', 100000)
+        self.initial_fund = kwargs.get('initial_fund', DEFAULT_INITIAL_FUND)
         self.initial_bank_balance = kwargs.get('initial_bank_balance', 0)
 
-        self.expected_fund_increase_ratio = kwargs.get('expected_fund_increase_ratio', 2.00)
-        self.expected_fund_decrease_ratio = kwargs.get('expected_fund_decrease_ratio', 0.20)
+        self.expected_fund_increase_ratio = kwargs.get('expected_fund_increase_ratio',
+                                                       DEFAULT_EXPECTED_FUND_INCREASE_RATIO)
+        self.expected_fund_decrease_ratio = kwargs.get('expected_fund_decrease_ratio',
+                                                       DEFAULT_EXPECTED_FUND_DECREASE_RATIO)
         self.transaction_fee_list = kwargs.get('transaction_fee_list', None)
 
         self.total_value_history_file = None
@@ -155,7 +161,7 @@ class AsxGymEnv(Env):
         self.INVALID_COMPANY_ID = 2999
         self.max_stock_price = 100000
         self.number_infinite = 10000000
-        self.random_start_days = 100
+        self.random_start_days = RANDOM_START_DAYS_PERIOD
 
         self.env_portfolios = {
             "company_id": np.array([self.INVALID_COMPANY_ID] * self.max_company_number),
@@ -753,7 +759,7 @@ class AsxGymEnv(Env):
 
     def _load_stock_data(self):
         print(colorize("Initializing data, it may take a couple minutes,please wait...", 'red'))
-        db_file = f'{pathlib.Path().absolute()}/asx_gym/db.sqlite3'
+        db_file = f'{pathlib.Path().absolute()}/asx_gym/{DB_FILE_NAME}'
         conn = sqlite3.connect(db_file)
         cur = conn.cursor()
         cur.execute("SELECT min(updated_date) as updated_date from stock_dataupdatehistory")
@@ -768,8 +774,8 @@ class AsxGymEnv(Env):
             self.user_set_start_date = self.min_stock_date
 
         self.max_stock_date = datetime.strptime(updated_date, date_fmt).date()
-        if self.user_set_start_date > self.max_stock_date + timedelta(days=-100):
-            self.user_set_start_date = self.max_stock_date + timedelta(days=-100)
+        if self.user_set_start_date > self.max_stock_date + timedelta(days=-MINIMUM_SIMULATION_DAYS):
+            self.user_set_start_date = self.max_stock_date + timedelta(days=-MINIMUM_SIMULATION_DAYS)
             self.start_date = self.user_set_start_date
         self.max_transaction_days = (self.max_stock_date - self.start_date).days
         if self.user_set_max_simulation_days > 0:
