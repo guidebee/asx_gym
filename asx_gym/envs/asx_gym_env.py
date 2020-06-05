@@ -323,7 +323,7 @@ class AsxGymEnv(Env):
 
     def render(self, mode='human'):
         if mode == 'ansi':
-            pass
+            self._render_ansi()
         else:
             img = self._get_img_from_fig(self.fig)
             if mode == 'rgb_array':
@@ -331,6 +331,51 @@ class AsxGymEnv(Env):
             elif mode == 'human':
                 self.viewer.imshow(img)
                 return self.viewer.is_open
+
+    def _render_ansi(self):
+        display_date = self.display_date
+        if display_date:
+            print(colorize('_' * 80, color='yellow'))
+            current_data = f'Date:{self.current_display_date_time}'
+            print(colorize(current_data, color='red'))
+            print(colorize(f'Episode:{self.episode} Step:{self.step_count}', color='red'))
+            print(colorize('_' * 60, color='blue'))
+            print(colorize(f'Total value:{self.total_value}    Available Fund:{round(self.available_fund, 2)}',
+                           color='blue'))
+            print(colorize('_' * 60, color='blue'))
+            asx_observation = AsxObservation(self.observation)
+            print(colorize(f'ASX ALL ORD Index', color='red'))
+            open_index = round(asx_observation.stock_index.open_index, 2)
+            close_index = round(asx_observation.stock_index.close_index, 2)
+            high_index = round(asx_observation.stock_index.high_index, 2)
+            low_index = round(asx_observation.stock_index.low_index, 2)
+
+            print(colorize(f'  Open:{open_index} Close:{close_index} High:{high_index} Low:{low_index}', color='blue'))
+            print(colorize('_' * 60, color='blue'))
+
+            print(colorize(f'Stock List Prices', color='red'))
+            for company_id, prices in asx_observation.prices.items():
+                company = self.company_df[self.company_df.id == company_id]
+                company_name = company.iloc[0, 1]
+
+                ask_price = round(prices.ask_price, 2)
+                bid_price = round(prices.bid_price, 2)
+                price = round(prices.price, 2)
+                print(colorize(f'  Company:{company_name}', color='blue'))
+                print(colorize(f'    Ask:{ask_price} Bid:{bid_price} Price:{price}', color='blue'))
+
+            print(colorize('_' * 60, color='blue'))
+            print(colorize(f'Portfolios', color='red'))
+            for stock_record in asx_observation.portfolios:
+                company_id = stock_record.company_id
+                company = self.company_df[self.company_df.id == company_id]
+                company_name = company.iloc[0, 1]
+                price = round(stock_record.price, 2)
+                volume = round(stock_record.volume, 2)
+                print(colorize(f'  Company:{company_name}', color='blue'))
+                print(colorize(f'    Price:{price} Volume:{volume}', color='blue'))
+
+            print(colorize('_' * 80, color='yellow'))
 
     def _init_episode_storage(self):
         if self.total_value_history_file:
@@ -675,19 +720,24 @@ class AsxGymEnv(Env):
             display_title = f'ASX Gym Env Episode:{self.episode} Step:{self.step_count}\n' \
                             f'{display_date} {display_time} Total Value:{total_fund}'
             self.fig, self.axes = mpf.plot(stock_index,
-                                           type='candle', mav=(2, 4),
+                                           type='candle', mav=(2, 4, 6),
                                            returnfig=True,
                                            volume=True,
                                            title=display_title,
                                            ylabel='Index',
                                            ylabel_lower='Total Value',
-                                           style=self.style
+                                           style=self.style,
+                                           figratio=(8, 4.5),
+
                                            )
 
             ax_c = self.axes[3].twinx()
             changes = stock_index.loc[:, "Change"].to_numpy()
             ax_c.plot(changes, color='navy', marker='o', markeredgecolor='red')
             ax_c.set_ylabel('Value Change')
+            plt.figtext(0.99, 0.01, 'By OpenAI Asx Gym Env', horizontalalignment='right', color='lavender')
+            plt.figtext(0.01, 0.01, 'Australia Stock Exchange(ASX) Simulation', horizontalalignment='left',
+                        color='lavender')
 
     def _draw_summary(self):
         if self.fig:
@@ -919,11 +969,11 @@ class AsxGymEnv(Env):
             f'Generated simulation data on {colorize(current_date, "green")} '
             f'for {colorize(len(self.daily_simulation_data), "red")} companies')
 
-    def _get_img_from_fig(self, fig, dpi=60):
+    def _get_img_from_fig(self, fig, dpi=160):
         buf = io.BytesIO()
         fig.savefig(buf, format="png", dpi=dpi)
         if self.save_figure:
-            fig.savefig(f'images/fig_{str(self.global_step_count).zfill(6)}.png', dpi=180)
+            fig.savefig(f'images/fig_{str(self.global_step_count).zfill(6)}.png', dpi=dpi)
         buf.seek(0)
         img_arr = np.frombuffer(buf.getvalue(), dtype=np.uint8)
         buf.close()
