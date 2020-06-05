@@ -25,7 +25,7 @@ from .constants import TOP_UP_FUND, WITHDRAW_FUND, \
     DEFAULT_EXPECTED_FUND_DECREASE_RATIO
 
 from .models import StockDailySimulationPrices, StockRecord, \
-    AsxAction, AsxObservation
+    AsxAction, AsxObservation, TransactionFee
 from .utils import create_directory_if_not_exist
 
 
@@ -80,7 +80,10 @@ class AsxGymEnv(Env):
                                                        DEFAULT_EXPECTED_FUND_INCREASE_RATIO)
         self.expected_fund_decrease_ratio = kwargs.get('expected_fund_decrease_ratio',
                                                        DEFAULT_EXPECTED_FUND_DECREASE_RATIO)
-        self.transaction_fee_list = kwargs.get('transaction_fee_list', None)
+        transaction_fee_list = kwargs.get('transaction_fee_list', [])
+
+        self.transaction_fee = []
+        self._init_transaction_fee(transaction_fee_list)
 
         self.total_value_history_file = None
         self.save_figure = True
@@ -93,6 +96,7 @@ class AsxGymEnv(Env):
         self.available_fund = self.initial_fund
         self.previous_total_fund = self.available_fund
         self.bank_balance = self.initial_bank_balance
+        self.brokerage_fee = 0
         self.portfolios = {}
         self.info = {}
         self.summaries = {
@@ -138,6 +142,7 @@ class AsxGymEnv(Env):
                 }
             },
             "transactions": {
+                'brokerage_fee': 0,
                 "buy": {
                     "total": 0,
                     "fulfilled": 0,
@@ -263,6 +268,7 @@ class AsxGymEnv(Env):
         self.previous_total_fund = self.available_fund
         self.bank_balance = self.initial_bank_balance
         self.total_value = round(self.available_fund, 2)
+        self.brokerage_fee = 0
         self.portfolios = {}
         self.need_move_day_forward = False
         self._init_episode_storage()
@@ -284,6 +290,10 @@ class AsxGymEnv(Env):
 
         self._generate_daily_simulation_price_for_companies(current_date=display_date)
         self._draw_stock()
+
+        self.index_df.loc[:, "Volume"] = round(self.initial_fund, 1)
+
+        self.index_df.loc[:, "Change"] = 0
 
         obs = self._get_current_obs()
         # update summary
@@ -308,6 +318,8 @@ class AsxGymEnv(Env):
         self.summaries['values']['low']['value'] = self.available_fund
         self.summaries['values']['low']['date'] = display_date
 
+        # noinspection PyTypeChecker
+        self.summaries['transactions']['brokerage_fee'] = 0
         self.summaries['transactions']['buy']['total'] = 0
         self.summaries['transactions']['buy']['fulfilled'] = 0
         self.summaries['transactions']['sell']['total'] = 0
@@ -376,6 +388,11 @@ class AsxGymEnv(Env):
                 print(colorize(f'    Price:{price} Volume:{volume}', color='blue'))
 
             print(colorize('_' * 80, color='yellow'))
+
+    def _init_transaction_fee(self, transaction_fee_list):
+        for (amount, fee, is_percentage) in transaction_fee_list:
+            transaction_fee = TransactionFee(amount, fee, is_percentage)
+            self.transaction_fee.append(transaction_fee)
 
     def _init_episode_storage(self):
         if self.total_value_history_file:
@@ -485,6 +502,20 @@ class AsxGymEnv(Env):
             }
         )
 
+    def _calculate_brokerage_fee(self, amount):
+        fee = 0
+        for transaction_fee in self.transaction_fee:
+            if amount <= transaction_fee.amount:
+                if transaction_fee.is_percentage:
+                    fee = amount * transaction_fee.fee / 100.0
+                else:
+                    fee = transaction_fee.fee
+                break
+
+        fee = round(fee, 2)
+        logger.debug(f'Brokerage Fee:{fee} for amount:{round(amount, 2)})')
+        return fee
+
     def _buy_stock(self, company_id, price, volume):
         fulfilled = False
         if (volume < 1e-5) and (price > 1e-5):  # buy all available fund
@@ -493,7 +524,8 @@ class AsxGymEnv(Env):
                 volume -= 1
 
         total_amount = round(volume * price, 3)
-        if self.available_fund >= total_amount:
+        brokerage_fee = self._calculate_brokerage_fee(total_amount)
+        if self.available_fund >= total_amount + brokerage_fee:
             key = str(company_id)
             stock_record: StockRecord = self.portfolios.get(key, None)
             if stock_record is None:
@@ -503,11 +535,16 @@ class AsxGymEnv(Env):
                 stock_record.volume += volume
                 stock_record.buy_price = price
                 stock_record.price = price
-            self.available_fund -= total_amount
+            self.available_fund -= (total_amount + brokerage_fee)
+            self.brokerage_fee += brokerage_fee
+            # noinspection PyTypeChecker
+            self.summaries['transactions']['brokerage_fee'] = round(self.brokerage_fee, 2)
+
             fulfilled = True
 
         # update summary
         self.summaries['transactions']['buy']['total'] += 1
+
         if fulfilled:
             self.summaries['transactions']['buy']['fulfilled'] += 1
         return fulfilled
@@ -516,14 +553,18 @@ class AsxGymEnv(Env):
         fulfilled = False
         key = str(company_id)
         stock_record: StockRecord = self.portfolios.get(key, None)
-        if stock_record is not None:
-            if stock_record.volume >= volume:
-                total_amount = round(volume * price, 3)
-                stock_record.volume -= volume
-                stock_record.sell_price = price
-                stock_record.price = price
-                self.available_fund += total_amount
-                fulfilled = True
+        if stock_record is not None and stock_record.volume >= volume:
+            total_amount = round(volume * price, 3)
+            stock_record.volume -= volume
+            stock_record.sell_price = price
+            stock_record.price = price
+
+            brokerage_fee = self._calculate_brokerage_fee(total_amount)
+            self.available_fund += total_amount - brokerage_fee
+            self.brokerage_fee += brokerage_fee
+            # noinspection PyTypeChecker
+            self.summaries['transactions']['brokerage_fee'] = round(self.brokerage_fee, 2)
+            fulfilled = True
 
         # update summary
         self.summaries['transactions']['sell']['total'] += 1
@@ -777,6 +818,8 @@ class AsxGymEnv(Env):
             ax.text(rect.get_x() + rect.get_width() / 2.0, height / 2, dates[index], ha='center', va='bottom',
                     bbox=dict(facecolor='cyan', alpha=0.5))
             index += 1
+        plt.figtext(0.01, 0.01, f'Total Brokerage Fee:{round(self.brokerage_fee, 2)}', horizontalalignment='left',
+                    color='red')
 
     def _calculate_reward(self):
         total_fund = self._get_total_value()
@@ -832,7 +875,7 @@ class AsxGymEnv(Env):
             self.max_transaction_days = min(self.max_transaction_days,
                                             self.user_set_max_simulation_days)
         print(colorize(f"Stock date range from {self.min_stock_date} to {self.max_stock_date}", "blue"))
-        print(colorize("reading asx index data", 'blue'))
+        print(colorize("Loading asx index data", 'blue'))
         self.index_df = pd.read_sql_query(
             'SELECT 0 as Seq,index_date as Date,open_index as Open,close_index as Close,high_index as High,low_index as Low,1 as Volume,'
             '0 as Change '
@@ -856,17 +899,17 @@ class AsxGymEnv(Env):
                 print('')
         print('')
 
-        print(colorize("reading asx sector data", 'blue'))
+        print(colorize("Loading asx sector data", 'blue'))
         self.sector_df = pd.read_sql_query('SELECT id,name,full_name FROM stock_sector', conn)
         print(f'Asx sector count:\n{self.sector_df.count()}')
-        print(colorize("reading asx stock data, please wait...", 'blue'))
+        print(colorize("Loading asx stock data, please wait...", 'blue'))
         self.price_df = pd.read_sql_query(
             f'SELECT price_date,open_price,close_price,high_price,low_price,company_id FROM stock_stockpricedailyhistory order by price_date',
             conn,
             parse_dates={'price_date': date_fmt}, index_col=['price_date', 'company_id'])
         print(f'Asx stock data records:\n{self.price_df.count()}')
         conn.close()
-        print(colorize("reading stock price simulation data", 'blue'))
+        print(colorize("Loading stock price simulation data", 'blue'))
         daily_simulation_file = f'{pathlib.Path().absolute()}/asx_gym/daily_stock_price.csv'
         self.daily_simulation_df = pd.read_csv(daily_simulation_file)
         self.daily_simulation_df.columns = ['cid', 'day', 'seconds', 'normalized_ask_price', 'normalized_bid_price',
