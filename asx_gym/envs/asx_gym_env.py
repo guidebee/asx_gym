@@ -517,8 +517,10 @@ class AsxGymEnv(Env):
         fulfilled = False
         if (volume < 1e-5) and (price > 1e-5):  # buy all available fund
             volume = round(self.available_fund / price, 0)
-            if self.available_fund < volume * price:
-                volume -= 1
+            total_amount = round(volume * price, 3)
+            brokerage_fee = self._calculate_brokerage_fee(total_amount)
+            if self.available_fund < volume * price+ brokerage_fee:
+                volume -= int(brokerage_fee/price+1)
 
         total_amount = round(volume * price, 3)
         brokerage_fee = self._calculate_brokerage_fee(total_amount)
