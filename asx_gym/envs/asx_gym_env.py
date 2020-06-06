@@ -669,7 +669,7 @@ class AsxGymEnv(Env):
             self.env_prices['bid_price'][count] = prices.bid_price
             self.env_prices['price'][count] = prices.price
 
-            self.daily_simulation_prices[str(simulations.company_id)] = {
+            self.daily_simulation_prices[str(int(simulations.company_id))] = {
                 'ask_price': prices.ask_price,
                 'bid_price': prices.bid_price,
                 'price': prices.price,
@@ -1006,7 +1006,7 @@ class AsxGymEnv(Env):
                 simulations = self._generate_daily_simulation_price_for_company(company_id, open_price, close_price,
                                                                                 high_price, low_price)
                 if simulations:
-                    self.daily_simulation_data[str(simulations.company_id)] = simulations
+                    self.daily_simulation_data[str(int(simulations.company_id))] = simulations
         logger.info(
             f'Generated simulation data on {colorize(current_date, "green")} '
             f'for {colorize(len(self.daily_simulation_data), "red")} companies')
