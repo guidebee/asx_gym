@@ -1,5 +1,6 @@
-# asx_gym
+# OpenAI Australia Stock Exchange (ASX) Gym Env
 Open AI Gym Env for Australia Stock Exchange (ASX)
+Australia Stock Market Simulations
 
 
 # Historical stock data
