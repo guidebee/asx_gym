@@ -53,7 +53,7 @@ pip install -e .
 
 ## Usage
 
-```
+```python
 from datetime import date
 from logging import INFO
 
