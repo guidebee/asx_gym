@@ -8,9 +8,12 @@ from datetime import datetime, timedelta
 import cv2
 import matplotlib.pyplot as plt
 import mplfinance as mpf
-import numpy as np
+
 # Data manipulation packages
 import pandas as pd
+import numpy as np
+
+# OpenAI packages
 from gym import Env
 from gym import spaces, logger
 from gym.utils import seeding
@@ -22,7 +25,7 @@ from .constants import TOP_UP_FUND, WITHDRAW_FUND, \
     MIN_STOCK_DATE, DB_FILE_NAME, RANDOM_START_DAYS_PERIOD, \
     DEFAULT_INITIAL_FUND, date_fmt, TRANSACTION_START_HOUR, TRANSACTION_END_HOUR, \
     RENDER_DEFAULT_DISPLAY_DAYS, DEFAULT_EXPECTED_FUND_INCREASE_RATIO, \
-    DEFAULT_EXPECTED_FUND_DECREASE_RATIO
+    DEFAULT_EXPECTED_FUND_DECREASE_RATIO, MAX_PRICE_VALUE
 
 from .models import StockDailySimulationPrices, StockRecord, \
     AsxAction, AsxObservation, TransactionFee
@@ -48,7 +51,8 @@ class AsxGymEnv(Env):
                                    wick={'up': 'blue', 'down': 'orange'},
                                    volume='skyblue',
                                    ohlc='i')
-        self.style = mpf.make_mpf_style(base_mpl_style='seaborn-whitegrid', marketcolors=mc)
+        self.style = mpf.make_mpf_style(base_mpl_style='seaborn-whitegrid',
+                                        marketcolors=mc)
 
         self.episode = 0
         self.step_day_count = 0
@@ -120,7 +124,7 @@ class AsxGymEnv(Env):
                 },
                 "low": {
                     "date": "2020-01-01",
-                    "index": 100000000,
+                    "index": MAX_PRICE_VALUE,
                 }
             },
             "values": {
@@ -138,7 +142,7 @@ class AsxGymEnv(Env):
                 },
                 "low": {
                     "date": "2020-01-01",
-                    "value": 100000000,
+                    "value": MAX_PRICE_VALUE,
                 }
             },
             "transactions": {
@@ -164,8 +168,8 @@ class AsxGymEnv(Env):
         # some constants
         self.max_company_number = 3000
         self.INVALID_COMPANY_ID = 2999
-        self.max_stock_price = 100000
-        self.number_infinite = 10000000
+        self.max_stock_price = MAX_PRICE_VALUE
+        self.number_infinite = MAX_PRICE_VALUE
 
         self.env_portfolios = {
             "company_id": np.array([self.INVALID_COMPANY_ID] * self.max_company_number),
@@ -207,6 +211,7 @@ class AsxGymEnv(Env):
         if self.need_move_day_forward:
             self._move_day_forward()
         assert self.action_space.contains(action), "%r (%s) invalid" % (action, type(action))
+        # noinspection PyTypeChecker
         end_batch = self._apply_asx_action(action)
         reward = self._calculate_reward()
 
@@ -349,7 +354,8 @@ class AsxGymEnv(Env):
             print(colorize(current_data, color='red'))
             print(colorize(f'Episode:{self.episode} Step:{self.step_count}', color='red'))
             print(colorize('_' * 60, color='blue'))
-            print(colorize(f'Total value:{self.total_value}    Available Fund:{round(self.available_fund, 2)}',
+            print(colorize(f'Total value:{self.total_value}    '
+                           f'Available Fund:{round(self.available_fund, 2)}',
                            color='blue'))
             print(colorize('_' * 60, color='blue'))
             asx_observation = AsxObservation(self.observation)
@@ -359,7 +365,8 @@ class AsxGymEnv(Env):
             high_index = round(asx_observation.stock_index.high_index, 2)
             low_index = round(asx_observation.stock_index.low_index, 2)
 
-            print(colorize(f'  Open:{open_index} Close:{close_index} High:{high_index} Low:{low_index}', color='blue'))
+            print(colorize(f'  Open:{open_index} Close:{close_index} '
+                           f'High:{high_index} Low:{low_index}', color='blue'))
             print(colorize('_' * 60, color='blue'))
 
             print(colorize(f'Stock List Prices', color='red'))
@@ -519,8 +526,8 @@ class AsxGymEnv(Env):
             volume = round(self.available_fund / price, 0)
             total_amount = round(volume * price, 3)
             brokerage_fee = self._calculate_brokerage_fee(total_amount)
-            if self.available_fund < volume * price+ brokerage_fee:
-                volume -= int(brokerage_fee/price+1)
+            if self.available_fund < volume * price + brokerage_fee:
+                volume -= int(brokerage_fee / price + 1)
 
         total_amount = round(volume * price, 3)
         brokerage_fee = self._calculate_brokerage_fee(total_amount)
@@ -552,18 +559,19 @@ class AsxGymEnv(Env):
         fulfilled = False
         key = str(company_id)
         stock_record: StockRecord = self.portfolios.get(key, None)
-        if stock_record is not None and stock_record.volume >= volume:
-            total_amount = round(volume * price, 3)
-            stock_record.volume -= volume
-            stock_record.sell_price = price
-            stock_record.price = price
+        if stock_record is not None:
+            if stock_record.volume >= volume:
+                total_amount = round(volume * price, 3)
+                stock_record.volume -= volume
+                stock_record.sell_price = price
+                stock_record.price = price
 
-            brokerage_fee = self._calculate_brokerage_fee(total_amount)
-            self.available_fund += total_amount - brokerage_fee
-            self.brokerage_fee += brokerage_fee
-            # noinspection PyTypeChecker
-            self.summaries['transactions']['brokerage_fee'] = round(self.brokerage_fee, 2)
-            fulfilled = True
+                brokerage_fee = self._calculate_brokerage_fee(total_amount)
+                self.available_fund += total_amount - brokerage_fee
+                self.brokerage_fee += brokerage_fee
+                # noinspection PyTypeChecker
+                self.summaries['transactions']['brokerage_fee'] = round(self.brokerage_fee, 2)
+                fulfilled = True
 
         # update summary
         self.summaries['transactions']['sell']['total'] += 1
@@ -580,7 +588,8 @@ class AsxGymEnv(Env):
         stock_index = self.index_df.iloc[
                       self.min_stock_seq + self.step_day_count
                       :self.min_stock_seq + self.step_day_count + 1]
-        if (today is None) or stock_index.empty or (self.step_day_count >= self.max_transaction_days - 1) \
+        if (today is None) or stock_index.empty \
+                or (self.step_day_count >= self.max_transaction_days - 1) \
                 or (total_value < min_lost) or (total_value > max_gain):
             done = True
 
@@ -743,7 +752,8 @@ class AsxGymEnv(Env):
             total_fund = self.total_value
             self.current_display_date_time = f'{display_date} {display_time}:00'
             if self.total_value_history_file:
-                self.total_value_history_file.write(f'{self.current_display_date_time},{total_fund}\n')
+                self.total_value_history_file.write(f'{self.current_display_date_time},'
+                                                    f'{total_fund}\n')
 
     def _draw_stock(self):
         display_date = self.display_date
@@ -775,8 +785,10 @@ class AsxGymEnv(Env):
             changes = stock_index.loc[:, "Change"].to_numpy()
             ax_c.plot(changes, color='navy', marker='o', markeredgecolor='red')
             ax_c.set_ylabel('Value Change')
-            plt.figtext(0.99, 0.01, 'By OpenAI Asx Gym Env', horizontalalignment='right', color='lavender')
-            plt.figtext(0.01, 0.01, 'Australia Stock Exchange(ASX) Simulation', horizontalalignment='left',
+            plt.figtext(0.99, 0.01, 'By OpenAI Asx Gym Env', horizontalalignment='right',
+                        color='lavender')
+            plt.figtext(0.01, 0.01, 'Australia Stock Exchange(ASX) Simulation',
+                        horizontalalignment='left',
                         color='lavender')
 
     def _draw_summary(self):
@@ -806,29 +818,34 @@ class AsxGymEnv(Env):
         self.fig, ax = plt.subplots()
         self.fig.set_size_inches(size)
         display_title = f'ASX Gym Env Episode:{self.episode} Summary\n' \
-                        f'Buy {buy_fulfilled}/{buy_total} Sell {sell_fulfilled}/{sell_total} (fulfilled/total)'
+                        f'Buy {buy_fulfilled}/{buy_total} Sell ' \
+                        f'{sell_fulfilled}/{sell_total} (fulfilled/total)'
         self.fig.suptitle(display_title, fontweight='bold')
         bar = ax.bar(labels, values, color=colors, edgecolor="none")
         index = 0
         for rect in bar:
             height = rect.get_height()
-            ax.text(rect.get_x() + rect.get_width() / 2.0, height, '%d' % int(height), ha='center', va='bottom',
+            ax.text(rect.get_x() + rect.get_width() / 2.0, height, '%d' % int(height),
+                    ha='center', va='bottom',
                     bbox=dict(facecolor='yellow', alpha=0.5))
-            ax.text(rect.get_x() + rect.get_width() / 2.0, height / 2, dates[index], ha='center', va='bottom',
+            ax.text(rect.get_x() + rect.get_width() / 2.0, height / 2, dates[index],
+                    ha='center', va='bottom',
                     bbox=dict(facecolor='cyan', alpha=0.5))
             index += 1
-        plt.figtext(0.01, 0.01, f'Total Brokerage Fee:{round(self.brokerage_fee, 2)}', horizontalalignment='left',
+        plt.figtext(0.01, 0.01, f'Total Brokerage Fee:{round(self.brokerage_fee, 2)}',
+                    horizontalalignment='left',
                     color='red')
 
     def _calculate_reward(self):
         total_fund = self._get_total_value()
         self.total_value = total_fund
         self.index_df.loc[
-            self.index_df.Seq == self.min_stock_seq + self.step_day_count, "Volume"] = round(total_fund, 1)
+            self.index_df.Seq == self.min_stock_seq + self.step_day_count, "Volume"] \
+            = round(total_fund, 1)
         diff = total_fund - self.previous_total_fund
         self.index_df.loc[
-            self.index_df.Seq == self.min_stock_seq + self.step_day_count, "Change"] = round(
-            total_fund - self.initial_fund, 1)
+            self.index_df.Seq == self.min_stock_seq + self.step_day_count, "Change"] \
+            = round(total_fund - self.initial_fund, 1)
         self.previous_total_fund = total_fund
         self.reward = diff
 
@@ -873,10 +890,12 @@ class AsxGymEnv(Env):
         if self.user_set_max_simulation_days > 0:
             self.max_transaction_days = min(self.max_transaction_days,
                                             self.user_set_max_simulation_days)
-        print(colorize(f"Stock date range from {self.min_stock_date} to {self.max_stock_date}", "blue"))
+        print(colorize(f"Stock date range from {self.min_stock_date} "
+                       f"to {self.max_stock_date}", "blue"))
         print(colorize("Loading asx index data", 'blue'))
         self.index_df = pd.read_sql_query(
-            'SELECT 0 as Seq,index_date as Date,open_index as Open,close_index as Close,high_index as High,low_index as Low,1 as Volume,'
+            'SELECT 0 as Seq,index_date as Date,open_index as Open,close_index as Close,'
+            'high_index as High,low_index as Low,1 as Volume,'
             '0 as Change '
             'FROM stock_asxindexdailyhistory where index_name="ALL ORD"  order by index_date',
             conn,
@@ -889,12 +908,14 @@ class AsxGymEnv(Env):
         self.min_stock_seq = init_seq.Seq[0]
         print(f'Asx index records:\n{self.index_df.count()}')
         print(colorize("reading asx company data", 'blue'))
-        self.company_df = pd.read_sql_query('SELECT id,name,description,code,sector_id FROM stock_company', conn)
+        self.company_df = pd.read_sql_query('SELECT id,name,description,code,sector_id '
+                                            'FROM stock_company', conn)
         print(f'Asx company count:\n{self.company_df.count()}')
         print(colorize("ASX listed companies", 'blue'))
         for index, (cid, name, description, code, sector_id) in self.company_df.iterrows():
             print(f'{colorize(str(cid).rjust(4), "red")}:{colorize(code, "green")}', end="\t")
-            if (index + 1) % 5 == 0:
+            # noinspection PyTypeChecker
+            if int(index + 1) % 5 == 0:
                 print('')
         print('')
 
@@ -903,7 +924,8 @@ class AsxGymEnv(Env):
         print(f'Asx sector count:\n{self.sector_df.count()}')
         print(colorize("Loading asx stock data, please wait...", 'blue'))
         self.price_df = pd.read_sql_query(
-            f'SELECT price_date,open_price,close_price,high_price,low_price,company_id FROM stock_stockpricedailyhistory order by price_date',
+            f'SELECT price_date,open_price,close_price,high_price,low_price,company_id '
+            f'FROM stock_stockpricedailyhistory order by price_date',
             conn,
             parse_dates={'price_date': date_fmt}, index_col=['price_date', 'company_id'])
         print(f'Asx stock data records:\n{self.price_df.count()}')
@@ -911,8 +933,10 @@ class AsxGymEnv(Env):
         print(colorize("Loading stock price simulation data", 'blue'))
         daily_simulation_file = f'{pathlib.Path().absolute()}/asx_gym/daily_stock_price.csv'
         self.daily_simulation_df = pd.read_csv(daily_simulation_file)
-        self.daily_simulation_df.columns = ['cid', 'day', 'seconds', 'normalized_ask_price', 'normalized_bid_price',
-                                            'normalized_stock_price', 'normalized_low_price', 'normalized_high_price']
+        self.daily_simulation_df.columns = ['cid', 'day', 'seconds', 'normalized_ask_price',
+                                            'normalized_bid_price',
+                                            'normalized_stock_price', 'normalized_low_price',
+                                            'normalized_high_price']
         self.daily_simulation_df = self.daily_simulation_df.set_index(['cid', 'day'])
         self.min_company_id = 0
         self.max_company_id = max((self.daily_simulation_df.index.get_level_values('cid')))
@@ -952,8 +976,10 @@ class AsxGymEnv(Env):
         self.observation = obs
         return obs
 
-    def _generate_daily_simulation_price_for_company(self, company_id, open_price, close_price, high_price, low_price):
-        simulations = StockDailySimulationPrices(company_id, open_price, close_price, high_price, low_price)
+    def _generate_daily_simulation_price_for_company(self, company_id, open_price,
+                                                     close_price, high_price, low_price):
+        simulations = StockDailySimulationPrices(company_id, open_price, close_price,
+                                                 high_price, low_price)
         ratio = self.normalized_price(high_price, low_price)
         key_ration = str(ratio)
         if key_ration in self.cached_simulation_records:
