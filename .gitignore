@@ -112,14 +112,16 @@ env
 **/*.sqlite3
 **/*.sqlite3.bak
 /australia/data
-data/daily_stock_index_history.csv
-data/daily_stock_price_history.csv
+
 
 temp_test.py
-scripts/data
+data/
 simulations/
 images/
 company_images
 audios/
 create_video.sh
+videos/
+merged.mp4
+
 

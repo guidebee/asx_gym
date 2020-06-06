@@ -63,7 +63,7 @@ class AsxGymEnv(Env):
 
         # default values and configurations
         self.user_set_start_date = kwargs.get('start_date', self.min_stock_date)
-
+        self.random_start_days = kwargs.get('random_start_days', RANDOM_START_DAYS_PERIOD)
         self.user_set_max_simulation_days = kwargs.get('max_days', -1)
         self.start_date = self.user_set_start_date
         self.display_days = kwargs.get('display_days', RENDER_DEFAULT_DISPLAY_DAYS)
@@ -166,7 +166,6 @@ class AsxGymEnv(Env):
         self.INVALID_COMPANY_ID = 2999
         self.max_stock_price = 100000
         self.number_infinite = 10000000
-        self.random_start_days = RANDOM_START_DAYS_PERIOD
 
         self.env_portfolios = {
             "company_id": np.array([self.INVALID_COMPANY_ID] * self.max_company_number),
@@ -195,12 +194,6 @@ class AsxGymEnv(Env):
         self.date_prefix = f"simulations/{day.strftime('%Y-%m-%d_%H-%M-%S')}"
 
         self.directory_name = f'{self.date_prefix}/episode_{str(self.episode).zfill(4)}'
-
-    def history_indexes(self, days=-1):
-        pass
-
-    def history_stock_prices(self, days=-1):
-        pass
 
     def seed(self, seed=None):
         self.np_random, seed = seeding.np_random(seed)
@@ -343,6 +336,10 @@ class AsxGymEnv(Env):
             elif mode == 'human':
                 self.viewer.imshow(img)
                 return self.viewer.is_open
+
+    def close(self):
+        self._close_fig()
+        self.viewer.close()
 
     def _render_ansi(self):
         display_date = self.display_date
@@ -520,8 +517,10 @@ class AsxGymEnv(Env):
         fulfilled = False
         if (volume < 1e-5) and (price > 1e-5):  # buy all available fund
             volume = round(self.available_fund / price, 0)
-            if self.available_fund < volume * price:
-                volume -= 1
+            total_amount = round(volume * price, 3)
+            brokerage_fee = self._calculate_brokerage_fee(total_amount)
+            if self.available_fund < volume * price+ brokerage_fee:
+                volume -= int(brokerage_fee/price+1)
 
         total_amount = round(volume * price, 3)
         brokerage_fee = self._calculate_brokerage_fee(total_amount)
