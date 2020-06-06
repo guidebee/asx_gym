@@ -1,9 +1,9 @@
 import sqlite3
 from datetime import date, datetime, timedelta
-from scripts.utils import create_directory_if_not_exist, download_file
+from asx_gym.envs.utils import create_directory_if_not_exist, download_file
 import os
 
-db_file = '../../asx_gym/asx_gym/db.sqlite3'
+db_file = './asx_gym/db.sqlite3'
 
 stock_index_codes = {
     'ASX20': 'xtl',
@@ -109,7 +109,6 @@ if len(rows) == 0:
     cur.execute(
         f'INSERT INTO stock_dataupdatehistory(updated_date,data_name) VALUES ("{data_date[0]}","price")')
     conn.commit()
-
 
 for row in rows:
     data_name = row[0]

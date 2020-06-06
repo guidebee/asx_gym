@@ -1,8 +1,8 @@
-from scripts.utils import create_directory_if_not_exist, download_file
+from asx_gym.envs.utils import create_directory_if_not_exist, download_file
 import json
 import sqlite3
 
-db_file = '../../asx_gym/asx_gym/db.sqlite3'
+db_file = './asx_gym/db.sqlite3'
 
 create_directory_if_not_exist('data/company')
 company_file = 'company/companies.json'
