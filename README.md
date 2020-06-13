@@ -98,6 +98,29 @@ env.close()
 ## Support us at Patreon
 [https://www.patreon.com/asx_gym](https://www.patreon.com/asx_gym)
 
+## Tutorials
+
+[ASX Gym Action](https://github.com/guidebee/asx_gym/wiki/ASX-Gym-Action)
+
+[ASX Gym Observations](https://github.com/guidebee/asx_gym/wiki/ASX-Gym-Observations)
+
+[ASX Gym Reward](https://github.com/guidebee/asx_gym/wiki/ASX-Gym-Reward)
+
+[ASX Gym Done Conditions](https://github.com/guidebee/asx_gym/wiki/ASX-Gym-Done-Condition)
+
+[ASX Gym Info](https://github.com/guidebee/asx_gym/wiki/ASX-Gym-Info)
+
+[ASX Gym Render Modes](https://github.com/guidebee/asx_gym/wiki/ASX-Gym-Render-Modes)
+
+[ASX Gym Sample Agents](https://github.com/guidebee/asx_gym/wiki/ASX-Gym-Sample-Agents)
+
+[ASX Gym Configurations](https://github.com/guidebee/asx_gym/wiki/ASX-Gym-Configurations)
+
+[View Stock data](https://github.com/guidebee/asx_gym/wiki/View-Stock-data-and-index)
+
+[ASX Simulations Youtube Channels](https://www.youtube.com/channel/UCFefpsZ3xWNhY_JUg6LTu9g)
+
+
 ## ASX Listed Companies
 
 ```text
