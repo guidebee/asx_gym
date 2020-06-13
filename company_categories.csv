@@ -1,0 +1,2034 @@
+1,ASX:CSL,146,Health Care,True,True,True,True,True,True
+2,ASX:CBA,165,Financials,True,True,True,True,True,True
+3,ASX:BHP,12,Materials,True,True,True,True,True,True
+4,ASX:WBC,165,Financials,True,True,True,True,True,True
+5,ASX:NAB,165,Financials,True,True,True,True,True,True
+6,ASX:WOW,124,Consumer Staples,True,True,True,True,True,True
+7,ASX:WES,79,Consumer Discretionary,True,True,True,True,True,True
+8,ASX:ANZ,165,Financials,True,True,True,True,True,True
+9,ASX:FMG,12,Materials,False,True,True,True,True,True
+10,ASX:TCL,36,Industrials,True,True,True,True,True,True
+11,ASX:TLS,216,Communication Services,True,True,True,True,True,True
+12,ASX:MQG,165,Financials,True,True,True,True,True,True
+13,ASX:RIO,12,Materials,True,True,True,True,True,True
+14,ASX:GMG,247,Real Estate,True,True,True,True,True,True
+15,ASX:NCM,12,Materials,True,True,True,True,True,True
+16,ASX:WPL,1,Energy,True,True,True,True,True,True
+17,ASX:COL,124,Consumer Staples,False,True,True,True,True,True
+18,ASX:BXB,36,Industrials,True,True,True,True,True,True
+19,ASX:ALL,79,Consumer Discretionary,False,True,True,True,True,True
+20,ASX:FPH,146,Health Care,False,False,False,True,True,True
+21,ASX:ASX,165,Financials,False,True,True,True,True,True
+22,ASX:RHC,146,Health Care,False,True,True,True,True,True
+23,ASX:AMC,12,Materials,True,True,True,True,True,True
+24,ASX:A2M,124,Consumer Staples,False,False,True,True,True,True
+25,ASX:APA,234,Utilities,False,True,True,True,True,True
+26,ASX:SHL,146,Health Care,False,True,True,True,True,True
+27,ASX:IAG,165,Financials,True,True,True,True,True,True
+28,ASX:COH,146,Health Care,False,True,True,True,True,True
+29,ASX:SYD,36,Industrials,False,True,True,True,True,True
+30,ASX:REA,216,Communication Services,False,False,True,True,True,True
+31,ASX:APT,193,Information Technology,False,False,True,True,True,True
+32,ASX:SUN,165,Financials,True,True,True,True,True,True
+33,ASX:QBE,165,Financials,False,True,True,True,True,True
+34,ASX:XRO,193,Information Technology,False,False,True,True,True,True
+35,ASX:NST,12,Materials,False,False,True,True,True,True
+36,ASX:SCG,247,Real Estate,True,True,True,True,True,True
+37,ASX:AGL,234,Utilities,False,True,True,True,True,True
+38,ASX:EVN,12,Materials,False,False,True,True,True,True
+39,ASX:STO,1,Energy,False,True,True,True,True,True
+40,ASX:MFG,165,Financials,False,False,True,True,True,True
+41,ASX:ORG,1,Energy,False,True,True,True,True,True
+42,ASX:JHX,12,Materials,False,True,True,True,True,True
+43,ASX:DXS,247,Real Estate,False,True,True,True,True,True
+44,ASX:RMD,146,Health Care,False,False,True,True,True,True
+45,ASX:S32,12,Materials,False,True,True,True,True,True
+46,ASX:AZJ,36,Industrials,False,True,True,True,True,True
+47,ASX:MGR,247,Real Estate,False,True,True,True,True,True
+48,ASX:MPL,165,Financials,False,True,True,True,True,True
+49,ASX:GPT,247,Real Estate,False,True,True,True,True,True
+50,ASX:SPK,216,Communication Services,False,False,False,True,True,True
+51,ASX:AIA,36,Industrials,False,False,False,False,True,True
+52,ASX:LLC,247,Real Estate,False,True,True,True,True,True
+53,ASX:CIM,36,Industrials,False,False,True,True,True,True
+54,ASX:TWE,124,Consumer Staples,False,True,True,True,True,True
+55,ASX:AST,234,Utilities,False,False,True,True,True,True
+56,ASX:AFI,165,Financials,False,False,False,False,False,False
+57,ASX:TPM,216,Communication Services,False,False,True,True,True,True
+58,ASX:SGP,247,Real Estate,False,True,True,True,True,True
+59,ASX:ORI,12,Materials,False,True,True,True,True,True
+60,ASX:WTC,193,Information Technology,False,False,True,True,True,True
+61,ASX:TAH,79,Consumer Discretionary,False,False,True,True,True,True
+62,ASX:CPU,193,Information Technology,False,True,True,True,True,True
+63,ASX:ALD,1,Energy,False,False,False,False,False,False
+64,ASX:CCL,124,Consumer Staples,False,False,True,True,True,True
+65,ASX:CWN,79,Consumer Discretionary,False,False,True,True,True,True
+66,ASX:OSH,1,Energy,False,True,True,True,True,True
+67,ASX:SEK,216,Communication Services,False,False,True,True,True,True
+68,ASX:SAR,12,Materials,False,False,False,True,True,True
+69,ASX:MCY,234,Utilities,False,False,False,False,False,False
+70,ASX:MEZ,234,Utilities,False,False,False,False,False,True
+71,ASX:ALX,36,Industrials,False,False,True,True,True,True
+72,ASX:VCX,247,Real Estate,False,True,True,True,True,True
+73,ASX:REH,36,Industrials,False,False,False,False,False,True
+74,ASX:ARG,165,Financials,False,False,False,False,False,False
+75,ASX:BSL,12,Materials,False,False,True,True,True,True
+76,ASX:QAN,36,Industrials,False,True,True,True,True,True
+77,ASX:DMP,79,Consumer Discretionary,False,False,True,True,True,True
+78,ASX:AMP,165,Financials,False,True,True,True,True,True
+79,ASX:SVW,36,Industrials,False,False,False,True,True,True
+80,ASX:VAS,,,False,False,False,False,False,False
+81,ASX:ALU,193,Information Technology,False,False,True,True,True,True
+82,ASX:QUB,36,Industrials,False,False,True,True,True,True
+83,ASX:ANN,146,Health Care,False,False,True,True,True,True
+84,ASX:SOL,1,Energy,False,False,True,True,True,True
+85,ASX:NXT,193,Information Technology,False,False,False,True,True,True
+86,ASX:WOR,1,Energy,False,False,True,True,True,True
+87,ASX:AWC,12,Materials,False,False,True,True,True,True
+88,ASX:IEL,79,Consumer Discretionary,False,False,False,True,True,True
+89,ASX:JBH,79,Consumer Discretionary,False,False,True,True,True,True
+90,ASX:CWY,36,Industrials,False,False,True,True,True,True
+91,ASX:CHC,247,Real Estate,False,False,True,True,True,True
+92,ASX:IPL,12,Materials,False,False,True,True,True,True
+93,ASX:CAR,216,Communication Services,False,False,True,True,True,True
+94,ASX:APX,193,Information Technology,False,False,False,True,True,True
+95,ASX:HVN,79,Consumer Discretionary,False,False,False,True,True,True
+96,ASX:SKI,234,Utilities,False,False,True,True,True,True
+97,ASX:MIN,12,Materials,False,False,False,True,True,True
+98,ASX:STW,,,False,False,False,False,False,False
+99,ASX:BPT,1,Energy,False,False,True,True,True,True
+100,ASX:EBO,146,Health Care,False,False,False,False,False,False
+101,ASX:ILU,12,Materials,False,False,True,True,True,True
+102,ASX:IVV,165,Financials,False,False,False,False,False,False
+103,ASX:TNE,193,Information Technology,False,False,False,True,True,True
+104,ASX:ORA,12,Materials,False,False,True,True,True,True
+105,ASX:ALQ,36,Industrials,False,False,True,True,True,True
+106,ASX:CNU,216,Communication Services,False,False,False,True,True,True
+107,ASX:BLD,12,Materials,False,False,True,True,True,True
+108,ASX:BEN,165,Financials,False,False,True,True,True,True
+109,ASX:YAL,1,Energy,False,False,False,False,False,True
+110,ASX:VEA,1,Energy,False,False,False,True,True,True
+111,ASX:OZL,12,Materials,False,False,True,True,True,True
+112,ASX:IGO,12,Materials,False,False,False,True,True,True
+113,ASX:IFT,234,Utilities,False,False,False,False,False,False
+114,ASX:PME,146,Health Care,False,False,False,True,True,True
+115,ASX:GNE,234,Utilities,False,False,False,False,False,True
+116,ASX:RRL,12,Materials,False,False,False,True,True,True
+117,ASX:CGF,165,Financials,False,False,True,True,True,True
+118,ASX:BRG,79,Consumer Discretionary,False,False,False,True,True,True
+119,ASX:FBU,12,Materials,False,False,False,True,True,True
+120,ASX:SDF,165,Financials,False,False,False,True,True,True
+121,ASX:MLT,165,Financials,False,False,False,False,False,False
+122,ASX:MTS,124,Consumer Staples,False,False,False,True,True,True
+123,ASX:SGR,79,Consumer Discretionary,False,False,True,True,True,True
+124,ASX:PMV,79,Consumer Discretionary,False,False,False,True,True,True
+125,ASX:MSB,146,Health Care,False,False,False,False,True,True
+126,ASX:DOW,36,Industrials,False,False,True,True,True,True
+127,ASX:NEC,216,Communication Services,False,False,True,True,True,True
+128,ASX:SCP,247,Real Estate,False,False,False,True,True,True
+129,ASX:GOZ,247,Real Estate,False,False,False,True,True,True
+130,ASX:BWP,247,Real Estate,False,False,False,True,True,True
+131,ASX:SBM,12,Materials,False,False,False,True,True,True
+132,ASX:MGG,165,Financials,False,False,False,False,False,False
+133,ASX:PTM,165,Financials,False,False,False,True,True,True
+134,ASX:NHF,165,Financials,False,False,True,True,True,True
+135,ASX:BOQ,165,Financials,False,False,True,True,True,True
+136,ASX:MP1,193,Information Technology,False,False,False,False,True,True
+137,ASX:NAN,146,Health Care,False,False,False,True,True,True
+138,ASX:FLT,79,Consumer Discretionary,False,False,True,True,True,True
+139,ASX:HTA,216,Communication Services,False,False,False,False,False,True
+140,ASX:RWC,36,Industrials,False,False,True,True,True,True
+141,ASX:NUF,12,Materials,False,False,False,True,True,True
+142,ASX:BKW,12,Materials,False,False,False,True,True,True
+143,ASX:WPR,247,Real Estate,False,False,False,False,False,False
+144,ASX:CLW,247,Real Estate,False,False,False,True,True,True
+145,ASX:SLR,12,Materials,False,False,False,True,True,True
+146,ASX:PDL,165,Financials,False,False,False,True,True,True
+147,ASX:CMW,247,Real Estate,False,False,False,True,True,True
+148,ASX:IRE,193,Information Technology,False,False,False,True,True,True
+149,ASX:IOZ,165,Financials,False,False,False,False,False,False
+150,ASX:LNK,193,Information Technology,False,False,True,True,True,True
+151,ASX:PPH,193,Information Technology,False,False,False,False,False,True
+152,ASX:NWL,165,Financials,False,False,False,True,True,True
+153,ASX:WHC,1,Energy,False,False,True,True,True,True
+154,ASX:IOO,,,False,False,False,False,False,False
+155,ASX:TYR,193,Information Technology,False,False,False,False,False,False
+156,ASX:BAP,79,Consumer Discretionary,False,False,False,True,True,True
+157,ASX:VOC,216,Communication Services,False,False,False,True,True,True
+158,ASX:CQR,247,Real Estate,False,False,False,True,True,True
+159,ASX:CSR,12,Materials,False,False,False,True,True,True
+160,ASX:NSR,247,Real Estate,False,False,False,True,True,True
+161,ASX:DHG,216,Communication Services,False,False,False,True,True,True
+162,ASX:PNV,146,Health Care,False,False,False,True,True,True
+163,ASX:ELD,124,Consumer Staples,False,False,False,True,True,True
+164,ASX:IPH,36,Industrials,False,False,False,True,True,True
+165,ASX:ABC,12,Materials,False,False,False,True,True,True
+166,ASX:MFF,165,Financials,False,False,False,False,False,False
+167,ASX:GOR,12,Materials,False,False,False,True,True,True
+168,ASX:SKC,79,Consumer Discretionary,False,False,False,True,True,True
+169,ASX:ABP,247,Real Estate,False,False,False,True,True,True
+170,ASX:HLS,146,Health Care,False,False,False,True,True,True
+171,ASX:IVC,79,Consumer Discretionary,False,False,False,True,True,True
+172,ASX:IFL,165,Financials,False,False,False,True,True,True
+173,ASX:TLT,234,Utilities,False,False,False,False,False,False
+174,ASX:BIN,36,Industrials,False,False,False,True,True,True
+175,ASX:APE,79,Consumer Discretionary,False,False,False,True,True,True
+176,ASX:RMS,12,Materials,False,False,False,False,True,True
+177,ASX:PRU,12,Materials,False,False,False,False,True,True
+178,ASX:PPT,165,Financials,False,False,False,True,True,True
+179,ASX:SUL,79,Consumer Discretionary,False,False,False,True,True,True
+180,ASX:ZEL,1,Energy,False,False,False,False,False,True
+181,ASX:BKL,124,Consumer Staples,False,False,False,True,True,True
+182,ASX:WAM,165,Financials,False,False,False,False,False,False
+183,ASX:SGM,12,Materials,False,False,False,True,True,True
+184,ASX:AIZ,36,Industrials,False,False,False,False,False,False
+185,ASX:LYC,12,Materials,False,False,False,True,True,True
+186,ASX:VUK,165,Financials,False,False,True,True,True,True
+187,ASX:RSG,12,Materials,False,False,False,True,True,True
+188,ASX:FNP,124,Consumer Staples,False,False,False,False,True,True
+189,ASX:SNZ,146,Health Care,False,False,False,False,False,False
+190,ASX:ARB,79,Consumer Discretionary,False,False,False,True,True,True
+191,ASX:CTD,79,Consumer Discretionary,False,False,False,True,True,True
+192,ASX:Z1P,165,Financials,False,False,False,False,True,True
+193,ASX:EVT,216,Communication Services,False,False,False,False,False,True
+194,ASX:DDR,193,Information Technology,False,False,False,False,False,True
+195,ASX:MXT,165,Financials,False,False,False,False,False,False
+196,ASX:INA,247,Real Estate,False,False,False,True,True,True
+197,ASX:CGC,124,Consumer Staples,False,False,False,True,True,True
+198,ASX:ING,124,Consumer Staples,False,False,False,True,True,True
+199,ASX:SM1,124,Consumer Staples,False,False,False,False,True,True
+200,ASX:CDA,193,Information Technology,False,False,False,False,True,True
+201,ASX:EML,193,Information Technology,False,False,False,True,True,True
+202,ASX:ISX,193,Information Technology,False,False,False,False,True,True
+203,ASX:VHY,,,False,False,False,False,False,False
+204,ASX:CIA,12,Materials,False,False,False,False,True,True
+205,ASX:BGA,124,Consumer Staples,False,False,False,True,True,True
+206,ASX:BVS,193,Information Technology,False,False,False,True,True,True
+207,ASX:NHC,1,Energy,False,False,False,True,True,True
+208,ASX:IAF,,,False,False,False,False,False,False
+209,ASX:RBD,79,Consumer Discretionary,False,False,False,False,False,False
+210,ASX:CUV,146,Health Care,False,False,False,True,True,True
+211,ASX:CRN,12,Materials,False,False,False,False,False,True
+212,ASX:WEB,79,Consumer Discretionary,False,False,False,True,True,True
+213,ASX:CEN,234,Utilities,False,False,False,False,False,True
+214,ASX:JHG,165,Financials,False,False,False,True,True,True
+215,ASX:CIP,247,Real Estate,False,False,False,False,True,True
+216,ASX:ASB,36,Industrials,False,False,False,True,True,True
+217,ASX:OBL,165,Financials,False,False,False,False,True,True
+218,ASX:UMG,124,Consumer Staples,False,False,False,True,True,True
+219,ASX:MND,36,Industrials,False,False,False,True,True,True
+220,ASX:AVH,146,Health Care,False,False,False,True,True,True
+221,ASX:WLF,12,Materials,False,False,False,False,False,False
+222,ASX:AVN,247,Real Estate,False,False,False,False,True,True
+223,ASX:BKI,165,Financials,False,False,False,False,False,False
+224,ASX:MVW,,,False,False,False,False,False,False
+225,ASX:AUI,165,Financials,False,False,False,False,False,False
+226,ASX:WGX,12,Materials,False,False,False,False,True,True
+227,ASX:COF,247,Real Estate,False,False,False,False,True,True
+228,ASX:ZIM,12,Materials,False,False,False,False,False,True
+229,ASX:GNC,124,Consumer Staples,False,False,False,True,True,True
+230,ASX:URW,247,Real Estate,False,False,True,True,True,True
+231,ASX:CCP,165,Financials,False,False,False,True,True,True
+232,ASX:AUB,165,Financials,False,False,False,False,True,True
+233,ASX:MHH,,,False,False,False,False,False,False
+234,ASX:SSM,36,Industrials,False,False,False,True,True,True
+235,ASX:LIC,247,Real Estate,False,False,False,False,True,True
+236,ASX:GMA,165,Financials,False,False,False,False,True,True
+237,ASX:DUI,165,Financials,False,False,False,False,False,False
+238,ASX:VG1,165,Financials,False,False,False,False,False,False
+239,ASX:LEP,247,Real Estate,False,False,False,False,False,True
+240,ASX:FCL,193,Information Technology,False,False,False,False,False,False
+241,ASX:CKF,79,Consumer Discretionary,False,False,False,True,True,True
+242,ASX:NWS,216,Communication Services,False,False,False,True,True,True
+243,ASX:KGN,79,Consumer Discretionary,False,False,False,False,True,True
+244,ASX:GUD,79,Consumer Discretionary,False,False,False,True,True,True
+245,ASX:SLK,79,Consumer Discretionary,False,False,False,False,False,True
+246,ASX:BGP,79,Consumer Discretionary,False,False,False,False,False,False
+247,ASX:WLE,165,Financials,False,False,False,False,False,False
+248,ASX:TGR,124,Consumer Staples,False,False,False,True,True,True
+249,ASX:MGX,12,Materials,False,False,False,False,True,True
+250,ASX:NIC,12,Materials,False,False,False,False,True,True
+251,ASX:JIN,79,Consumer Discretionary,False,False,False,True,True,True
+252,ASX:SFR,12,Materials,False,False,False,True,True,True
+253,ASX:LOV,79,Consumer Discretionary,False,False,False,False,True,True
+254,ASX:SHV,124,Consumer Staples,False,False,False,False,True,True
+255,ASX:OPT,146,Health Care,False,False,False,False,False,True
+256,ASX:PNI,165,Financials,False,False,False,True,True,True
+257,ASX:AGG,12,Materials,False,False,False,False,False,True
+258,ASX:MYX,146,Health Care,False,False,False,True,True,True
+259,ASX:CQE,247,Real Estate,False,False,False,False,True,True
+260,ASX:IXJ,165,Financials,False,False,False,False,False,False
+261,ASX:IAP,247,Real Estate,False,False,False,False,True,True
+262,ASX:LSF,,,False,False,False,False,False,False
+263,ASX:VAH,36,Industrials,False,False,False,False,False,True
+264,ASX:CNI,165,Financials,False,False,False,False,True,True
+265,ASX:GEM,79,Consumer Discretionary,False,False,False,True,True,True
+266,ASX:GWA,36,Industrials,False,False,False,True,True,True
+267,ASX:NBI,,,False,False,False,False,False,False
+268,ASX:EOS,36,Industrials,False,False,False,False,False,True
+269,ASX:PRN,12,Materials,False,False,False,True,True,True
+270,ASX:WAF,12,Materials,False,False,False,False,True,True
+271,ASX:NEA,193,Information Technology,False,False,False,True,True,True
+272,ASX:PGH,12,Materials,False,False,False,False,True,True
+273,ASX:DTL,193,Information Technology,False,False,False,False,True,True
+274,ASX:OCL,193,Information Technology,False,False,False,False,False,True
+275,ASX:SIQ,36,Industrials,False,False,False,True,True,True
+276,ASX:IDX,146,Health Care,False,False,False,False,False,True
+277,ASX:VGI,165,Financials,False,False,False,False,False,False
+278,ASX:KKC,165,Financials,False,False,False,False,False,False
+279,ASX:NWH,36,Industrials,False,False,False,True,True,True
+280,ASX:HM1,,,False,False,False,False,False,False
+281,ASX:IEM,,,False,False,False,False,False,False
+282,ASX:COE,1,Energy,False,False,False,True,True,True
+283,ASX:KMD,79,Consumer Discretionary,False,False,False,False,False,True
+284,ASX:RFF,247,Real Estate,False,False,False,False,True,True
+285,ASX:AQG,12,Materials,False,False,False,False,True,True
+286,ASX:HSN,193,Information Technology,False,False,False,False,True,True
+287,ASX:PSI,165,Financials,False,False,False,False,False,True
+288,ASX:HUB,165,Financials,False,False,False,True,True,True
+289,ASX:AX1,79,Consumer Discretionary,False,False,False,False,True,True
+290,ASX:SIG,146,Health Care,False,False,False,False,True,True
+291,ASX:AAC,124,Consumer Staples,False,False,False,False,True,True
+292,ASX:OML,216,Communication Services,False,False,False,True,True,True
+293,ASX:HGH,165,Financials,False,False,False,False,False,False
+294,ASX:ARF,247,Real Estate,False,False,False,False,True,True
+295,ASX:PBH,79,Consumer Discretionary,False,False,False,False,False,False
+296,ASX:ERA,1,Energy,False,False,False,False,False,True
+297,ASX:BUB,124,Consumer Staples,False,False,False,False,True,True
+298,ASX:AEF,165,Financials,False,False,False,False,False,True
+299,ASX:MAQ,216,Communication Services,False,False,False,False,False,True
+300,ASX:WSA,12,Materials,False,False,False,True,True,True
+301,ASX:RED,12,Materials,False,False,False,False,False,False
+302,ASX:ORE,12,Materials,False,False,False,True,True,True
+303,ASX:AHY,124,Consumer Staples,False,False,False,False,True,True
+304,ASX:ELO,193,Information Technology,False,False,False,False,False,True
+305,ASX:IFM,193,Information Technology,False,False,False,False,True,True
+306,ASX:CIN,165,Financials,False,False,False,False,False,False
+307,ASX:MMS,36,Industrials,False,False,False,True,True,True
+308,ASX:GDI,247,Real Estate,False,False,False,False,True,True
+309,ASX:IRI,193,Information Technology,False,False,False,False,True,True
+310,ASX:MICH,,,False,False,False,False,False,False
+311,ASX:PLS,12,Materials,False,False,False,True,True,True
+312,ASX:IFN,234,Utilities,False,False,False,False,True,True
+313,ASX:SFY,,,False,False,False,False,False,False
+314,ASX:HMC,247,Real Estate,False,False,False,False,False,False
+315,ASX:DJW,165,Financials,False,False,False,False,False,False
+316,ASX:API,146,Health Care,False,False,False,False,True,True
+317,ASX:JMS,12,Materials,False,False,False,False,True,True
+318,ASX:JLG,36,Industrials,False,False,False,False,False,True
+319,ASX:PAR,146,Health Care,False,False,False,False,False,True
+320,ASX:AKP,79,Consumer Discretionary,False,False,False,False,False,True
+321,ASX:IAA,,,False,False,False,False,False,False
+322,ASX:MVP,146,Health Care,False,False,False,False,False,True
+323,ASX:CMM,12,Materials,False,False,False,False,False,False
+324,ASX:IEU,,,False,False,False,False,False,False
+325,ASX:OPC,216,Communication Services,False,False,False,False,False,False
+326,ASX:MAH,12,Materials,False,False,False,False,True,True
+327,ASX:ALK,12,Materials,False,False,False,False,False,False
+328,ASX:VIF,,,False,False,False,False,False,False
+329,ASX:OPH,,,False,False,False,False,False,False
+330,ASX:TPW,79,Consumer Discretionary,False,False,False,False,False,False
+331,ASX:APL,165,Financials,False,False,False,False,False,False
+332,ASX:EQT,165,Financials,False,False,False,False,False,True
+333,ASX:DEG,12,Materials,False,False,False,False,False,False
+334,ASX:UWL,216,Communication Services,False,False,False,False,False,False
+335,ASX:CCX,79,Consumer Discretionary,False,False,False,False,False,True
+336,ASX:MOE,165,Financials,False,False,False,False,False,True
+337,ASX:VG8,,,False,False,False,False,False,False
+338,ASX:SLF,,,False,False,False,False,False,False
+339,ASX:REG,146,Health Care,False,False,False,False,True,True
+340,ASX:BGL,12,Materials,False,False,False,False,True,True
+341,ASX:FGG,165,Financials,False,False,False,False,False,False
+342,ASX:BWX,124,Consumer Staples,False,False,False,False,True,True
+343,ASX:MNF,216,Communication Services,False,False,False,False,False,True
+344,ASX:OCA,146,Health Care,False,False,False,False,False,False
+345,ASX:NCK,79,Consumer Discretionary,False,False,False,False,True,True
+346,ASX:PL8,165,Financials,False,False,False,False,False,False
+347,ASX:SLC,216,Communication Services,False,False,False,False,True,True
+348,ASX:ADI,247,Real Estate,False,False,False,False,True,True
+349,ASX:VRL,216,Communication Services,False,False,False,False,True,True
+350,ASX:IMD,12,Materials,False,False,False,False,True,True
+351,ASX:SXL,216,Communication Services,False,False,False,True,True,True
+352,ASX:WGB,,,False,False,False,False,False,False
+353,ASX:WHF,165,Financials,False,False,False,False,False,False
+354,ASX:HPI,247,Real Estate,False,False,False,False,True,True
+355,ASX:AMA,36,Industrials,False,False,False,False,True,True
+356,ASX:SGF,36,Industrials,False,False,False,False,True,True
+357,ASX:PGG,,,False,False,False,False,False,False
+358,ASX:RDC,79,Consumer Discretionary,False,False,False,False,True,True
+359,ASX:PWH,79,Consumer Discretionary,False,False,False,False,False,True
+360,ASX:AD8,193,Information Technology,False,False,False,False,True,True
+361,ASX:EHE,146,Health Care,False,False,False,True,True,True
+362,ASX:TBR,12,Materials,False,False,False,False,False,True
+363,ASX:NEW,234,Utilities,False,False,False,False,False,True
+364,ASX:PWG,165,Financials,False,False,False,False,False,False
+365,ASX:FXL,165,Financials,False,False,False,False,True,True
+366,ASX:AFP,146,Health Care,False,False,False,False,False,False
+367,ASX:SPL,146,Health Care,False,False,False,False,True,True
+368,ASX:EHL,36,Industrials,False,False,False,False,True,True
+369,ASX:CWP,247,Real Estate,False,False,False,False,True,True
+370,ASX:EOF,146,Health Care,False,False,False,False,False,False
+371,ASX:FGX,165,Financials,False,False,False,False,False,False
+372,ASX:PMC,165,Financials,False,False,False,False,False,False
+373,ASX:PAI,165,Financials,False,False,False,False,False,False
+374,ASX:TLX,146,Health Care,False,False,False,False,False,False
+375,ASX:PCI,,,False,False,False,False,False,False
+376,ASX:DFM,124,Consumer Staples,False,False,False,False,False,False
+377,ASX:CLV,12,Materials,False,False,False,False,False,True
+378,ASX:BFG,165,Financials,False,False,False,False,False,True
+379,ASX:GCI,,,False,False,False,False,False,False
+380,ASX:PPC,247,Real Estate,False,False,False,False,False,True
+381,ASX:MIR,165,Financials,False,False,False,False,False,False
+382,ASX:CVN,1,Energy,False,False,False,False,True,True
+383,ASX:FSF,124,Consumer Staples,False,False,False,False,False,False
+384,ASX:IVE,,,False,False,False,False,False,False
+385,ASX:LME,193,Information Technology,False,False,False,False,False,False
+386,ASX:BBN,79,Consumer Discretionary,False,False,False,False,True,True
+387,ASX:MYS,165,Financials,False,False,False,False,True,True
+388,ASX:VHT,146,Health Care,False,False,False,False,False,True
+389,ASX:LEG,12,Materials,False,False,False,False,False,False
+390,ASX:PPK,36,Industrials,False,False,False,False,False,False
+391,ASX:AOF,247,Real Estate,False,False,False,False,False,True
+392,ASX:OFX,165,Financials,False,False,False,False,True,True
+393,ASX:UOS,247,Real Estate,False,False,False,False,False,True
+394,ASX:RMC,165,Financials,False,False,False,False,False,True
+395,ASX:PET,36,Industrials,False,False,False,False,True,True
+396,ASX:CHN,12,Materials,False,False,False,False,False,False
+397,ASX:NTO,193,Information Technology,False,False,False,False,False,False
+398,ASX:HT1,216,Communication Services,False,False,False,False,True,True
+399,ASX:RHP,193,Information Technology,False,False,False,False,False,True
+400,ASX:GXY,12,Materials,False,False,False,False,True,True
+401,ASX:HUO,124,Consumer Staples,False,False,False,False,False,True
+402,ASX:EGD,,,False,False,False,False,False,False
+403,ASX:PGF,165,Financials,False,False,False,False,False,False
+404,ASX:VGL,193,Information Technology,False,False,False,False,False,False
+405,ASX:KAR,1,Energy,False,False,False,False,True,True
+406,ASX:QRI,247,Real Estate,False,False,False,False,False,False
+407,ASX:ALI,165,Financials,False,False,False,False,False,False
+408,ASX:SGL,124,Consumer Staples,False,False,False,False,False,False
+409,ASX:STX,1,Energy,False,False,False,False,False,True
+410,ASX:AQR,247,Real Estate,False,False,False,False,False,True
+411,ASX:PIC,,,False,False,False,False,False,False
+412,ASX:ANO,12,Materials,False,False,False,False,False,False
+413,ASX:SXY,1,Energy,False,False,False,False,True,True
+414,ASX:GDX,,,False,False,False,False,False,False
+415,ASX:MOT,165,Financials,False,False,False,False,False,False
+416,ASX:IJP,,,False,False,False,False,False,False
+417,ASX:ZNO,12,Materials,False,False,False,False,False,False
+418,ASX:BBUS,165,Financials,False,False,False,False,False,False
+419,ASX:PFP,79,Consumer Discretionary,False,False,False,False,False,True
+420,ASX:MCP,124,Consumer Staples,False,False,False,False,False,True
+421,ASX:GSS,146,Health Care,False,False,False,False,False,False
+422,ASX:SST,36,Industrials,False,False,False,False,False,True
+423,ASX:GRR,12,Materials,False,False,False,False,False,True
+424,ASX:360,193,Information Technology,False,False,False,False,False,False
+425,ASX:SPX,12,Materials,False,False,False,False,False,False
+426,ASX:MNY,165,Financials,False,False,False,False,True,True
+427,ASX:SMR,1,Energy,False,False,False,False,False,True
+428,ASX:AQZ,36,Industrials,False,False,False,False,False,True
+429,ASX:RBL,79,Consumer Discretionary,False,False,False,False,False,True
+430,ASX:AFG,165,Financials,False,False,False,False,False,True
+431,ASX:PIA,165,Financials,False,False,False,False,False,False
+432,ASX:AMI,12,Materials,False,False,False,False,True,True
+433,ASX:ECX,165,Financials,False,False,False,False,True,True
+434,ASX:CYL,12,Materials,False,False,False,False,False,False
+435,ASX:WAX,165,Financials,False,False,False,False,False,False
+436,ASX:OMH,12,Materials,False,False,False,False,False,True
+437,ASX:EMR,12,Materials,False,False,False,False,False,False
+438,ASX:DUB,193,Information Technology,False,False,False,False,False,False
+439,ASX:FDV,216,Communication Services,False,False,False,False,False,False
+440,ASX:PAC,165,Financials,False,False,False,False,False,True
+441,ASX:CAT,193,Information Technology,False,False,False,False,False,True
+442,ASX:SKO,193,Information Technology,False,False,False,False,False,False
+443,ASX:VRT,146,Health Care,False,False,False,False,True,True
+444,ASX:AMH,165,Financials,False,False,False,False,False,False
+445,ASX:BCK,12,Materials,False,False,False,False,False,False
+446,ASX:NZK,124,Consumer Staples,False,False,False,False,False,False
+447,ASX:TWR,165,Financials,False,False,False,False,False,False
+448,ASX:ADH,79,Consumer Discretionary,False,False,False,False,False,True
+449,ASX:DCN,12,Materials,False,False,False,False,True,True
+450,ASX:RF1,165,Financials,False,False,False,False,False,False
+451,ASX:PDN,1,Energy,False,False,False,False,True,True
+452,ASX:BTH,193,Information Technology,False,False,False,False,False,False
+453,ASX:PE1,,,False,False,False,False,False,False
+454,ASX:TGG,165,Financials,False,False,False,False,False,False
+455,ASX:RIC,124,Consumer Staples,False,False,False,False,False,True
+456,ASX:CBR,79,Consumer Discretionary,False,False,False,False,False,False
+457,ASX:CDV,12,Materials,False,False,False,False,False,True
+458,ASX:SRV,247,Real Estate,False,False,False,False,False,True
+459,ASX:MCR,12,Materials,False,False,False,False,False,False
+460,ASX:RUL,193,Information Technology,False,False,False,False,False,True
+461,ASX:OGC,12,Materials,False,False,False,False,True,True
+462,ASX:CGL,193,Information Technology,False,False,False,False,False,True
+463,ASX:CDP,247,Real Estate,False,False,False,False,False,True
+464,ASX:GDF,247,Real Estate,False,False,False,False,False,True
+465,ASX:WQG,165,Financials,False,False,False,False,False,False
+466,ASX:WSP,193,Information Technology,False,False,False,False,False,False
+467,ASX:ADT,12,Materials,False,False,False,False,False,False
+468,ASX:QVE,165,Financials,False,False,False,False,False,False
+469,ASX:PYC,146,Health Care,False,False,False,False,False,False
+470,ASX:LVT,193,Information Technology,False,False,False,False,False,True
+471,ASX:MYR,79,Consumer Discretionary,False,False,False,False,True,True
+472,ASX:VCF,,,False,False,False,False,False,False
+473,ASX:MVF,146,Health Care,False,False,False,False,True,True
+474,ASX:NCZ,12,Materials,False,False,False,False,True,True
+475,ASX:FLN,36,Industrials,False,False,False,False,False,True
+476,ASX:TGP,247,Real Estate,False,False,False,False,False,True
+477,ASX:NGI,165,Financials,False,False,False,False,True,True
+478,ASX:WPP,216,Communication Services,False,False,False,False,True,True
+479,ASX:ECF,247,Real Estate,False,False,False,False,False,False
+480,ASX:AEI,36,Industrials,False,False,False,False,False,False
+481,ASX:MLD,12,Materials,False,False,False,False,True,True
+482,ASX:PSQ,146,Health Care,False,False,False,False,False,True
+483,ASX:KLL,12,Materials,False,False,False,False,False,False
+484,ASX:PPE,36,Industrials,False,False,False,False,False,True
+485,ASX:OOO,,,False,False,False,False,False,False
+486,ASX:SDA,216,Communication Services,False,False,False,False,True,True
+487,ASX:KSC,36,Industrials,False,False,False,False,False,True
+488,ASX:EGF,165,Financials,False,False,False,False,False,False
+489,ASX:BWR,247,Real Estate,False,False,False,False,False,False
+490,ASX:MVA,,,False,False,False,False,False,False
+491,ASX:ABA,165,Financials,False,False,False,False,False,True
+492,ASX:SZL,165,Financials,False,False,False,False,False,False
+493,ASX:PNR,12,Materials,False,False,False,False,False,True
+494,ASX:MAU,12,Materials,False,False,False,False,False,False
+495,ASX:CAJ,146,Health Care,False,False,False,False,False,True
+496,ASX:LYL,36,Industrials,False,False,False,False,False,True
+497,ASX:LTR,12,Materials,False,False,False,False,False,False
+498,ASX:INR,12,Materials,False,False,False,False,True,True
+499,ASX:MME,165,Financials,False,False,False,False,False,False
+500,ASX:FLC,36,Industrials,False,False,False,False,False,True
+501,ASX:VAE,,,False,False,False,False,False,False
+502,ASX:IXI,,,False,False,False,False,False,False
+503,ASX:NXS,146,Health Care,False,False,False,False,False,False
+504,ASX:ASG,79,Consumer Discretionary,False,False,False,False,False,True
+505,ASX:HLO,79,Consumer Discretionary,False,False,False,False,False,True
+506,ASX:CDM,165,Financials,False,False,False,False,False,False
+507,ASX:TRS,79,Consumer Discretionary,False,False,False,False,False,False
+508,ASX:BSE,12,Materials,False,False,False,False,False,True
+509,ASX:MMM,79,Consumer Discretionary,False,False,False,False,False,False
+510,ASX:ALF,165,Financials,False,False,False,False,False,False
+511,ASX:WZR,165,Financials,False,False,False,False,False,False
+512,ASX:FRI,247,Real Estate,False,False,False,False,False,True
+513,ASX:NEU,146,Health Care,False,False,False,False,False,True
+514,ASX:VEQ,,,False,False,False,False,False,False
+515,ASX:MML,12,Materials,False,False,False,False,False,False
+516,ASX:WMI,165,Financials,False,False,False,False,False,False
+517,ASX:CL1,193,Information Technology,False,False,False,False,False,True
+518,ASX:AVZ,12,Materials,False,False,False,False,False,True
+519,ASX:BLX,79,Consumer Discretionary,False,False,False,False,False,True
+520,ASX:PCK,146,Health Care,False,False,False,False,False,False
+521,ASX:MAD,36,Industrials,False,False,False,False,False,False
+522,ASX:FAR,1,Energy,False,False,False,False,True,True
+523,ASX:WGN,12,Materials,False,False,False,False,False,True
+524,ASX:ALG,79,Consumer Discretionary,False,False,False,False,True,True
+525,ASX:D2O,234,Utilities,False,False,False,False,False,False
+526,ASX:AT1,146,Health Care,False,False,False,False,False,False
+527,ASX:APD,165,Financials,False,False,False,False,False,True
+528,ASX:CLH,165,Financials,False,False,False,False,False,True
+529,ASX:EZL,165,Financials,False,False,False,False,False,True
+530,ASX:SDG,247,Real Estate,False,False,False,False,False,True
+531,ASX:FID,165,Financials,False,False,False,False,False,True
+532,ASX:IJR,,,False,False,False,False,False,False
+533,ASX:CVW,165,Financials,False,False,False,False,False,True
+534,ASX:IMA,12,Materials,False,False,False,False,False,False
+535,ASX:QIP,36,Industrials,False,False,False,False,False,True
+536,ASX:VTG,79,Consumer Discretionary,False,False,False,False,False,True
+537,ASX:AVJ,247,Real Estate,False,False,False,False,False,True
+538,ASX:AGI,79,Consumer Discretionary,False,False,False,False,False,True
+539,ASX:ATU,12,Materials,False,False,False,False,False,False
+540,ASX:KSL,165,Financials,False,False,False,False,False,True
+541,ASX:EAF,,,False,False,False,False,False,False
+542,ASX:GGG,12,Materials,False,False,False,False,False,False
+543,ASX:ALC,146,Health Care,False,False,False,False,False,False
+544,ASX:RFG,79,Consumer Discretionary,False,False,False,False,False,False
+545,ASX:OTW,193,Information Technology,False,False,False,False,False,True
+546,ASX:CLQ,36,Industrials,False,False,False,False,False,True
+547,ASX:ZEN,234,Utilities,False,False,False,False,False,False
+548,ASX:AMX,36,Industrials,False,False,False,False,False,False
+549,ASX:SFC,79,Consumer Discretionary,False,False,False,False,False,True
+550,ASX:FWD,79,Consumer Discretionary,False,False,False,False,False,True
+551,ASX:JHC,146,Health Care,False,False,False,False,True,True
+552,ASX:PPS,193,Information Technology,False,False,False,False,False,True
+553,ASX:SO4,12,Materials,False,False,False,False,False,False
+554,ASX:OKU,12,Materials,False,False,False,False,False,False
+555,ASX:SNL,79,Consumer Discretionary,False,False,False,False,False,True
+556,ASX:CAN,146,Health Care,False,False,False,False,False,True
+557,ASX:HE8,1,Energy,False,False,False,False,False,True
+558,ASX:URF,247,Real Estate,False,False,False,False,False,True
+559,ASX:GVF,165,Financials,False,False,False,False,False,False
+560,ASX:SKT,216,Communication Services,False,False,False,False,False,True
+561,ASX:BAF,165,Financials,False,False,False,False,False,False
+562,ASX:VTH,247,Real Estate,False,False,False,False,False,True
+563,ASX:PBP,146,Health Care,False,False,False,False,False,False
+564,ASX:MMI,12,Materials,False,False,False,False,False,True
+565,ASX:SLM,216,Communication Services,False,False,False,False,False,False
+566,ASX:GSW,193,Information Technology,False,False,False,False,False,False
+567,ASX:MDR,146,Health Care,False,False,False,False,False,False
+568,ASX:BET,79,Consumer Discretionary,False,False,False,False,False,False
+569,ASX:TRA,79,Consumer Discretionary,False,False,False,False,False,False
+570,ASX:SHJ,79,Consumer Discretionary,False,False,False,False,False,True
+571,ASX:PGL,165,Financials,False,False,False,False,False,False
+572,ASX:CVC,165,Financials,False,False,False,False,False,True
+573,ASX:GTK,193,Information Technology,False,False,False,False,False,False
+574,ASX:ENN,79,Consumer Discretionary,False,False,False,False,False,True
+575,ASX:EGN,36,Industrials,False,False,False,False,False,True
+576,ASX:BDC,12,Materials,False,False,False,False,False,False
+577,ASX:IMR,146,Health Care,False,False,False,False,False,False
+578,ASX:IMU,146,Health Care,False,False,False,False,False,False
+579,ASX:EAI,165,Financials,False,False,False,False,False,False
+580,ASX:ITG,36,Industrials,False,False,False,False,True,True
+581,ASX:TIE,12,Materials,False,False,False,False,False,False
+582,ASX:VVA,79,Consumer Discretionary,False,False,False,False,False,False
+583,ASX:MHJ,79,Consumer Discretionary,False,False,False,False,False,True
+584,ASX:PPG,12,Materials,False,False,False,False,False,True
+585,ASX:EWC,234,Utilities,False,False,False,False,False,True
+586,ASX:BYE,1,Energy,False,False,False,False,False,True
+587,ASX:CDD,36,Industrials,False,False,False,False,True,True
+588,ASX:SFG,124,Consumer Staples,False,False,False,False,False,True
+589,ASX:RAP,146,Health Care,False,False,False,False,False,False
+590,ASX:OBM,12,Materials,False,False,False,False,False,False
+591,ASX:ONT,146,Health Care,False,False,False,False,False,True
+592,ASX:DTC,193,Information Technology,False,False,False,False,False,False
+593,ASX:AJM,12,Materials,False,False,False,False,False,True
+594,ASX:JRV,12,Materials,False,False,False,False,False,False
+595,ASX:IGL,216,Communication Services,False,False,False,False,True,True
+596,ASX:DNK,12,Materials,False,False,False,False,False,True
+597,ASX:A40,12,Materials,False,False,False,False,False,False
+598,ASX:HFR,12,Materials,False,False,False,False,False,True
+599,ASX:SWM,216,Communication Services,False,False,False,False,True,True
+600,ASX:ED1,165,Financials,False,False,False,False,False,True
+601,ASX:TOT,165,Financials,False,False,False,False,False,False
+602,ASX:REX,36,Industrials,False,False,False,False,False,True
+603,ASX:VACF,,,False,False,False,False,False,False
+604,ASX:ABR,12,Materials,False,False,False,False,False,False
+605,ASX:EVS,193,Information Technology,False,False,False,False,False,False
+606,ASX:CCV,165,Financials,False,False,False,False,False,True
+607,ASX:WGO,1,Energy,False,False,False,False,False,False
+608,ASX:M7T,146,Health Care,False,False,False,False,False,False
+609,ASX:AVG,124,Consumer Staples,False,False,False,False,False,True
+610,ASX:IWL,,,False,False,False,False,False,False
+611,ASX:IJH,,,False,False,False,False,False,False
+612,ASX:RDY,193,Information Technology,False,False,False,False,False,False
+613,ASX:BCN,12,Materials,False,False,False,False,False,False
+614,ASX:RND,12,Materials,False,False,False,False,False,False
+615,ASX:1AL,79,Consumer Discretionary,False,False,False,False,False,False
+616,ASX:NWF,12,Materials,False,False,False,False,False,False
+617,ASX:BLK,12,Materials,False,False,False,False,False,False
+618,ASX:MVE,,,False,False,False,False,False,False
+619,ASX:BSA,36,Industrials,False,False,False,False,False,False
+620,ASX:SYR,12,Materials,False,False,False,False,True,True
+621,ASX:FSA,165,Financials,False,False,False,False,False,True
+622,ASX:WIC,165,Financials,False,False,False,False,False,False
+623,ASX:CYC,146,Health Care,False,False,False,False,False,False
+624,ASX:SXE,36,Industrials,False,False,False,False,False,True
+625,ASX:DGO,12,Materials,False,False,False,False,False,False
+626,ASX:TER,1,Energy,False,False,False,False,False,True
+627,ASX:LAU,36,Industrials,False,False,False,False,False,False
+628,ASX:PCG,165,Financials,False,False,False,False,False,True
+629,ASX:SVL,12,Materials,False,False,False,False,False,False
+630,ASX:3PL,79,Consumer Discretionary,False,False,False,False,False,True
+631,ASX:SPT,193,Information Technology,False,False,False,False,False,False
+632,ASX:WHA,124,Consumer Staples,False,False,False,False,False,True
+633,ASX:TTT,12,Materials,False,False,False,False,False,False
+634,ASX:BOE,12,Materials,False,False,False,False,False,False
+635,ASX:SDV,12,Materials,False,False,False,False,False,False
+636,ASX:CUP,36,Industrials,False,False,False,False,False,False
+637,ASX:EGI,165,Financials,False,False,False,False,False,False
+638,ASX:ICQ,79,Consumer Discretionary,False,False,False,False,False,False
+639,ASX:AEG,165,Financials,False,False,False,False,False,False
+640,ASX:ETPMAG,,,False,False,False,False,False,False
+641,ASX:TGM,12,Materials,False,False,False,False,False,False
+642,ASX:EGG,216,Communication Services,False,False,False,False,False,False
+643,ASX:AMS,79,Consumer Discretionary,False,False,False,False,False,False
+644,ASX:WJA,193,Information Technology,False,False,False,False,False,True
+645,ASX:BOC,12,Materials,False,False,False,False,False,False
+646,ASX:IZZ,,,False,False,False,False,False,False
+647,ASX:GNG,12,Materials,False,False,False,False,False,True
+648,ASX:PVS,193,Information Technology,False,False,False,False,False,True
+649,ASX:APZ,247,Real Estate,False,False,False,False,False,False
+650,ASX:ERF,247,Real Estate,False,False,False,False,False,True
+651,ASX:SKY,12,Materials,False,False,False,False,False,False
+652,ASX:SGH,79,Consumer Discretionary,False,False,False,False,False,True
+653,ASX:SRG,36,Industrials,False,False,False,False,False,True
+654,ASX:A4N,12,Materials,False,False,False,False,False,False
+655,ASX:RCT,79,Consumer Discretionary,False,False,False,False,False,True
+656,ASX:VAN,12,Materials,False,False,False,False,False,False
+657,ASX:MRC,12,Materials,False,False,False,False,False,False
+658,ASX:GLL,1,Energy,False,False,False,False,False,True
+659,ASX:DWS,193,Information Technology,False,False,False,False,False,True
+660,ASX:NUC,124,Consumer Staples,False,False,False,False,False,False
+661,ASX:KCN,12,Materials,False,False,False,False,False,False
+662,ASX:AYS,234,Utilities,False,False,False,False,True,True
+663,ASX:EVO,79,Consumer Discretionary,False,False,False,False,False,False
+664,ASX:MGC,124,Consumer Staples,False,False,False,False,False,False
+665,ASX:ANS,12,Materials,False,False,False,False,False,False
+666,ASX:BTI,165,Financials,False,False,False,False,False,False
+667,ASX:BID,193,Information Technology,False,False,False,False,False,False
+668,ASX:ORR,12,Materials,False,False,False,False,False,False
+669,ASX:AGD,12,Materials,False,False,False,False,False,False
+670,ASX:CMP,146,Health Care,False,False,False,False,False,False
+671,ASX:RTE,79,Consumer Discretionary,False,False,False,False,False,False
+672,ASX:PAN,12,Materials,False,False,False,False,False,True
+673,ASX:AXE,12,Materials,False,False,False,False,False,False
+674,ASX:PLL,12,Materials,False,False,False,False,False,False
+675,ASX:TDI,,,False,False,False,False,False,False
+676,ASX:CXL,12,Materials,False,False,False,False,False,False
+677,ASX:HAS,12,Materials,False,False,False,False,False,True
+678,ASX:SVY,12,Materials,False,False,False,False,False,False
+679,ASX:CEL,12,Materials,False,False,False,False,False,False
+680,ASX:SDI,146,Health Care,False,False,False,False,False,False
+681,ASX:TOP,247,Real Estate,False,False,False,False,False,False
+682,ASX:BRL,12,Materials,False,False,False,False,False,True
+683,ASX:ARU,12,Materials,False,False,False,False,False,False
+684,ASX:CII,12,Materials,False,False,False,False,False,True
+685,ASX:FOR,165,Financials,False,False,False,False,False,False
+686,ASX:POS,12,Materials,False,False,False,False,False,False
+687,ASX:BRI,12,Materials,False,False,False,False,False,False
+688,ASX:UNV,1,Energy,False,False,False,False,False,False
+689,ASX:PAL,146,Health Care,False,False,False,False,False,False
+690,ASX:MLX,12,Materials,False,False,False,False,False,True
+691,ASX:MYL,12,Materials,False,False,False,False,False,False
+692,ASX:CAM,165,Financials,False,False,False,False,False,False
+693,ASX:NMT,12,Materials,False,False,False,False,False,True
+694,ASX:SOM,146,Health Care,False,False,False,False,False,False
+695,ASX:NET,193,Information Technology,False,False,False,False,False,False
+696,ASX:TLG,12,Materials,False,False,False,False,False,False
+697,ASX:CSD,12,Materials,False,False,False,False,False,False
+698,ASX:MOGL,,,False,False,False,False,False,False
+699,ASX:SELF,165,Financials,False,False,False,False,False,False
+700,ASX:TGN,12,Materials,False,False,False,False,False,True
+701,ASX:A2B,36,Industrials,False,False,False,False,False,True
+702,ASX:GAS,1,Energy,False,False,False,False,False,False
+703,ASX:MOC,165,Financials,False,False,False,False,False,True
+704,ASX:HJPN,,,False,False,False,False,False,False
+705,ASX:G1A,12,Materials,False,False,False,False,False,False
+706,ASX:WAT,79,Consumer Discretionary,False,False,False,False,False,False
+707,ASX:MOZ,79,Consumer Discretionary,False,False,False,False,False,True
+708,ASX:IHW,,,False,False,False,False,False,False
+709,ASX:GDG,165,Financials,False,False,False,False,False,False
+710,ASX:ADN,12,Materials,False,False,False,False,False,False
+711,ASX:SEC,,,False,False,False,False,False,False
+712,ASX:OPY,165,Financials,False,False,False,False,False,False
+713,ASX:PO3,234,Utilities,False,False,False,False,False,False
+714,ASX:BRN,193,Information Technology,False,False,False,False,False,False
+715,ASX:FMS,12,Materials,False,False,False,False,False,True
+716,ASX:ARA,36,Industrials,False,False,False,False,False,False
+717,ASX:NML,12,Materials,False,False,False,False,False,False
+718,ASX:QPR,247,Real Estate,False,False,False,False,False,False
+719,ASX:BKY,1,Energy,False,False,False,False,False,False
+720,ASX:MSV,12,Materials,False,False,False,False,False,False
+721,ASX:CYP,146,Health Care,False,False,False,False,False,False
+722,ASX:NSC,165,Financials,False,False,False,False,False,False
+723,ASX:GTN,216,Communication Services,False,False,False,False,False,True
+724,ASX:IKO,,,False,False,False,False,False,False
+725,ASX:CAI,12,Materials,False,False,False,False,False,False
+726,ASX:MWY,12,Materials,False,False,False,False,False,True
+727,ASX:WLC,12,Materials,False,False,False,False,False,False
+728,ASX:TGF,,,False,False,False,False,False,False
+729,ASX:EOL,193,Information Technology,False,False,False,False,False,False
+730,ASX:SMP,193,Information Technology,False,False,False,False,False,False
+731,ASX:AMN,12,Materials,False,False,False,False,False,False
+732,ASX:RCE,146,Health Care,False,False,False,False,False,False
+733,ASX:GNX,234,Utilities,False,False,False,False,False,False
+734,ASX:TZN,12,Materials,False,False,False,False,False,True
+735,ASX:SSG,79,Consumer Discretionary,False,False,False,False,False,False
+736,ASX:AFA,165,Financials,False,False,False,False,False,False
+737,ASX:EGH,247,Real Estate,False,False,False,False,False,False
+738,ASX:GPR,12,Materials,False,False,False,False,False,False
+739,ASX:RHT,146,Health Care,False,False,False,False,False,False
+740,ASX:IMM,146,Health Care,False,False,False,False,False,False
+741,ASX:HZN,1,Energy,False,False,False,False,False,True
+742,ASX:NTU,12,Materials,False,False,False,False,False,False
+743,ASX:KRR,12,Materials,False,False,False,False,False,False
+744,ASX:ANG,36,Industrials,False,False,False,False,False,False
+745,ASX:GOW,165,Financials,False,False,False,False,False,True
+746,ASX:IOD,193,Information Technology,False,False,False,False,False,False
+747,ASX:AUT,12,Materials,False,False,False,False,False,False
+748,ASX:RYD,165,Financials,False,False,False,False,False,False
+749,ASX:OSL,146,Health Care,False,False,False,False,False,False
+750,ASX:AOP,12,Materials,False,False,False,False,False,False
+751,ASX:LSX,165,Financials,False,False,False,False,False,False
+752,ASX:TWD,79,Consumer Discretionary,False,False,False,False,False,False
+753,ASX:ST1,216,Communication Services,False,False,False,False,False,False
+754,ASX:ELX,146,Health Care,False,False,False,False,False,False
+755,ASX:AAR,12,Materials,False,False,False,False,False,False
+756,ASX:MRM,1,Energy,False,False,False,False,False,True
+757,ASX:SNC,165,Financials,False,False,False,False,False,False
+758,ASX:MYE,12,Materials,False,False,False,False,False,False
+759,ASX:OCC,146,Health Care,False,False,False,False,False,False
+760,ASX:LVH,193,Information Technology,False,False,False,False,False,True
+761,ASX:COG,165,Financials,False,False,False,False,False,True
+762,ASX:KLA,12,Materials,False,False,False,False,False,False
+763,ASX:5GN,216,Communication Services,False,False,False,False,False,False
+764,ASX:CD3,165,Financials,False,False,False,False,False,False
+765,ASX:WND,234,Utilities,False,False,False,False,False,False
+766,ASX:CTM,12,Materials,False,False,False,False,False,False
+767,ASX:MCA,124,Consumer Staples,False,False,False,False,False,False
+768,ASX:MTO,79,Consumer Discretionary,False,False,False,False,False,True
+769,ASX:BRB,12,Materials,False,False,False,False,False,False
+770,ASX:AGH,146,Health Care,False,False,False,False,False,False
+771,ASX:WEC,1,Energy,False,False,False,False,False,False
+772,ASX:RDF,193,Information Technology,False,False,False,False,False,False
+773,ASX:TNG,12,Materials,False,False,False,False,False,False
+774,ASX:OEC,36,Industrials,False,False,False,False,False,False
+775,ASX:EXP,79,Consumer Discretionary,False,False,False,False,False,True
+776,ASX:NUS,12,Materials,False,False,False,False,False,False
+777,ASX:KZR,12,Materials,False,False,False,False,False,False
+778,ASX:RKN,193,Information Technology,False,False,False,False,False,False
+779,ASX:CGR,165,Financials,False,False,False,False,False,False
+780,ASX:BIT,146,Health Care,False,False,False,False,False,False
+781,ASX:COI,1,Energy,False,False,False,False,False,True
+782,ASX:TIP,165,Financials,False,False,False,False,False,False
+783,ASX:EDE,1,Energy,False,False,False,False,False,False
+784,ASX:TRY,12,Materials,False,False,False,False,False,False
+785,ASX:EEG,1,Energy,False,False,False,False,False,False
+786,ASX:FGR,12,Materials,False,False,False,False,False,False
+787,ASX:PTB,36,Industrials,False,False,False,False,False,False
+788,ASX:RMY,216,Communication Services,False,False,False,False,False,False
+789,ASX:IKE,193,Information Technology,False,False,False,False,False,False
+790,ASX:NTM,12,Materials,False,False,False,False,False,False
+791,ASX:TON,12,Materials,False,False,False,False,False,False
+792,ASX:DYL,1,Energy,False,False,False,False,False,False
+793,ASX:PGC,146,Health Care,False,False,False,False,False,True
+794,ASX:EPD,193,Information Technology,False,False,False,False,False,False
+795,ASX:CSS,124,Consumer Staples,False,False,False,False,False,False
+796,ASX:KIN,12,Materials,False,False,False,False,False,False
+797,ASX:TAM,12,Materials,False,False,False,False,False,False
+798,ASX:CAY,12,Materials,False,False,False,False,False,False
+799,ASX:TEK,1,Energy,False,False,False,False,False,False
+800,ASX:NNT,193,Information Technology,False,False,False,False,False,False
+801,ASX:OVH,165,Financials,False,False,False,False,False,True
+802,ASX:TDL,146,Health Care,False,False,False,False,False,False
+803,ASX:SLX,193,Information Technology,False,False,False,False,False,False
+804,ASX:HLA,146,Health Care,False,False,False,False,False,False
+805,ASX:WRL,,,False,False,False,False,False,False
+806,ASX:WFE,12,Materials,False,False,False,False,False,False
+807,ASX:MGV,12,Materials,False,False,False,False,False,False
+808,ASX:BCI,12,Materials,False,False,False,False,False,False
+809,ASX:JAN,193,Information Technology,False,False,False,False,False,False
+810,ASX:CLF,165,Financials,False,False,False,False,False,False
+811,ASX:TTM,12,Materials,False,False,False,False,False,False
+812,ASX:CIE,165,Financials,False,False,False,False,False,False
+813,ASX:AHX,146,Health Care,False,False,False,False,False,False
+814,ASX:MAI,165,Financials,False,False,False,False,False,False
+815,ASX:AZY,12,Materials,False,False,False,False,False,False
+816,ASX:AJL,36,Industrials,False,False,False,False,False,True
+817,ASX:CGS,146,Health Care,False,False,False,False,False,False
+818,ASX:MAG,12,Materials,False,False,False,False,False,False
+819,ASX:HIT,36,Industrials,False,False,False,False,False,False
+820,ASX:GRB,124,Consumer Staples,False,False,False,False,False,False
+821,ASX:CUE,1,Energy,False,False,False,False,False,False
+822,ASX:4DS,193,Information Technology,False,False,False,False,False,False
+823,ASX:VMT,79,Consumer Discretionary,False,False,False,False,False,False
+824,ASX:CTP,1,Energy,False,False,False,False,False,False
+825,ASX:MVS,,,False,False,False,False,False,False
+826,ASX:NVX,193,Information Technology,False,False,False,False,False,False
+827,ASX:AC8,146,Health Care,False,False,False,False,False,True
+828,ASX:STA,12,Materials,False,False,False,False,False,False
+829,ASX:DME,12,Materials,False,False,False,False,False,False
+830,ASX:BLY,12,Materials,False,False,False,False,False,False
+831,ASX:KTD,124,Consumer Staples,False,False,False,False,False,False
+832,ASX:CD2,165,Financials,False,False,False,False,False,False
+833,ASX:CVF,165,Financials,False,False,False,False,False,False
+834,ASX:TTB,146,Health Care,False,False,False,False,False,False
+835,ASX:FFI,124,Consumer Staples,False,False,False,False,False,False
+836,ASX:QHL,36,Industrials,False,False,False,False,False,False
+837,ASX:VEE,36,Industrials,False,False,False,False,False,False
+838,ASX:ATL,79,Consumer Discretionary,False,False,False,False,False,True
+839,ASX:KGL,12,Materials,False,False,False,False,False,False
+840,ASX:CYG,36,Industrials,False,False,False,False,False,False
+841,ASX:DBF,124,Consumer Staples,False,False,False,False,False,False
+842,ASX:APW,247,Real Estate,False,False,False,False,False,False
+843,ASX:CAA,12,Materials,False,False,False,False,False,False
+844,ASX:SDL,12,Materials,False,False,False,False,False,False
+845,ASX:IBC,165,Financials,False,False,False,False,False,False
+846,ASX:LCK,1,Energy,False,False,False,False,False,False
+847,ASX:EHH,124,Consumer Staples,False,False,False,False,False,False
+848,ASX:SSL,247,Real Estate,False,False,False,False,False,False
+849,ASX:OZG,165,Financials,False,False,False,False,False,False
+850,ASX:LRK,124,Consumer Staples,False,False,False,False,False,False
+851,ASX:MVR,,,False,False,False,False,False,False
+852,ASX:AGY,12,Materials,False,False,False,False,False,True
+853,ASX:SWF,165,Financials,False,False,False,False,False,False
+854,ASX:FTC,193,Information Technology,False,False,False,False,False,False
+855,ASX:IXC,146,Health Care,False,False,False,False,False,False
+856,ASX:HAW,12,Materials,False,False,False,False,False,False
+857,ASX:LKO,1,Energy,False,False,False,False,False,False
+858,ASX:PTL,124,Consumer Staples,False,False,False,False,False,False
+859,ASX:FML,12,Materials,False,False,False,False,False,False
+860,ASX:TNY,216,Communication Services,False,False,False,False,False,False
+861,ASX:AML,12,Materials,False,False,False,False,False,True
+862,ASX:SVM,12,Materials,False,False,False,False,False,False
+863,ASX:ACF,36,Industrials,False,False,False,False,False,False
+864,ASX:CZI,12,Materials,False,False,False,False,False,False
+865,ASX:MDC,146,Health Care,False,False,False,False,False,False
+866,ASX:TNK,79,Consumer Discretionary,False,False,False,False,False,False
+867,ASX:NVA,12,Materials,False,False,False,False,False,False
+868,ASX:KPT,12,Materials,False,False,False,False,False,False
+869,ASX:NCC,165,Financials,False,False,False,False,False,False
+870,ASX:PLX,12,Materials,False,False,False,False,False,False
+871,ASX:MX1,146,Health Care,False,False,False,False,False,False
+872,ASX:NZM,216,Communication Services,False,False,False,False,False,False
+873,ASX:DXB,146,Health Care,False,False,False,False,False,False
+874,ASX:GMD,12,Materials,False,False,False,False,False,False
+875,ASX:DCG,36,Industrials,False,False,False,False,False,True
+876,ASX:GMV,146,Health Care,False,False,False,False,False,False
+877,ASX:CVL,36,Industrials,False,False,False,False,False,False
+878,ASX:SEN,193,Information Technology,False,False,False,False,False,False
+879,ASX:DGH,247,Real Estate,False,False,False,False,False,False
+880,ASX:YOJ,193,Information Technology,False,False,False,False,False,False
+881,ASX:SND,36,Industrials,False,False,False,False,False,False
+882,ASX:BBC,165,Financials,False,False,False,False,False,False
+883,ASX:THC,146,Health Care,False,False,False,False,False,False
+884,ASX:ACQ,165,Financials,False,False,False,False,False,False
+885,ASX:HIL,193,Information Technology,False,False,False,False,False,False
+886,ASX:MEM,146,Health Care,False,False,False,False,False,False
+887,ASX:FZO,193,Information Technology,False,False,False,False,False,False
+888,ASX:REY,1,Energy,False,False,False,False,False,False
+889,ASX:QFE,165,Financials,False,False,False,False,False,False
+890,ASX:CAG,193,Information Technology,False,False,False,False,False,False
+891,ASX:MOY,12,Materials,False,False,False,False,False,False
+892,ASX:HZR,12,Materials,False,False,False,False,False,False
+893,ASX:BRU,1,Energy,False,False,False,False,False,False
+894,ASX:ASH,36,Industrials,False,False,False,False,False,False
+895,ASX:HTG,193,Information Technology,False,False,False,False,False,False
+896,ASX:PNW,216,Communication Services,False,False,False,False,False,False
+897,ASX:SMN,193,Information Technology,False,False,False,False,False,False
+898,ASX:HRZ,12,Materials,False,False,False,False,False,False
+899,ASX:PGX,36,Industrials,False,False,False,False,False,False
+900,ASX:ISU,79,Consumer Discretionary,False,False,False,False,False,True
+901,ASX:COS,193,Information Technology,False,False,False,False,False,False
+902,ASX:KME,79,Consumer Discretionary,False,False,False,False,False,False
+903,ASX:GLB,79,Consumer Discretionary,False,False,False,False,False,False
+904,ASX:MA1,165,Financials,False,False,False,False,False,False
+905,ASX:SNS,193,Information Technology,False,False,False,False,False,False
+906,ASX:VII,12,Materials,False,False,False,False,False,False
+907,ASX:LOT,12,Materials,False,False,False,False,False,False
+908,ASX:HCT,124,Consumer Staples,False,False,False,False,False,False
+909,ASX:IVX,146,Health Care,False,False,False,False,False,False
+910,ASX:RAC,146,Health Care,False,False,False,False,False,False
+911,ASX:MEC,165,Financials,False,False,False,False,False,False
+912,ASX:AHQ,12,Materials,False,False,False,False,False,False
+913,ASX:WKT,12,Materials,False,False,False,False,False,False
+914,ASX:MVB,,,False,False,False,False,False,False
+915,ASX:BIS,12,Materials,False,False,False,False,False,False
+916,ASX:CXO,12,Materials,False,False,False,False,False,False
+917,ASX:TGA,79,Consumer Discretionary,False,False,False,False,False,False
+918,ASX:ZLD,146,Health Care,False,False,False,False,False,False
+919,ASX:EST,,,False,False,False,False,False,False
+920,ASX:AHZ,146,Health Care,False,False,False,False,False,False
+921,ASX:PDI,12,Materials,False,False,False,False,False,False
+922,ASX:MEU,1,Energy,False,False,False,False,False,False
+923,ASX:JAT,79,Consumer Discretionary,False,False,False,False,False,False
+924,ASX:LBL,36,Industrials,False,False,False,False,False,False
+925,ASX:BYI,216,Communication Services,False,False,False,False,False,False
+926,ASX:EMV,146,Health Care,False,False,False,False,False,False
+927,ASX:88E,1,Energy,False,False,False,False,False,False
+928,ASX:MNS,12,Materials,False,False,False,False,False,True
+929,ASX:KFE,12,Materials,False,False,False,False,False,False
+930,ASX:MAM,165,Financials,False,False,False,False,False,False
+931,ASX:STG,216,Communication Services,False,False,False,False,False,False
+932,ASX:FSI,165,Financials,False,False,False,False,False,False
+933,ASX:HRL,36,Industrials,False,False,False,False,False,False
+934,ASX:RFT,36,Industrials,False,False,False,False,False,False
+935,ASX:BRV,12,Materials,False,False,False,False,False,False
+936,ASX:NAM,36,Industrials,False,False,False,False,False,False
+937,ASX:IPD,146,Health Care,False,False,False,False,False,False
+938,ASX:RXP,193,Information Technology,False,False,False,False,False,False
+939,ASX:BOT,146,Health Care,False,False,False,False,False,False
+940,ASX:SKF,193,Information Technology,False,False,False,False,False,False
+941,ASX:QTM,146,Health Care,False,False,False,False,False,False
+942,ASX:BBX,12,Materials,False,False,False,False,False,False
+943,ASX:KOV,36,Industrials,False,False,False,False,False,False
+944,ASX:PRO,193,Information Technology,False,False,False,False,False,False
+945,ASX:MRL,12,Materials,False,False,False,False,False,False
+946,ASX:EDC,165,Financials,False,False,False,False,False,False
+947,ASX:SHM,79,Consumer Discretionary,False,False,False,False,False,False
+948,ASX:FOD,124,Consumer Staples,False,False,False,False,False,False
+949,ASX:WAA,165,Financials,False,False,False,False,False,False
+950,ASX:PEN,1,Energy,False,False,False,False,False,False
+951,ASX:SAS,216,Communication Services,False,False,False,False,False,False
+952,ASX:RZI,165,Financials,False,False,False,False,False,False
+953,ASX:DGR,12,Materials,False,False,False,False,False,False
+954,ASX:ZER,12,Materials,False,False,False,False,False,False
+955,ASX:VRX,12,Materials,False,False,False,False,False,False
+956,ASX:KPG,36,Industrials,False,False,False,False,False,False
+957,ASX:ADS,193,Information Technology,False,False,False,False,False,False
+958,ASX:GLIN,,,False,False,False,False,False,False
+959,ASX:FBR,36,Industrials,False,False,False,False,False,True
+960,ASX:MXC,146,Health Care,False,False,False,False,False,False
+961,ASX:BCB,12,Materials,False,False,False,False,False,False
+962,ASX:PYG,193,Information Technology,False,False,False,False,False,False
+963,ASX:GCY,12,Materials,False,False,False,False,False,False
+964,ASX:PAF,165,Financials,False,False,False,False,False,False
+965,ASX:BMN,1,Energy,False,False,False,False,False,False
+966,ASX:ERM,12,Materials,False,False,False,False,False,False
+967,ASX:ATC,12,Materials,False,False,False,False,False,False
+968,ASX:SFX,12,Materials,False,False,False,False,False,True
+969,ASX:AKM,12,Materials,False,False,False,False,False,False
+970,ASX:GAP,79,Consumer Discretionary,False,False,False,False,False,False
+971,ASX:SGQ,12,Materials,False,False,False,False,False,False
+972,ASX:SWK,12,Materials,False,False,False,False,False,False
+973,ASX:CLX,36,Industrials,False,False,False,False,False,False
+974,ASX:FHS,12,Materials,False,False,False,False,False,False
+975,ASX:RSH,146,Health Care,False,False,False,False,False,False
+976,ASX:RXL,12,Materials,False,False,False,False,False,False
+977,ASX:BC8,12,Materials,False,False,False,False,False,False
+978,ASX:TIG,12,Materials,False,False,False,False,False,False
+979,ASX:SPZ,193,Information Technology,False,False,False,False,False,False
+980,ASX:ORN,12,Materials,False,False,False,False,False,False
+981,ASX:BOL,36,Industrials,False,False,False,False,False,False
+982,ASX:SMC,12,Materials,False,False,False,False,False,False
+983,ASX:MPH,79,Consumer Discretionary,False,False,False,False,False,False
+984,ASX:MRG,124,Consumer Staples,False,False,False,False,False,False
+985,ASX:AVA,193,Information Technology,False,False,False,False,False,False
+986,ASX:OVN,146,Health Care,False,False,False,False,False,False
+987,ASX:KZA,146,Health Care,False,False,False,False,False,False
+988,ASX:BCT,193,Information Technology,False,False,False,False,False,False
+989,ASX:BBL,216,Communication Services,False,False,False,False,False,False
+990,ASX:ELS,193,Information Technology,False,False,False,False,False,False
+991,ASX:EXL,124,Consumer Staples,False,False,False,False,False,False
+992,ASX:HVM,124,Consumer Staples,False,False,False,False,False,False
+993,ASX:PRT,216,Communication Services,False,False,False,False,False,False
+994,ASX:ERX,12,Materials,False,False,False,False,False,False
+995,ASX:AKG,79,Consumer Discretionary,False,False,False,False,False,False
+996,ASX:LPD,12,Materials,False,False,False,False,False,False
+997,ASX:ADO,146,Health Care,False,False,False,False,False,False
+998,ASX:EBG,79,Consumer Discretionary,False,False,False,False,False,False
+999,ASX:8IH,165,Financials,False,False,False,False,False,False
+1000,ASX:IHL,146,Health Care,False,False,False,False,False,False
+1001,ASX:BD1,146,Health Care,False,False,False,False,False,False
+1002,ASX:LPI,12,Materials,False,False,False,False,False,False
+1003,ASX:UBI,146,Health Care,False,False,False,False,False,False
+1004,ASX:S66,124,Consumer Staples,False,False,False,False,False,False
+1005,ASX:UBN,193,Information Technology,False,False,False,False,False,False
+1006,ASX:LAW,165,Financials,False,False,False,False,False,False
+1007,ASX:CKA,12,Materials,False,False,False,False,False,False
+1008,ASX:PWL,165,Financials,False,False,False,False,False,False
+1009,ASX:RES,1,Energy,False,False,False,False,False,False
+1010,ASX:MPO,1,Energy,False,False,False,False,False,False
+1011,ASX:IVQ,146,Health Care,False,False,False,False,False,False
+1012,ASX:IDT,146,Health Care,False,False,False,False,False,False
+1013,ASX:BSX,12,Materials,False,False,False,False,False,False
+1014,ASX:IGE,36,Industrials,False,False,False,False,False,False
+1015,ASX:JAL,12,Materials,False,False,False,False,False,False
+1016,ASX:CI1,36,Industrials,False,False,False,False,False,False
+1017,ASX:CT1,193,Information Technology,False,False,False,False,False,False
+1018,ASX:RVR,12,Materials,False,False,False,False,False,False
+1019,ASX:FPC,165,Financials,False,False,False,False,False,False
+1020,ASX:RCW,193,Information Technology,False,False,False,False,False,False
+1021,ASX:SIO,79,Consumer Discretionary,False,False,False,False,False,False
+1022,ASX:NAC,165,Financials,False,False,False,False,False,False
+1023,ASX:TAP,1,Energy,False,False,False,False,False,False
+1024,ASX:ECL,36,Industrials,False,False,False,False,False,False
+1025,ASX:PXS,146,Health Care,False,False,False,False,False,False
+1026,ASX:KRM,12,Materials,False,False,False,False,False,False
+1027,ASX:MZZ,12,Materials,False,False,False,False,False,False
+1028,ASX:AUZ,12,Materials,False,False,False,False,False,True
+1029,ASX:GMN,12,Materials,False,False,False,False,False,False
+1030,ASX:DEM,234,Utilities,False,False,False,False,False,False
+1031,ASX:XTE,36,Industrials,False,False,False,False,False,False
+1032,ASX:KPC,12,Materials,False,False,False,False,False,False
+1033,ASX:NOV,193,Information Technology,False,False,False,False,False,False
+1034,ASX:PEK,12,Materials,False,False,False,False,False,False
+1035,ASX:SEI,12,Materials,False,False,False,False,False,False
+1036,ASX:DNA,79,Consumer Discretionary,False,False,False,False,False,False
+1037,ASX:SIH,12,Materials,False,False,False,False,False,False
+1038,ASX:OSX,146,Health Care,False,False,False,False,False,False
+1039,ASX:IRD,12,Materials,False,False,False,False,False,False
+1040,ASX:PIQ,146,Health Care,False,False,False,False,False,False
+1041,ASX:PEX,12,Materials,False,False,False,False,False,False
+1042,ASX:SMG,12,Materials,False,False,False,False,False,False
+1043,ASX:UCM,146,Health Care,False,False,False,False,False,False
+1044,ASX:ADA,193,Information Technology,False,False,False,False,False,False
+1045,ASX:OEL,1,Energy,False,False,False,False,False,False
+1046,ASX:STN,12,Materials,False,False,False,False,False,False
+1047,ASX:EQX,12,Materials,False,False,False,False,False,False
+1048,ASX:BSR,12,Materials,False,False,False,False,False,False
+1049,ASX:ARV,12,Materials,False,False,False,False,False,False
+1050,ASX:DSE,193,Information Technology,False,False,False,False,False,False
+1051,ASX:ENR,12,Materials,False,False,False,False,False,False
+1052,ASX:RTR,12,Materials,False,False,False,False,False,False
+1053,ASX:GTG,146,Health Care,False,False,False,False,False,False
+1054,ASX:LBT,146,Health Care,False,False,False,False,False,False
+1055,ASX:AYI,165,Financials,False,False,False,False,False,False
+1056,ASX:PM8,12,Materials,False,False,False,False,False,False
+1057,ASX:ARL,12,Materials,False,False,False,False,False,False
+1058,ASX:VMY,1,Energy,False,False,False,False,False,False
+1059,ASX:XF1,193,Information Technology,False,False,False,False,False,False
+1060,ASX:TNT,193,Information Technology,False,False,False,False,False,False
+1061,ASX:BDA,79,Consumer Discretionary,False,False,False,False,False,False
+1062,ASX:MEA,247,Real Estate,False,False,False,False,False,False
+1063,ASX:ASW,165,Financials,False,False,False,False,False,False
+1064,ASX:VLS,146,Health Care,False,False,False,False,False,False
+1065,ASX:NOX,146,Health Care,False,False,False,False,False,False
+1066,ASX:HCH,12,Materials,False,False,False,False,False,False
+1067,ASX:NTD,79,Consumer Discretionary,False,False,False,False,False,False
+1068,ASX:LCM,36,Industrials,False,False,False,False,False,False
+1069,ASX:ISD,193,Information Technology,False,False,False,False,False,False
+1070,ASX:LIT,12,Materials,False,False,False,False,False,False
+1071,ASX:CST,12,Materials,False,False,False,False,False,False
+1072,ASX:BMH,36,Industrials,False,False,False,False,False,False
+1073,ASX:AHF,124,Consumer Staples,False,False,False,False,False,False
+1074,ASX:MPX,247,Real Estate,False,False,False,False,False,False
+1075,ASX:GMC,12,Materials,False,False,False,False,False,False
+1076,ASX:RFX,36,Industrials,False,False,False,False,False,False
+1077,ASX:BFC,124,Consumer Staples,False,False,False,False,False,False
+1078,ASX:TFL,124,Consumer Staples,False,False,False,False,False,False
+1079,ASX:PAA,146,Health Care,False,False,False,False,False,False
+1080,ASX:BUD,193,Information Technology,False,False,False,False,False,False
+1081,ASX:PVE,1,Energy,False,False,False,False,False,False
+1082,ASX:MAT,12,Materials,False,False,False,False,False,False
+1083,ASX:PSC,12,Materials,False,False,False,False,False,False
+1084,ASX:BKT,12,Materials,False,False,False,False,False,False
+1085,ASX:KSN,12,Materials,False,False,False,False,False,False
+1086,ASX:VLT,193,Information Technology,False,False,False,False,False,False
+1087,ASX:RENT,,,False,False,False,False,False,False
+1088,ASX:JYC,79,Consumer Discretionary,False,False,False,False,False,False
+1089,ASX:ARS,12,Materials,False,False,False,False,False,False
+1090,ASX:EUR,12,Materials,False,False,False,False,False,False
+1091,ASX:AJX,12,Materials,False,False,False,False,False,False
+1092,ASX:MPP,36,Industrials,False,False,False,False,False,False
+1093,ASX:MXI,36,Industrials,False,False,False,False,False,False
+1094,ASX:EAS,165,Financials,False,False,False,False,False,False
+1095,ASX:XAM,12,Materials,False,False,False,False,False,False
+1096,ASX:AIQ,165,Financials,False,False,False,False,False,False
+1097,ASX:AGM,,,False,False,False,False,False,False
+1098,ASX:NAG,12,Materials,False,False,False,False,False,False
+1099,ASX:ONX,12,Materials,False,False,False,False,False,False
+1100,ASX:BHL,247,Real Estate,False,False,False,False,False,False
+1101,ASX:TGH,12,Materials,False,False,False,False,False,False
+1102,ASX:DTS,193,Information Technology,False,False,False,False,False,False
+1103,ASX:PRX,12,Materials,False,False,False,False,False,False
+1104,ASX:GC1,165,Financials,False,False,False,False,False,False
+1105,ASX:VMC,12,Materials,False,False,False,False,False,False
+1106,ASX:OBJ,146,Health Care,False,False,False,False,False,False
+1107,ASX:LGP,146,Health Care,False,False,False,False,False,False
+1108,ASX:CD1,165,Financials,False,False,False,False,False,False
+1109,ASX:TOU,1,Energy,False,False,False,False,False,False
+1110,ASX:LON,124,Consumer Staples,False,False,False,False,False,False
+1111,ASX:EFF,,,False,False,False,False,False,False
+1112,ASX:RCL,193,Information Technology,False,False,False,False,False,False
+1113,ASX:MLL,12,Materials,False,False,False,False,False,False
+1114,ASX:NGY,1,Energy,False,False,False,False,False,False
+1115,ASX:MOQ,193,Information Technology,False,False,False,False,False,False
+1116,ASX:HAV,12,Materials,False,False,False,False,False,False
+1117,ASX:WNR,124,Consumer Staples,False,False,False,False,False,False
+1118,ASX:MMJ,146,Health Care,False,False,False,False,False,False
+1119,ASX:GSN,12,Materials,False,False,False,False,False,False
+1120,ASX:EME,1,Energy,False,False,False,False,False,False
+1121,ASX:BNO,146,Health Care,False,False,False,False,False,False
+1122,ASX:JCI,36,Industrials,False,False,False,False,False,False
+1123,ASX:TIA,247,Real Estate,False,False,False,False,False,False
+1124,ASX:PNL,1,Energy,False,False,False,False,False,False
+1125,ASX:BGT,12,Materials,False,False,False,False,False,False
+1126,ASX:EMB,36,Industrials,False,False,False,False,False,False
+1127,ASX:RTG,12,Materials,False,False,False,False,False,False
+1128,ASX:GAL,12,Materials,False,False,False,False,False,False
+1129,ASX:FFL,124,Consumer Staples,False,False,False,False,False,False
+1130,ASX:VEC,12,Materials,False,False,False,False,False,False
+1131,ASX:AVL,12,Materials,False,False,False,False,False,False
+1132,ASX:2BE,1,Energy,False,False,False,False,False,False
+1133,ASX:KAT,165,Financials,False,False,False,False,False,False
+1134,ASX:XRF,36,Industrials,False,False,False,False,False,False
+1135,ASX:SKN,124,Consumer Staples,False,False,False,False,False,False
+1136,ASX:DRO,36,Industrials,False,False,False,False,False,False
+1137,ASX:3DP,193,Information Technology,False,False,False,False,False,False
+1138,ASX:CLI,36,Industrials,False,False,False,False,False,False
+1139,ASX:NUH,193,Information Technology,False,False,False,False,False,False
+1140,ASX:LNG,1,Energy,False,False,False,False,False,True
+1141,ASX:TOE,1,Energy,False,False,False,False,False,False
+1142,ASX:LOM,12,Materials,False,False,False,False,False,False
+1143,ASX:VR1,193,Information Technology,False,False,False,False,False,False
+1144,ASX:WBT,193,Information Technology,False,False,False,False,False,False
+1145,ASX:EMH,12,Materials,False,False,False,False,False,False
+1146,ASX:CV1,193,Information Technology,False,False,False,False,False,False
+1147,ASX:SDX,146,Health Care,False,False,False,False,False,False
+1148,ASX:SMX,193,Information Technology,False,False,False,False,False,False
+1149,ASX:RWD,12,Materials,False,False,False,False,False,False
+1150,ASX:KLO,247,Real Estate,False,False,False,False,False,False
+1151,ASX:CHZ,12,Materials,False,False,False,False,False,False
+1152,ASX:SIT,79,Consumer Discretionary,False,False,False,False,False,False
+1153,ASX:CG1,12,Materials,False,False,False,False,False,False
+1154,ASX:CZR,12,Materials,False,False,False,False,False,False
+1155,ASX:RXM,12,Materials,False,False,False,False,False,False
+1156,ASX:S2R,12,Materials,False,False,False,False,False,False
+1157,ASX:SEQ,165,Financials,False,False,False,False,False,False
+1158,ASX:VML,12,Materials,False,False,False,False,False,False
+1159,ASX:NSX,165,Financials,False,False,False,False,False,False
+1160,ASX:QMI,165,Financials,False,False,False,False,False,False
+1161,ASX:ANP,146,Health Care,False,False,False,False,False,False
+1162,ASX:SIV,36,Industrials,False,False,False,False,False,False
+1163,ASX:PDZ,12,Materials,False,False,False,False,False,False
+1164,ASX:GEV,1,Energy,False,False,False,False,False,False
+1165,ASX:GLN,12,Materials,False,False,False,False,False,False
+1166,ASX:AIV,12,Materials,False,False,False,False,False,False
+1167,ASX:VIP,146,Health Care,False,False,False,False,False,False
+1168,ASX:KPO,234,Utilities,False,False,False,False,False,False
+1169,ASX:MPW,193,Information Technology,False,False,False,False,False,False
+1170,ASX:ACR,146,Health Care,False,False,False,False,False,False
+1171,ASX:YBR,165,Financials,False,False,False,False,False,False
+1172,ASX:CIW,165,Financials,False,False,False,False,False,False
+1173,ASX:SES,12,Materials,False,False,False,False,False,False
+1174,ASX:BLU,1,Energy,False,False,False,False,False,False
+1175,ASX:14D,36,Industrials,False,False,False,False,False,False
+1176,ASX:PG1,36,Industrials,False,False,False,False,False,False
+1177,ASX:CDY,146,Health Care,False,False,False,False,False,False
+1178,ASX:KYK,193,Information Technology,False,False,False,False,False,False
+1179,ASX:D13,36,Industrials,False,False,False,False,False,False
+1180,ASX:MFD,79,Consumer Discretionary,False,False,False,False,False,False
+1181,ASX:RLT,1,Energy,False,False,False,False,False,False
+1182,ASX:EGR,12,Materials,False,False,False,False,False,False
+1183,ASX:APC,12,Materials,False,False,False,False,False,False
+1184,ASX:SAU,12,Materials,False,False,False,False,False,False
+1185,ASX:WWG,36,Industrials,False,False,False,False,False,False
+1186,ASX:ZNC,12,Materials,False,False,False,False,False,False
+1187,ASX:DTZ,193,Information Technology,False,False,False,False,False,False
+1188,ASX:AIS,12,Materials,False,False,False,False,False,False
+1189,ASX:LKE,12,Materials,False,False,False,False,False,False
+1190,ASX:GML,12,Materials,False,False,False,False,False,False
+1191,ASX:ATR,12,Materials,False,False,False,False,False,False
+1192,ASX:HEU,,,False,False,False,False,False,False
+1193,ASX:VMX,1,Energy,False,False,False,False,False,False
+1194,ASX:IME,146,Health Care,False,False,False,False,False,False
+1195,ASX:WLD,124,Consumer Staples,False,False,False,False,False,False
+1196,ASX:ASP,216,Communication Services,False,False,False,False,False,False
+1197,ASX:TDO,1,Energy,False,False,False,False,False,False
+1198,ASX:TV2,193,Information Technology,False,False,False,False,False,False
+1199,ASX:PKS,146,Health Care,False,False,False,False,False,False
+1200,ASX:KKO,1,Energy,False,False,False,False,False,False
+1201,ASX:MDI,12,Materials,False,False,False,False,False,False
+1202,ASX:MCM,1,Energy,False,False,False,False,False,False
+1203,ASX:COO,193,Information Technology,False,False,False,False,False,False
+1204,ASX:VOL,247,Real Estate,False,False,False,False,False,False
+1205,ASX:RGS,146,Health Care,False,False,False,False,False,False
+1206,ASX:AMG,12,Materials,False,False,False,False,False,False
+1207,ASX:CWZ,165,Financials,False,False,False,False,False,False
+1208,ASX:FEX,12,Materials,False,False,False,False,False,False
+1209,ASX:HGL,247,Real Estate,False,False,False,False,False,False
+1210,ASX:ATS,1,Energy,False,False,False,False,False,True
+1211,ASX:OIL,146,Health Care,False,False,False,False,False,False
+1212,ASX:EVE,165,Financials,False,False,False,False,False,False
+1213,ASX:MIO,12,Materials,False,False,False,False,False,False
+1214,ASX:TD1,146,Health Care,False,False,False,False,False,False
+1215,ASX:IPT,12,Materials,False,False,False,False,False,False
+1216,ASX:MEI,12,Materials,False,False,False,False,False,False
+1217,ASX:IS3,193,Information Technology,False,False,False,False,False,False
+1218,ASX:ACW,146,Health Care,False,False,False,False,False,False
+1219,ASX:OLL,193,Information Technology,False,False,False,False,False,False
+1220,ASX:PNC,165,Financials,False,False,False,False,False,False
+1221,ASX:AWV,12,Materials,False,False,False,False,False,False
+1222,ASX:RDM,12,Materials,False,False,False,False,False,False
+1223,ASX:HGO,12,Materials,False,False,False,False,False,False
+1224,ASX:OGA,124,Consumer Staples,False,False,False,False,False,False
+1225,ASX:HRR,12,Materials,False,False,False,False,False,True
+1226,ASX:LEX,12,Materials,False,False,False,False,False,False
+1227,ASX:FCT,193,Information Technology,False,False,False,False,False,False
+1228,ASX:AQX,12,Materials,False,False,False,False,False,False
+1229,ASX:AV1,216,Communication Services,False,False,False,False,False,False
+1230,ASX:DKM,12,Materials,False,False,False,False,False,False
+1231,ASX:9SP,193,Information Technology,False,False,False,False,False,False
+1232,ASX:TPO,12,Materials,False,False,False,False,False,False
+1233,ASX:AGS,12,Materials,False,False,False,False,False,False
+1234,ASX:VRC,12,Materials,False,False,False,False,False,False
+1235,ASX:ICT,79,Consumer Discretionary,False,False,False,False,False,False
+1236,ASX:MCE,1,Energy,False,False,False,False,False,False
+1237,ASX:HOT,216,Communication Services,False,False,False,False,False,False
+1238,ASX:NTL,12,Materials,False,False,False,False,False,False
+1239,ASX:HXG,12,Materials,False,False,False,False,False,False
+1240,ASX:CNW,193,Information Technology,False,False,False,False,False,False
+1241,ASX:TSL,12,Materials,False,False,False,False,False,False
+1242,ASX:AQI,12,Materials,False,False,False,False,False,False
+1243,ASX:AME,12,Materials,False,False,False,False,False,False
+1244,ASX:AZV,146,Health Care,False,False,False,False,False,False
+1245,ASX:TSO,12,Materials,False,False,False,False,False,False
+1246,ASX:E25,12,Materials,False,False,False,False,False,False
+1247,ASX:K2F,193,Information Technology,False,False,False,False,False,False
+1248,ASX:ECP,165,Financials,False,False,False,False,False,False
+1249,ASX:BWF,165,Financials,False,False,False,False,False,False
+1250,ASX:GFL,165,Financials,False,False,False,False,False,False
+1251,ASX:GME,12,Materials,False,False,False,False,False,False
+1252,ASX:BTC,165,Financials,False,False,False,False,False,False
+1253,ASX:DCC,193,Information Technology,False,False,False,False,False,False
+1254,ASX:AU8,79,Consumer Discretionary,False,False,False,False,False,False
+1255,ASX:GTR,12,Materials,False,False,False,False,False,False
+1256,ASX:ICS,146,Health Care,False,False,False,False,False,False
+1257,ASX:VPR,234,Utilities,False,False,False,False,False,False
+1258,ASX:TAS,12,Materials,False,False,False,False,False,False
+1259,ASX:PNX,12,Materials,False,False,False,False,False,False
+1260,ASX:LRT,,,False,False,False,False,False,False
+1261,ASX:IVR,12,Materials,False,False,False,False,False,False
+1262,ASX:RDH,79,Consumer Discretionary,False,False,False,False,False,False
+1263,ASX:AIR,36,Industrials,False,False,False,False,False,False
+1264,ASX:KWR,12,Materials,False,False,False,False,False,False
+1265,ASX:AYF,165,Financials,False,False,False,False,False,False
+1266,ASX:IBX,146,Health Care,False,False,False,False,False,False
+1267,ASX:PTX,146,Health Care,False,False,False,False,False,False
+1268,ASX:KAI,12,Materials,False,False,False,False,False,False
+1269,ASX:PMY,12,Materials,False,False,False,False,False,False
+1270,ASX:SYA,12,Materials,False,False,False,False,False,False
+1271,ASX:VIG,193,Information Technology,False,False,False,False,False,False
+1272,ASX:BHD,165,Financials,False,False,False,False,False,False
+1273,ASX:EGY,36,Industrials,False,False,False,False,False,False
+1274,ASX:CLB,124,Consumer Staples,False,False,False,False,False,False
+1275,ASX:MGL,12,Materials,False,False,False,False,False,False
+1276,ASX:LNU,193,Information Technology,False,False,False,False,False,False
+1277,ASX:COY,12,Materials,False,False,False,False,False,False
+1278,ASX:NGE,,,False,False,False,False,False,False
+1279,ASX:AXI,247,Real Estate,False,False,False,False,False,False
+1280,ASX:COB,12,Materials,False,False,False,False,False,False
+1281,ASX:DEV,1,Energy,False,False,False,False,False,False
+1282,ASX:LNY,12,Materials,False,False,False,False,False,False
+1283,ASX:VOR,193,Information Technology,False,False,False,False,False,False
+1284,ASX:CCE,234,Utilities,False,False,False,False,False,False
+1285,ASX:DRX,12,Materials,False,False,False,False,False,False
+1286,ASX:GBZ,12,Materials,False,False,False,False,False,False
+1287,ASX:A1M,12,Materials,False,False,False,False,False,False
+1288,ASX:ERG,124,Consumer Staples,False,False,False,False,False,False
+1289,ASX:NWE,1,Energy,False,False,False,False,False,False
+1290,ASX:CDX,146,Health Care,False,False,False,False,False,False
+1291,ASX:GWR,12,Materials,False,False,False,False,False,False
+1292,ASX:MIL,36,Industrials,False,False,False,False,False,False
+1293,ASX:FPP,165,Financials,False,False,False,False,False,False
+1294,ASX:AS1,124,Consumer Staples,False,False,False,False,False,False
+1295,ASX:MYQ,193,Information Technology,False,False,False,False,False,False
+1296,ASX:VXR,12,Materials,False,False,False,False,False,False
+1297,ASX:DTR,12,Materials,False,False,False,False,False,False
+1298,ASX:AJY,12,Materials,False,False,False,False,False,False
+1299,ASX:BLG,193,Information Technology,False,False,False,False,False,False
+1300,ASX:EM2,12,Materials,False,False,False,False,False,False
+1301,ASX:ATH,146,Health Care,False,False,False,False,False,False
+1302,ASX:GFI,12,Materials,False,False,False,False,False,False
+1303,ASX:HRN,12,Materials,False,False,False,False,False,False
+1304,ASX:CCA,193,Information Technology,False,False,False,False,False,False
+1305,ASX:AJQ,1,Energy,False,False,False,False,False,False
+1306,ASX:ESK,193,Information Technology,False,False,False,False,False,False
+1307,ASX:JAY,79,Consumer Discretionary,False,False,False,False,False,False
+1308,ASX:ELE,12,Materials,False,False,False,False,False,False
+1309,ASX:FZR,1,Energy,False,False,False,False,False,False
+1310,ASX:VN8,216,Communication Services,False,False,False,False,False,False
+1311,ASX:FRM,124,Consumer Staples,False,False,False,False,False,False
+1312,ASX:M8S,36,Industrials,False,False,False,False,False,False
+1313,ASX:ECG,36,Industrials,False,False,False,False,False,False
+1314,ASX:KSS,36,Industrials,False,False,False,False,False,False
+1315,ASX:CPH,146,Health Care,False,False,False,False,False,False
+1316,ASX:8VI,79,Consumer Discretionary,False,False,False,False,False,False
+1317,ASX:SCL,193,Information Technology,False,False,False,False,False,False
+1318,ASX:TPS,36,Industrials,False,False,False,False,False,False
+1319,ASX:SOR,165,Financials,False,False,False,False,False,False
+1320,ASX:IXR,12,Materials,False,False,False,False,False,False
+1321,ASX:HNG,36,Industrials,False,False,False,False,False,False
+1322,ASX:PIO,12,Materials,False,False,False,False,False,False
+1323,ASX:LPE,234,Utilities,False,False,False,False,False,False
+1324,ASX:PAB,146,Health Care,False,False,False,False,False,False
+1325,ASX:ASN,12,Materials,False,False,False,False,False,False
+1326,ASX:TLM,12,Materials,False,False,False,False,False,False
+1327,ASX:ICE,193,Information Technology,False,False,False,False,False,False
+1328,ASX:MEP,12,Materials,False,False,False,False,False,False
+1329,ASX:CWX,12,Materials,False,False,False,False,False,False
+1330,ASX:CGB,146,Health Care,False,False,False,False,False,False
+1331,ASX:XPL,165,Financials,False,False,False,False,False,False
+1332,ASX:RDG,12,Materials,False,False,False,False,False,False
+1333,ASX:HMX,12,Materials,False,False,False,False,False,False
+1334,ASX:IHR,193,Information Technology,False,False,False,False,False,False
+1335,ASX:WEL,1,Energy,False,False,False,False,False,False
+1336,ASX:AUC,12,Materials,False,False,False,False,False,False
+1337,ASX:BLA,165,Financials,False,False,False,False,False,False
+1338,ASX:AGR,12,Materials,False,False,False,False,False,False
+1339,ASX:CAF,165,Financials,False,False,False,False,False,False
+1340,ASX:AZS,12,Materials,False,False,False,False,False,False
+1341,ASX:ESH,216,Communication Services,False,False,False,False,False,False
+1342,ASX:BUG,124,Consumer Staples,False,False,False,False,False,False
+1343,ASX:ODY,1,Energy,False,False,False,False,False,False
+1344,ASX:LLO,12,Materials,False,False,False,False,False,False
+1345,ASX:EXR,1,Energy,False,False,False,False,False,False
+1346,ASX:KPE,1,Energy,False,False,False,False,False,False
+1347,ASX:IMC,146,Health Care,False,False,False,False,False,False
+1348,ASX:CXZ,193,Information Technology,False,False,False,False,False,False
+1349,ASX:E2M,12,Materials,False,False,False,False,False,False
+1350,ASX:ACU,247,Real Estate,False,False,False,False,False,False
+1351,ASX:WBE,1,Energy,False,False,False,False,False,False
+1352,ASX:MOB,193,Information Technology,False,False,False,False,False,False
+1353,ASX:ANL,12,Materials,False,False,False,False,False,False
+1354,ASX:VIV,36,Industrials,False,False,False,False,False,False
+1355,ASX:KNM,216,Communication Services,False,False,False,False,False,False
+1356,ASX:FEI,165,Financials,False,False,False,False,False,False
+1357,ASX:OAU,12,Materials,False,False,False,False,False,False
+1358,ASX:VYS,12,Materials,False,False,False,False,False,False
+1359,ASX:3DA,36,Industrials,False,False,False,False,False,False
+1360,ASX:AVQ,12,Materials,False,False,False,False,False,False
+1361,ASX:DCL,165,Financials,False,False,False,False,False,False
+1362,ASX:MSM,216,Communication Services,False,False,False,False,False,False
+1363,ASX:CA8,165,Financials,False,False,False,False,False,False
+1364,ASX:BPP,36,Industrials,False,False,False,False,False,False
+1365,ASX:CCG,193,Information Technology,False,False,False,False,False,False
+1366,ASX:TCO,79,Consumer Discretionary,False,False,False,False,False,False
+1367,ASX:RVS,193,Information Technology,False,False,False,False,False,False
+1368,ASX:AL3,36,Industrials,False,False,False,False,False,False
+1369,ASX:BOA,12,Materials,False,False,False,False,False,False
+1370,ASX:NYR,146,Health Care,False,False,False,False,False,False
+1371,ASX:RNU,1,Energy,False,False,False,False,False,False
+1372,ASX:CCZ,12,Materials,False,False,False,False,False,False
+1373,ASX:OVT,36,Industrials,False,False,False,False,False,False
+1374,ASX:TMT,12,Materials,False,False,False,False,False,False
+1375,ASX:MSE,12,Materials,False,False,False,False,False,False
+1376,ASX:MWR,216,Communication Services,False,False,False,False,False,False
+1377,ASX:OSP,146,Health Care,False,False,False,False,False,False
+1378,ASX:NWC,12,Materials,False,False,False,False,False,False
+1379,ASX:LCL,12,Materials,False,False,False,False,False,False
+1380,ASX:ODA,193,Information Technology,False,False,False,False,False,False
+1381,ASX:KBC,165,Financials,False,False,False,False,False,False
+1382,ASX:DVN,247,Real Estate,False,False,False,False,False,False
+1383,ASX:AIY,165,Financials,False,False,False,False,False,False
+1384,ASX:SVH,79,Consumer Discretionary,False,False,False,False,False,False
+1385,ASX:UNL,216,Communication Services,False,False,False,False,False,False
+1386,ASX:FSG,216,Communication Services,False,False,False,False,False,False
+1387,ASX:ABX,12,Materials,False,False,False,False,False,False
+1388,ASX:BNR,12,Materials,False,False,False,False,False,False
+1389,ASX:GES,12,Materials,False,False,False,False,False,False
+1390,ASX:LCY,12,Materials,False,False,False,False,False,False
+1391,ASX:IQ3,165,Financials,False,False,False,False,False,False
+1392,ASX:AFR,1,Energy,False,False,False,False,False,False
+1393,ASX:KTG,36,Industrials,False,False,False,False,False,False
+1394,ASX:SVA,146,Health Care,False,False,False,False,False,False
+1395,ASX:MHC,1,Energy,False,False,False,False,False,False
+1396,ASX:RNO,146,Health Care,False,False,False,False,False,False
+1397,ASX:CNL,12,Materials,False,False,False,False,False,False
+1398,ASX:CGN,12,Materials,False,False,False,False,False,False
+1399,ASX:CLZ,12,Materials,False,False,False,False,False,False
+1400,ASX:EUC,12,Materials,False,False,False,False,False,False
+1401,ASX:MGU,12,Materials,False,False,False,False,False,False
+1402,ASX:RPM,79,Consumer Discretionary,False,False,False,False,False,False
+1403,ASX:VRS,36,Industrials,False,False,False,False,False,False
+1404,ASX:FYI,12,Materials,False,False,False,False,False,False
+1405,ASX:VMS,12,Materials,False,False,False,False,False,False
+1406,ASX:CTO,12,Materials,False,False,False,False,False,False
+1407,ASX:PWN,12,Materials,False,False,False,False,False,False
+1408,ASX:NVO,216,Communication Services,False,False,False,False,False,False
+1409,ASX:AVE,146,Health Care,False,False,False,False,False,False
+1410,ASX:AU1,247,Real Estate,False,False,False,False,False,False
+1411,ASX:C6C,12,Materials,False,False,False,False,False,False
+1412,ASX:JRL,12,Materials,False,False,False,False,False,False
+1413,ASX:HNR,12,Materials,False,False,False,False,False,False
+1414,ASX:TSC,1,Energy,False,False,False,False,False,False
+1415,ASX:1ST,146,Health Care,False,False,False,False,False,False
+1416,ASX:CBE,12,Materials,False,False,False,False,False,False
+1417,ASX:FDM,1,Energy,False,False,False,False,False,False
+1418,ASX:WOA,124,Consumer Staples,False,False,False,False,False,False
+1419,ASX:AJJ,146,Health Care,False,False,False,False,False,False
+1420,ASX:CGA,165,Financials,False,False,False,False,False,False
+1421,ASX:KSM,165,Financials,False,False,False,False,False,False
+1422,ASX:OLH,36,Industrials,False,False,False,False,False,False
+1423,ASX:MBM,193,Information Technology,False,False,False,False,False,False
+1424,ASX:AL8,12,Materials,False,False,False,False,False,False
+1425,ASX:VBS,146,Health Care,False,False,False,False,False,False
+1426,ASX:RML,12,Materials,False,False,False,False,False,False
+1427,ASX:ZGL,36,Industrials,False,False,False,False,False,False
+1428,ASX:RNT,216,Communication Services,False,False,False,False,False,False
+1429,ASX:1AD,146,Health Care,False,False,False,False,False,False
+1430,ASX:ADR,146,Health Care,False,False,False,False,False,False
+1431,ASX:PIL,193,Information Technology,False,False,False,False,False,False
+1432,ASX:AGE,1,Energy,False,False,False,False,False,False
+1433,ASX:EX1,146,Health Care,False,False,False,False,False,False
+1434,ASX:WNB,79,Consumer Discretionary,False,False,False,False,False,False
+1435,ASX:HPR,1,Energy,False,False,False,False,False,False
+1436,ASX:EPM,1,Energy,False,False,False,False,False,False
+1437,ASX:WSI,12,Materials,False,False,False,False,False,False
+1438,ASX:BSM,12,Materials,False,False,False,False,False,False
+1439,ASX:PXX,12,Materials,False,False,False,False,False,False
+1440,ASX:CXM,12,Materials,False,False,False,False,False,False
+1441,ASX:AZI,12,Materials,False,False,False,False,False,False
+1442,ASX:TPP,36,Industrials,False,False,False,False,False,False
+1443,ASX:AMT,146,Health Care,False,False,False,False,False,False
+1444,ASX:VEN,1,Energy,False,False,False,False,False,False
+1445,ASX:EHX,12,Materials,False,False,False,False,False,False
+1446,ASX:KAM,165,Financials,False,False,False,False,False,False
+1447,ASX:YRL,12,Materials,False,False,False,False,False,False
+1448,ASX:OLI,79,Consumer Discretionary,False,False,False,False,False,False
+1449,ASX:TEG,1,Energy,False,False,False,False,False,False
+1450,ASX:CPV,36,Industrials,False,False,False,False,False,False
+1451,ASX:CE1,1,Energy,False,False,False,False,False,False
+1452,ASX:ARD,12,Materials,False,False,False,False,False,False
+1453,ASX:VUL,12,Materials,False,False,False,False,False,False
+1454,ASX:BAR,12,Materials,False,False,False,False,False,False
+1455,ASX:FRN,12,Materials,False,False,False,False,False,False
+1456,ASX:PFG,165,Financials,False,False,False,False,False,False
+1457,ASX:NSB,146,Health Care,False,False,False,False,False,False
+1458,ASX:ARQ,193,Information Technology,False,False,False,False,False,True
+1459,ASX:DRE,12,Materials,False,False,False,False,False,False
+1460,ASX:KIS,12,Materials,False,False,False,False,False,False
+1461,ASX:MSR,12,Materials,False,False,False,False,False,False
+1462,ASX:SW1,216,Communication Services,False,False,False,False,False,False
+1463,ASX:RIM,12,Materials,False,False,False,False,False,False
+1464,ASX:JCS,193,Information Technology,False,False,False,False,False,False
+1465,ASX:ACB,1,Energy,False,False,False,False,False,False
+1466,ASX:FPL,1,Energy,False,False,False,False,False,False
+1467,ASX:VMG,36,Industrials,False,False,False,False,False,False
+1468,ASX:STM,12,Materials,False,False,False,False,False,False
+1469,ASX:WWI,12,Materials,False,False,False,False,False,False
+1470,ASX:FFC,146,Health Care,False,False,False,False,False,False
+1471,ASX:ADX,1,Energy,False,False,False,False,False,False
+1472,ASX:GRL,12,Materials,False,False,False,False,False,False
+1473,ASX:CWL,193,Information Technology,False,False,False,False,False,False
+1474,ASX:GUL,12,Materials,False,False,False,False,False,False
+1475,ASX:RHY,146,Health Care,False,False,False,False,False,False
+1476,ASX:WHK,79,Consumer Discretionary,False,False,False,False,False,False
+1477,ASX:LCE,165,Financials,False,False,False,False,False,False
+1478,ASX:KNO,193,Information Technology,False,False,False,False,False,False
+1479,ASX:AFL,36,Industrials,False,False,False,False,False,False
+1480,ASX:EQE,12,Materials,False,False,False,False,False,False
+1481,ASX:UCW,79,Consumer Discretionary,False,False,False,False,False,False
+1482,ASX:INP,79,Consumer Discretionary,False,False,False,False,False,False
+1483,ASX:AEE,1,Energy,False,False,False,False,False,False
+1484,ASX:CR1,12,Materials,False,False,False,False,False,False
+1485,ASX:CXU,1,Energy,False,False,False,False,False,False
+1486,ASX:AVC,165,Financials,False,False,False,False,False,False
+1487,ASX:BEE,124,Consumer Staples,False,False,False,False,False,False
+1488,ASX:PIN,36,Industrials,False,False,False,False,False,False
+1489,ASX:SBW,193,Information Technology,False,False,False,False,False,False
+1490,ASX:NWM,12,Materials,False,False,False,False,False,False
+1491,ASX:DTI,193,Information Technology,False,False,False,False,False,False
+1492,ASX:8CO,193,Information Technology,False,False,False,False,False,False
+1493,ASX:EER,1,Energy,False,False,False,False,False,False
+1494,ASX:B2Y,12,Materials,False,False,False,False,False,False
+1495,ASX:SIX,79,Consumer Discretionary,False,False,False,False,False,False
+1496,ASX:ZYB,193,Information Technology,False,False,False,False,False,False
+1497,ASX:AQD,12,Materials,False,False,False,False,False,False
+1498,ASX:ANR,146,Health Care,False,False,False,False,False,False
+1499,ASX:INV,165,Financials,False,False,False,False,False,False
+1500,ASX:AOU,12,Materials,False,False,False,False,False,False
+1501,ASX:IVZ,1,Energy,False,False,False,False,False,False
+1502,ASX:CAZ,12,Materials,False,False,False,False,False,False
+1503,ASX:MRV,1,Energy,False,False,False,False,False,False
+1504,ASX:MAY,1,Energy,False,False,False,False,False,False
+1505,ASX:FTZ,12,Materials,False,False,False,False,False,False
+1506,ASX:TDY,193,Information Technology,False,False,False,False,False,False
+1507,ASX:EN1,216,Communication Services,False,False,False,False,False,False
+1508,ASX:BLV,1,Energy,False,False,False,False,False,False
+1509,ASX:CL8,79,Consumer Discretionary,False,False,False,False,False,False
+1510,ASX:ORM,12,Materials,False,False,False,False,False,False
+1511,ASX:APV,193,Information Technology,False,False,False,False,False,False
+1512,ASX:TMR,12,Materials,False,False,False,False,False,False
+1513,ASX:TPC,234,Utilities,False,False,False,False,False,False
+1514,ASX:ENA,165,Financials,False,False,False,False,False,False
+1515,ASX:ABV,79,Consumer Discretionary,False,False,False,False,False,False
+1516,ASX:AFT,193,Information Technology,False,False,False,False,False,False
+1517,ASX:MEL,1,Energy,False,False,False,False,False,False
+1518,ASX:GBM,12,Materials,False,False,False,False,False,False
+1519,ASX:RGI,36,Industrials,False,False,False,False,False,False
+1520,ASX:BUX,12,Materials,False,False,False,False,False,False
+1521,ASX:ONE,146,Health Care,False,False,False,False,False,False
+1522,ASX:ECT,36,Industrials,False,False,False,False,False,False
+1523,ASX:ERL,12,Materials,False,False,False,False,False,False
+1524,ASX:A3D,36,Industrials,False,False,False,False,False,False
+1525,ASX:PM1,12,Materials,False,False,False,False,False,False
+1526,ASX:AEB,146,Health Care,False,False,False,False,False,False
+1527,ASX:BCC,193,Information Technology,False,False,False,False,False,False
+1528,ASX:AWN,36,Industrials,False,False,False,False,False,False
+1529,ASX:SRK,12,Materials,False,False,False,False,False,False
+1530,ASX:MRQ,12,Materials,False,False,False,False,False,False
+1531,ASX:MEY,1,Energy,False,False,False,False,False,False
+1532,ASX:SHO,216,Communication Services,False,False,False,False,False,False
+1533,ASX:PSZ,36,Industrials,False,False,False,False,False,False
+1534,ASX:HWK,12,Materials,False,False,False,False,False,False
+1535,ASX:WRM,12,Materials,False,False,False,False,False,False
+1536,ASX:MTC,12,Materials,False,False,False,False,False,False
+1537,ASX:PFT,1,Energy,False,False,False,False,False,False
+1538,ASX:CRB,12,Materials,False,False,False,False,False,False
+1539,ASX:RHI,12,Materials,False,False,False,False,False,False
+1540,ASX:ODM,12,Materials,False,False,False,False,False,False
+1541,ASX:PSA,1,Energy,False,False,False,False,False,False
+1542,ASX:ASQ,12,Materials,False,False,False,False,False,False
+1543,ASX:SCU,146,Health Care,False,False,False,False,False,False
+1544,ASX:BXN,124,Consumer Staples,False,False,False,False,False,False
+1545,ASX:QGL,12,Materials,False,False,False,False,False,False
+1546,ASX:GOO,193,Information Technology,False,False,False,False,False,False
+1547,ASX:CP1,146,Health Care,False,False,False,False,False,False
+1548,ASX:SRI,12,Materials,False,False,False,False,False,False
+1549,ASX:INF,12,Materials,False,False,False,False,False,False
+1550,ASX:ADY,12,Materials,False,False,False,False,False,False
+1551,ASX:PCL,1,Energy,False,False,False,False,False,False
+1552,ASX:DW8,79,Consumer Discretionary,False,False,False,False,False,False
+1553,ASX:YOW,124,Consumer Staples,False,False,False,False,False,False
+1554,ASX:TCN,193,Information Technology,False,False,False,False,False,False
+1555,ASX:CM8,216,Communication Services,False,False,False,False,False,False
+1556,ASX:ARN,12,Materials,False,False,False,False,False,False
+1557,ASX:AUL,12,Materials,False,False,False,False,False,False
+1558,ASX:TNR,12,Materials,False,False,False,False,False,False
+1559,ASX:MBK,12,Materials,False,False,False,False,False,False
+1560,ASX:CYM,12,Materials,False,False,False,False,False,False
+1561,ASX:ARE,12,Materials,False,False,False,False,False,False
+1562,ASX:NVU,193,Information Technology,False,False,False,False,False,False
+1563,ASX:MTH,12,Materials,False,False,False,False,False,False
+1564,ASX:DDD,12,Materials,False,False,False,False,False,False
+1565,ASX:PGM,12,Materials,False,False,False,False,False,False
+1566,ASX:HYD,193,Information Technology,False,False,False,False,False,False
+1567,ASX:LMG,12,Materials,False,False,False,False,False,False
+1568,ASX:CNB,12,Materials,False,False,False,False,False,False
+1569,ASX:AON,12,Materials,False,False,False,False,False,False
+1570,ASX:GIB,12,Materials,False,False,False,False,False,False
+1571,ASX:DXN,193,Information Technology,False,False,False,False,False,False
+1572,ASX:XCD,1,Energy,False,False,False,False,False,False
+1573,ASX:EVZ,36,Industrials,False,False,False,False,False,False
+1574,ASX:PGR,79,Consumer Discretionary,False,False,False,False,False,False
+1575,ASX:ELT,12,Materials,False,False,False,False,False,False
+1576,ASX:DAV,12,Materials,False,False,False,False,False,False
+1577,ASX:HSC,193,Information Technology,False,False,False,False,False,False
+1578,ASX:OOK,193,Information Technology,False,False,False,False,False,False
+1579,ASX:REE,12,Materials,False,False,False,False,False,False
+1580,ASX:CFO,36,Industrials,False,False,False,False,False,False
+1581,ASX:VTI,146,Health Care,False,False,False,False,False,False
+1582,ASX:LCT,146,Health Care,False,False,False,False,False,False
+1583,ASX:GLE,79,Consumer Discretionary,False,False,False,False,False,False
+1584,ASX:KAU,12,Materials,False,False,False,False,False,False
+1585,ASX:HHM,12,Materials,False,False,False,False,False,False
+1586,ASX:IBG,12,Materials,False,False,False,False,False,False
+1587,ASX:GMR,12,Materials,False,False,False,False,False,False
+1588,ASX:DMKT,,,False,False,False,False,False,False
+1589,ASX:OEX,1,Energy,False,False,False,False,False,False
+1590,ASX:BAT,12,Materials,False,False,False,False,False,False
+1591,ASX:CZN,12,Materials,False,False,False,False,False,False
+1592,ASX:EM1,216,Communication Services,False,False,False,False,False,False
+1593,ASX:KRS,79,Consumer Discretionary,False,False,False,False,False,False
+1594,ASX:ICN,1,Energy,False,False,False,False,False,False
+1595,ASX:KGM,12,Materials,False,False,False,False,False,False
+1596,ASX:PEC,12,Materials,False,False,False,False,False,False
+1597,ASX:ICI,216,Communication Services,False,False,False,False,False,False
+1598,ASX:MHI,79,Consumer Discretionary,False,False,False,False,False,False
+1599,ASX:AQC,12,Materials,False,False,False,False,False,False
+1600,ASX:RLE,1,Energy,False,False,False,False,False,False
+1601,ASX:ALT,146,Health Care,False,False,False,False,False,False
+1602,ASX:AUQ,12,Materials,False,False,False,False,False,False
+1603,ASX:RBR,12,Materials,False,False,False,False,False,False
+1604,ASX:PEL,12,Materials,False,False,False,False,False,False
+1605,ASX:SYT,193,Information Technology,False,False,False,False,False,False
+1606,ASX:CZL,12,Materials,False,False,False,False,False,False
+1607,ASX:GO2,36,Industrials,False,False,False,False,False,False
+1608,ASX:PTR,12,Materials,False,False,False,False,False,False
+1609,ASX:SGI,36,Industrials,False,False,False,False,False,False
+1610,ASX:CLA,12,Materials,False,False,False,False,False,False
+1611,ASX:RLG,193,Information Technology,False,False,False,False,False,False
+1612,ASX:PSL,12,Materials,False,False,False,False,False,False
+1613,ASX:MAN,12,Materials,False,False,False,False,False,False
+1614,ASX:BDG,12,Materials,False,False,False,False,False,False
+1615,ASX:HMD,146,Health Care,False,False,False,False,False,False
+1616,ASX:AMD,12,Materials,False,False,False,False,False,False
+1617,ASX:HWH,193,Information Technology,False,False,False,False,False,False
+1618,ASX:4CE,12,Materials,False,False,False,False,False,False
+1619,ASX:N1H,165,Financials,False,False,False,False,False,False
+1620,ASX:BUY,1,Energy,False,False,False,False,False,False
+1621,ASX:XTC,12,Materials,False,False,False,False,False,False
+1622,ASX:CAP,12,Materials,False,False,False,False,False,False
+1623,ASX:CRM,1,Energy,False,False,False,False,False,False
+1624,ASX:NCL,216,Communication Services,False,False,False,False,False,False
+1625,ASX:KTA,12,Materials,False,False,False,False,False,False
+1626,ASX:SUP,12,Materials,False,False,False,False,False,False
+1627,ASX:AUR,12,Materials,False,False,False,False,False,False
+1628,ASX:GPS,247,Real Estate,False,False,False,False,False,False
+1629,ASX:HT8,79,Consumer Discretionary,False,False,False,False,False,False
+1630,ASX:MEB,146,Health Care,False,False,False,False,False,False
+1631,ASX:MRZ,12,Materials,False,False,False,False,False,False
+1632,ASX:TML,234,Utilities,False,False,False,False,False,False
+1633,ASX:LIN,12,Materials,False,False,False,False,False,False
+1634,ASX:MNW,193,Information Technology,False,False,False,False,False,False
+1635,ASX:FEL,12,Materials,False,False,False,False,False,False
+1636,ASX:MHD,79,Consumer Discretionary,False,False,False,False,False,False
+1637,ASX:ECS,146,Health Care,False,False,False,False,False,False
+1638,ASX:CLT,193,Information Technology,False,False,False,False,False,False
+1639,ASX:TTI,36,Industrials,False,False,False,False,False,False
+1640,ASX:BDI,12,Materials,False,False,False,False,False,False
+1641,ASX:ADV,12,Materials,False,False,False,False,False,False
+1642,ASX:SXA,1,Energy,False,False,False,False,False,False
+1643,ASX:JXT,193,Information Technology,False,False,False,False,False,False
+1644,ASX:HCD,1,Energy,False,False,False,False,False,False
+1645,ASX:REZ,12,Materials,False,False,False,False,False,False
+1646,ASX:ENT,12,Materials,False,False,False,False,False,False
+1647,ASX:DAU,12,Materials,False,False,False,False,False,False
+1648,ASX:APH,146,Health Care,False,False,False,False,False,False
+1649,ASX:SMI,12,Materials,False,False,False,False,False,False
+1650,ASX:ICG,12,Materials,False,False,False,False,False,False
+1651,ASX:EGL,36,Industrials,False,False,False,False,False,False
+1652,ASX:TGO,193,Information Technology,False,False,False,False,False,False
+1653,ASX:CUX,12,Materials,False,False,False,False,False,False
+1654,ASX:CXX,12,Materials,False,False,False,False,False,False
+1655,ASX:AUP,,,False,False,False,False,False,False
+1656,ASX:ALY,12,Materials,False,False,False,False,False,False
+1657,ASX:ACP,12,Materials,False,False,False,False,False,False
+1658,ASX:AD1,216,Communication Services,False,False,False,False,False,False
+1659,ASX:AHN,12,Materials,False,False,False,False,False,False
+1660,ASX:MKG,12,Materials,False,False,False,False,False,False
+1661,ASX:MAX,165,Financials,False,False,False,False,False,False
+1662,ASX:SLZ,12,Materials,False,False,False,False,False,False
+1663,ASX:KEY,1,Energy,False,False,False,False,False,False
+1664,ASX:CIO,193,Information Technology,False,False,False,False,False,False
+1665,ASX:VP7,247,Real Estate,False,False,False,False,False,False
+1666,ASX:NXM,12,Materials,False,False,False,False,False,False
+1667,ASX:DVL,146,Health Care,False,False,False,False,False,False
+1668,ASX:RMP,1,Energy,False,False,False,False,False,False
+1669,ASX:JDR,12,Materials,False,False,False,False,False,False
+1670,ASX:CAQ,247,Real Estate,False,False,False,False,False,False
+1671,ASX:RFR,12,Materials,False,False,False,False,False,False
+1672,ASX:LER,12,Materials,False,False,False,False,False,False
+1673,ASX:AYR,12,Materials,False,False,False,False,False,False
+1674,ASX:FFG,165,Financials,False,False,False,False,False,False
+1675,ASX:XPD,79,Consumer Discretionary,False,False,False,False,False,False
+1676,ASX:GLH,146,Health Care,False,False,False,False,False,False
+1677,ASX:AR9,193,Information Technology,False,False,False,False,False,False
+1678,ASX:MNB,12,Materials,False,False,False,False,False,False
+1679,ASX:FIJ,124,Consumer Staples,False,False,False,False,False,False
+1680,ASX:VR8,12,Materials,False,False,False,False,False,False
+1681,ASX:EMT,12,Materials,False,False,False,False,False,False
+1682,ASX:CAU,146,Health Care,False,False,False,False,False,False
+1683,ASX:1AG,36,Industrials,False,False,False,False,False,False
+1684,ASX:TIN,12,Materials,False,False,False,False,False,False
+1685,ASX:CMC,12,Materials,False,False,False,False,False,False
+1686,ASX:SCI,12,Materials,False,False,False,False,False,False
+1687,ASX:ATX,146,Health Care,False,False,False,False,False,False
+1688,ASX:PGI,12,Materials,False,False,False,False,False,False
+1689,ASX:SRH,36,Industrials,False,False,False,False,False,False
+1690,ASX:NOR,193,Information Technology,False,False,False,False,False,False
+1691,ASX:ID8,193,Information Technology,False,False,False,False,False,False
+1692,ASX:SUD,146,Health Care,False,False,False,False,False,False
+1693,ASX:SXX,12,Materials,False,False,False,False,False,False
+1694,ASX:NCR,12,Materials,False,False,False,False,False,False
+1695,ASX:TMK,1,Energy,False,False,False,False,False,False
+1696,ASX:AHL,79,Consumer Discretionary,False,False,False,False,False,False
+1697,ASX:KLR,1,Energy,False,False,False,False,False,False
+1698,ASX:GSM,12,Materials,False,False,False,False,False,False
+1699,ASX:DMG,12,Materials,False,False,False,False,False,False
+1700,ASX:LHM,247,Real Estate,False,False,False,False,False,False
+1701,ASX:CAD,12,Materials,False,False,False,False,False,False
+1702,ASX:EMD,146,Health Care,False,False,False,False,False,False
+1703,ASX:FRX,216,Communication Services,False,False,False,False,False,False
+1704,ASX:SRY,79,Consumer Discretionary,False,False,False,False,False,False
+1705,ASX:SE1,193,Information Technology,False,False,False,False,False,False
+1706,ASX:GBE,12,Materials,False,False,False,False,False,False
+1707,ASX:LSR,12,Materials,False,False,False,False,False,False
+1708,ASX:YPB,36,Industrials,False,False,False,False,False,False
+1709,ASX:SOP,36,Industrials,False,False,False,False,False,False
+1710,ASX:GBP,1,Energy,False,False,False,False,False,False
+1711,ASX:SIL,146,Health Care,False,False,False,False,False,False
+1712,ASX:OKR,12,Materials,False,False,False,False,False,False
+1713,ASX:HIP,12,Materials,False,False,False,False,False,False
+1714,ASX:BAS,1,Energy,False,False,False,False,False,False
+1715,ASX:RMG,12,Materials,False,False,False,False,False,False
+1716,ASX:DHR,12,Materials,False,False,False,False,False,False
+1717,ASX:CVV,12,Materials,False,False,False,False,False,False
+1718,ASX:FNT,12,Materials,False,False,False,False,False,False
+1719,ASX:GNM,12,Materials,False,False,False,False,False,False
+1720,ASX:IDA,12,Materials,False,False,False,False,False,False
+1721,ASX:AER,216,Communication Services,False,False,False,False,False,False
+1722,ASX:FIG,165,Financials,False,False,False,False,False,False
+1723,ASX:ESL,247,Real Estate,False,False,False,False,False,False
+1724,ASX:IVT,36,Industrials,False,False,False,False,False,False
+1725,ASX:GBR,12,Materials,False,False,False,False,False,False
+1726,ASX:CHK,12,Materials,False,False,False,False,False,False
+1727,ASX:SGC,1,Energy,False,False,False,False,False,False
+1728,ASX:CRL,12,Materials,False,False,False,False,False,False
+1729,ASX:BPL,12,Materials,False,False,False,False,False,False
+1730,ASX:ANA,1,Energy,False,False,False,False,False,False
+1731,ASX:SGO,193,Information Technology,False,False,False,False,False,False
+1732,ASX:FUN,79,Consumer Discretionary,False,False,False,False,False,False
+1733,ASX:VPC,193,Information Technology,False,False,False,False,False,False
+1734,ASX:LSA,12,Materials,False,False,False,False,False,False
+1735,ASX:KTE,193,Information Technology,False,False,False,False,False,False
+1736,ASX:BRK,1,Energy,False,False,False,False,False,False
+1737,ASX:IEQ,247,Real Estate,False,False,False,False,False,False
+1738,ASX:GPX,12,Materials,False,False,False,False,False,False
+1739,ASX:HMO,193,Information Technology,False,False,False,False,False,False
+1740,ASX:SRZ,12,Materials,False,False,False,False,False,False
+1741,ASX:CM1,12,Materials,False,False,False,False,False,False
+1742,ASX:BNL,1,Energy,False,False,False,False,False,False
+1743,ASX:EMN,12,Materials,False,False,False,False,False,False
+1744,ASX:TMX,12,Materials,False,False,False,False,False,False
+1745,ASX:SCT,79,Consumer Discretionary,False,False,False,False,False,False
+1746,ASX:ESR,12,Materials,False,False,False,False,False,False
+1747,ASX:TYX,12,Materials,False,False,False,False,False,False
+1748,ASX:MAR,12,Materials,False,False,False,False,False,False
+1749,ASX:WTL,165,Financials,False,False,False,False,False,False
+1750,ASX:SHK,12,Materials,False,False,False,False,False,False
+1751,ASX:EMU,12,Materials,False,False,False,False,False,False
+1752,ASX:SP3,193,Information Technology,False,False,False,False,False,False
+1753,ASX:LIO,1,Energy,False,False,False,False,False,False
+1754,ASX:P2P,36,Industrials,False,False,False,False,False,False
+1755,ASX:CBY,12,Materials,False,False,False,False,False,False
+1756,ASX:MIH,216,Communication Services,False,False,False,False,False,False
+1757,ASX:AJC,1,Energy,False,False,False,False,False,False
+1758,ASX:IKW,1,Energy,False,False,False,False,False,False
+1759,ASX:QFY,193,Information Technology,False,False,False,False,False,False
+1760,ASX:PUA,12,Materials,False,False,False,False,False,False
+1761,ASX:CTE,146,Health Care,False,False,False,False,False,False
+1762,ASX:MOH,12,Materials,False,False,False,False,False,False
+1763,ASX:RGL,12,Materials,False,False,False,False,False,False
+1764,ASX:SFM,12,Materials,False,False,False,False,False,False
+1765,ASX:BIR,165,Financials,False,False,False,False,False,False
+1766,ASX:MLM,12,Materials,False,False,False,False,False,False
+1767,ASX:JHL,146,Health Care,False,False,False,False,False,False
+1768,ASX:BEM,12,Materials,False,False,False,False,False,False
+1769,ASX:DCX,12,Materials,False,False,False,False,False,False
+1770,ASX:LCD,12,Materials,False,False,False,False,False,False
+1771,ASX:IVO,216,Communication Services,False,False,False,False,False,False
+1772,ASX:SER,12,Materials,False,False,False,False,False,False
+1773,ASX:IXU,193,Information Technology,False,False,False,False,False,False
+1774,ASX:RIE,12,Materials,False,False,False,False,False,False
+1775,ASX:OKJ,12,Materials,False,False,False,False,False,False
+1776,ASX:AYM,12,Materials,False,False,False,False,False,False
+1777,ASX:TZL,193,Information Technology,False,False,False,False,False,False
+1778,ASX:GID,146,Health Care,False,False,False,False,False,False
+1779,ASX:HHY,165,Financials,False,False,False,False,False,False
+1780,ASX:ZMI,12,Materials,False,False,False,False,False,False
+1781,ASX:DAF,12,Materials,False,False,False,False,False,False
+1782,ASX:MTL,193,Information Technology,False,False,False,False,False,False
+1783,ASX:SL1,12,Materials,False,False,False,False,False,False
+1784,ASX:HGM,12,Materials,False,False,False,False,False,False
+1785,ASX:RAN,12,Materials,False,False,False,False,False,False
+1786,ASX:KKL,193,Information Technology,False,False,False,False,False,False
+1787,ASX:DTM,12,Materials,False,False,False,False,False,False
+1788,ASX:AMO,193,Information Technology,False,False,False,False,False,False
+1789,ASX:THD,216,Communication Services,False,False,False,False,False,False
+1790,ASX:NZS,124,Consumer Staples,False,False,False,False,False,False
+1791,ASX:TAR,12,Materials,False,False,False,False,False,False
+1792,ASX:NSE,1,Energy,False,False,False,False,False,False
+1793,ASX:CY5,12,Materials,False,False,False,False,False,False
+1794,ASX:EXO,165,Financials,False,False,False,False,False,False
+1795,ASX:AEV,12,Materials,False,False,False,False,False,False
+1796,ASX:CGO,193,Information Technology,False,False,False,False,False,False
+1797,ASX:XPE,193,Information Technology,False,False,False,False,False,False
+1798,ASX:FIN,12,Materials,False,False,False,False,False,False
+1799,ASX:TMG,12,Materials,False,False,False,False,False,False
+1800,ASX:MGZ,146,Health Care,False,False,False,False,False,False
+1801,ASX:RD1,193,Information Technology,False,False,False,False,False,False
+1802,ASX:HLX,12,Materials,False,False,False,False,False,False
+1803,ASX:JJF,124,Consumer Staples,False,False,False,False,False,False
+1804,ASX:OLV,193,Information Technology,False,False,False,False,False,False
+1805,ASX:QEM,12,Materials,False,False,False,False,False,False
+1806,ASX:JPR,1,Energy,False,False,False,False,False,False
+1807,ASX:MGT,12,Materials,False,False,False,False,False,False
+1808,ASX:CRS,12,Materials,False,False,False,False,False,False
+1809,ASX:BYH,12,Materials,False,False,False,False,False,False
+1810,ASX:PRZ,193,Information Technology,False,False,False,False,False,False
+1811,ASX:ARM,12,Materials,False,False,False,False,False,False
+1812,ASX:NME,12,Materials,False,False,False,False,False,False
+1813,ASX:OXX,1,Energy,False,False,False,False,False,False
+1814,ASX:AUH,1,Energy,False,False,False,False,False,False
+1815,ASX:POD,12,Materials,False,False,False,False,False,False
+1816,ASX:IPB,1,Energy,False,False,False,False,False,False
+1817,ASX:ZIP,216,Communication Services,False,False,False,False,False,False
+1818,ASX:IMS,216,Communication Services,False,False,False,False,False,False
+1819,ASX:DDT,79,Consumer Discretionary,False,False,False,False,False,False
+1820,ASX:KMT,12,Materials,False,False,False,False,False,False
+1821,ASX:MLS,12,Materials,False,False,False,False,False,False
+1822,ASX:TRT,12,Materials,False,False,False,False,False,False
+1823,ASX:CSE,12,Materials,False,False,False,False,False,False
+1824,ASX:FFR,12,Materials,False,False,False,False,False,False
+1825,ASX:SCN,12,Materials,False,False,False,False,False,False
+1826,ASX:MCX,165,Financials,False,False,False,False,False,False
+1827,ASX:VIC,12,Materials,False,False,False,False,False,False
+1828,ASX:GLV,1,Energy,False,False,False,False,False,False
+1829,ASX:FTT,146,Health Care,False,False,False,False,False,False
+1830,ASX:IPC,165,Financials,False,False,False,False,False,False
+1831,ASX:EAX,36,Industrials,False,False,False,False,False,False
+1832,ASX:VAR,12,Materials,False,False,False,False,False,False
+1833,ASX:PPY,12,Materials,False,False,False,False,False,False
+1834,ASX:FAM,193,Information Technology,False,False,False,False,False,False
+1835,ASX:STC,193,Information Technology,False,False,False,False,False,False
+1836,ASX:XTD,216,Communication Services,False,False,False,False,False,False
+1837,ASX:RE1,247,Real Estate,False,False,False,False,False,False
+1838,ASX:AO1,193,Information Technology,False,False,False,False,False,False
+1839,ASX:PKD,36,Industrials,False,False,False,False,False,False
+1840,ASX:MSG,36,Industrials,False,False,False,False,False,False
+1841,ASX:ENE,36,Industrials,False,False,False,False,False,False
+1842,ASX:ATP,79,Consumer Discretionary,False,False,False,False,False,False
+1843,ASX:NC6,146,Health Care,False,False,False,False,False,False
+1844,ASX:CAV,12,Materials,False,False,False,False,False,False
+1845,ASX:BIQ,193,Information Technology,False,False,False,False,False,False
+1846,ASX:TBL,193,Information Technology,False,False,False,False,False,False
+1847,ASX:AMB,36,Industrials,False,False,False,False,False,False
+1848,ASX:MJC,165,Financials,False,False,False,False,False,False
+1849,ASX:SPQ,12,Materials,False,False,False,False,False,False
+1850,ASX:PNN,12,Materials,False,False,False,False,False,False
+1851,ASX:ENB,234,Utilities,False,False,False,False,False,False
+1852,ASX:LML,12,Materials,False,False,False,False,False,False
+1853,ASX:ROO,36,Industrials,False,False,False,False,False,False
+1854,ASX:APG,12,Materials,False,False,False,False,False,False
+1855,ASX:CFE,12,Materials,False,False,False,False,False,False
+1856,ASX:ANW,12,Materials,False,False,False,False,False,False
+1857,ASX:MDX,12,Materials,False,False,False,False,False,False
+1858,ASX:SF1,193,Information Technology,False,False,False,False,False,False
+1859,ASX:NIU,12,Materials,False,False,False,False,False,False
+1860,ASX:LI3,12,Materials,False,False,False,False,False,False
+1861,ASX:TKF,193,Information Technology,False,False,False,False,False,False
+1862,ASX:DLC,79,Consumer Discretionary,False,False,False,False,False,False
+1863,ASX:SIS,193,Information Technology,False,False,False,False,False,False
+1864,ASX:ADD,1,Energy,False,False,False,False,False,False
+1865,ASX:MMR,1,Energy,False,False,False,False,False,False
+1866,ASX:BLZ,1,Energy,False,False,False,False,False,False
+1867,ASX:AXT,12,Materials,False,False,False,False,False,False
+1868,ASX:SVD,12,Materials,False,False,False,False,False,False
+1869,ASX:NMG,12,Materials,False,False,False,False,False,False
+1870,ASX:MRD,12,Materials,False,False,False,False,False,False
+1871,ASX:KP2,12,Materials,False,False,False,False,False,False
+1872,ASX:BPH,146,Health Care,False,False,False,False,False,False
+1873,ASX:FAU,12,Materials,False,False,False,False,False,False
+1874,ASX:NAE,1,Energy,False,False,False,False,False,False
+1875,ASX:VIA,12,Materials,False,False,False,False,False,False
+1876,ASX:FDX,12,Materials,False,False,False,False,False,False
+1877,ASX:KOR,12,Materials,False,False,False,False,False,False
+1878,ASX:RMX,12,Materials,False,False,False,False,False,False
+1879,ASX:LSH,146,Health Care,False,False,False,False,False,False
+1880,ASX:GGX,1,Energy,False,False,False,False,False,False
+1881,ASX:R3D,216,Communication Services,False,False,False,False,False,False
+1882,ASX:ARC,165,Financials,False,False,False,False,False,False
+1883,ASX:G88,12,Materials,False,False,False,False,False,False
+1884,ASX:REV,216,Communication Services,False,False,False,False,False,False
+1885,ASX:ARO,12,Materials,False,False,False,False,False,False
+1886,ASX:NES,12,Materials,False,False,False,False,False,False
+1887,ASX:MCT,12,Materials,False,False,False,False,False,False
+1888,ASX:VKA,12,Materials,False,False,False,False,False,False
+1889,ASX:GTE,12,Materials,False,False,False,False,False,False
+1890,ASX:TYM,193,Information Technology,False,False,False,False,False,False
+1891,ASX:AAJ,12,Materials,False,False,False,False,False,False
+1892,ASX:MQR,12,Materials,False,False,False,False,False,False
+1893,ASX:LHB,247,Real Estate,False,False,False,False,False,False
+1894,ASX:CRO,193,Information Technology,False,False,False,False,False,False
+1895,ASX:HOR,12,Materials,False,False,False,False,False,False
+1896,ASX:GED,12,Materials,False,False,False,False,False,False
+1897,ASX:TKM,12,Materials,False,False,False,False,False,False
+1898,ASX:AGJ,247,Real Estate,False,False,False,False,False,False
+1899,ASX:A1G,12,Materials,False,False,False,False,False,False
+1900,ASX:SHH,12,Materials,False,False,False,False,False,False
+1901,ASX:RDN,12,Materials,False,False,False,False,False,False
+1902,ASX:RDS,12,Materials,False,False,False,False,False,False
+1903,ASX:SHE,12,Materials,False,False,False,False,False,False
+1904,ASX:WCN,12,Materials,False,False,False,False,False,False
+1905,ASX:GRV,1,Energy,False,False,False,False,False,False
+1906,ASX:CNJ,12,Materials,False,False,False,False,False,False
+1907,ASX:JKA,1,Energy,False,False,False,False,False,False
+1908,ASX:CMD,12,Materials,False,False,False,False,False,False
+1909,ASX:RNE,234,Utilities,False,False,False,False,False,False
+1910,ASX:TAO,12,Materials,False,False,False,False,False,False
+1911,ASX:BEL,165,Financials,False,False,False,False,False,False
+1912,ASX:LGR,12,Materials,False,False,False,False,False,False
+1913,ASX:CUL,12,Materials,False,False,False,False,False,False
+1914,ASX:UTR,36,Industrials,False,False,False,False,False,False
+1915,ASX:QSS,247,Real Estate,False,False,False,False,False,False
+1916,ASX:RCP,12,Materials,False,False,False,False,False,False
+1917,ASX:AX8,12,Materials,False,False,False,False,False,False
+1918,ASX:WML,12,Materials,False,False,False,False,False,False
+1919,ASX:SVS,165,Financials,False,False,False,False,False,False
+1920,ASX:KGD,12,Materials,False,False,False,False,False,False
+1921,ASX:IP1,193,Information Technology,False,False,False,False,False,False
+1922,ASX:AAP,124,Consumer Staples,False,False,False,False,False,False
+1923,ASX:CVS,12,Materials,False,False,False,False,False,False
+1924,ASX:RNX,12,Materials,False,False,False,False,False,False
+1925,ASX:OPL,193,Information Technology,False,False,False,False,False,False
+1926,ASX:PUR,12,Materials,False,False,False,False,False,False
+1927,ASX:RMT,12,Materials,False,False,False,False,False,False
+1928,ASX:PLC,165,Financials,False,False,False,False,False,False
+1929,ASX:ESE,146,Health Care,False,False,False,False,False,False
+1930,ASX:CML,12,Materials,False,False,False,False,False,False
+1931,ASX:PVL,165,Financials,False,False,False,False,False,False
+1932,ASX:TMZ,12,Materials,False,False,False,False,False,False
+1933,ASX:GCR,12,Materials,False,False,False,False,False,False
+1934,ASX:VAL,12,Materials,False,False,False,False,False,False
+1935,ASX:CDT,12,Materials,False,False,False,False,False,False
+1936,ASX:MPR,165,Financials,False,False,False,False,False,False
+1937,ASX:RPG,247,Real Estate,False,False,False,False,False,False
+1938,ASX:SRN,12,Materials,False,False,False,False,False,False
+1939,ASX:GLA,12,Materials,False,False,False,False,False,False
+1940,ASX:RAG,12,Materials,False,False,False,False,False,False
+1941,ASX:AKN,12,Materials,False,False,False,False,False,False
+1942,ASX:MRR,12,Materials,False,False,False,False,False,False
+1943,ASX:CYQ,79,Consumer Discretionary,False,False,False,False,False,False
+1944,ASX:PAK,12,Materials,False,False,False,False,False,False
+1945,ASX:MCB,1,Energy,False,False,False,False,False,False
+1946,ASX:AHK,12,Materials,False,False,False,False,False,False
+1947,ASX:TPD,1,Energy,False,False,False,False,False,False
+1948,ASX:TRL,12,Materials,False,False,False,False,False,False
+1949,ASX:LVE,193,Information Technology,False,False,False,False,False,False
+1950,ASX:SUH,12,Materials,False,False,False,False,False,False
+1951,ASX:OAR,12,Materials,False,False,False,False,False,False
+1952,ASX:SBR,12,Materials,False,False,False,False,False,False
+1953,ASX:AVW,12,Materials,False,False,False,False,False,False
+1954,ASX:IAM,193,Information Technology,False,False,False,False,False,False
+1955,ASX:FGO,193,Information Technology,False,False,False,False,False,False
+1956,ASX:EFE,12,Materials,False,False,False,False,False,False
+1957,ASX:ROG,1,Energy,False,False,False,False,False,False
+1958,ASX:KAS,12,Materials,False,False,False,False,False,False
+1959,ASX:MXR,12,Materials,False,False,False,False,False,False
+1960,ASX:SI6,12,Materials,False,False,False,False,False,False
+1961,ASX:ABT,124,Consumer Staples,False,False,False,False,False,False
+1962,ASX:TKL,12,Materials,False,False,False,False,False,False
+1963,ASX:PGY,1,Energy,False,False,False,False,False,False
+1964,ASX:RXH,216,Communication Services,False,False,False,False,False,False
+1965,ASX:LRM,1,Energy,False,False,False,False,False,False
+1966,ASX:POW,,,False,False,False,False,False,False
+1967,ASX:IEC,1,Energy,False,False,False,False,False,False
+1968,ASX:CAE,12,Materials,False,False,False,False,False,False
+1969,ASX:ABW,,,False,False,False,False,False,False
+1970,ASX:GGE,1,Energy,False,False,False,False,False,False
+1971,ASX:RFN,193,Information Technology,False,False,False,False,False,False
+1972,ASX:IGN,36,Industrials,False,False,False,False,False,False
+1973,ASX:TTA,79,Consumer Discretionary,False,False,False,False,False,False
+1974,ASX:RMI,12,Materials,False,False,False,False,False,False
+1975,ASX:EMP,1,Energy,False,False,False,False,False,False
+1976,ASX:LRS,12,Materials,False,False,False,False,False,False
+1977,ASX:ICU,216,Communication Services,False,False,False,False,False,False
+1978,ASX:XST,1,Energy,False,False,False,False,False,False
+1979,ASX:PKO,1,Energy,False,False,False,False,False,False
+1980,ASX:SBU,12,Materials,False,False,False,False,False,False
+1981,ASX:TTL,193,Information Technology,False,False,False,False,False,False
+1982,ASX:THR,12,Materials,False,False,False,False,False,False
+1983,ASX:HOG,1,Energy,False,False,False,False,False,False
+1984,ASX:MSI,36,Industrials,False,False,False,False,False,False
+1985,ASX:IDZ,79,Consumer Discretionary,False,False,False,False,False,False
+1986,ASX:DOR,1,Energy,False,False,False,False,False,False
+1987,ASX:PRM,1,Energy,False,False,False,False,False,False
+1988,ASX:RNY,247,Real Estate,False,False,False,False,False,False
+1989,ASX:ATM,12,Materials,False,False,False,False,False,False
+1990,ASX:BSP,1,Energy,False,False,False,False,False,False
+1991,ASX:NTI,146,Health Care,False,False,False,False,False,False
+1992,ASX:NXE,12,Materials,False,False,False,False,False,False
+1993,ASX:PBX,12,Materials,False,False,False,False,False,False
+1994,ASX:CGM,12,Materials,False,False,False,False,False,False
+1995,ASX:BMG,12,Materials,False,False,False,False,False,False
+1996,ASX:8EC,165,Financials,False,False,False,False,False,False
+1997,ASX:T3D,36,Industrials,False,False,False,False,False,False
+1998,ASX:MTB,12,Materials,False,False,False,False,False,False
+1999,ASX:PCH,216,Communication Services,False,False,False,False,False,False
+2000,ASX:CCJ,1,Energy,False,False,False,False,False,False
+2001,ASX:TRM,12,Materials,False,False,False,False,False,False
+2002,ASX:RBX,12,Materials,False,False,False,False,False,False
+2003,ASX:ACS,12,Materials,False,False,False,False,False,False
+2004,ASX:ZEU,1,Energy,False,False,False,False,False,False
+2005,ASX:OEQ,165,Financials,False,False,False,False,False,False
+2006,ASX:TOM,216,Communication Services,False,False,False,False,False,False
+2007,ASX:SBI,124,Consumer Staples,False,False,False,False,False,False
+2008,ASX:RLC,12,Materials,False,False,False,False,False,False
+2009,ASX:E2E,1,Energy,False,False,False,False,False,False
+2010,ASX:UUV,36,Industrials,False,False,False,False,False,False
+2011,ASX:QUE,165,Financials,False,False,False,False,False,False
+2012,ASX:SAM,165,Financials,False,False,False,False,False,False
+2013,ASX:TNP,1,Energy,False,False,False,False,False,False
+2014,ASX:FE8,247,Real Estate,False,False,False,False,False,False
+2015,ASX:AIB,165,Financials,False,False,False,False,False,False
+2016,ASX:AOA,12,Materials,False,False,False,False,False,False
+2017,ASX:QTG,193,Information Technology,False,False,False,False,False,False
+2018,ASX:PPL,216,Communication Services,False,False,False,False,False,False
+2019,ASX:ENX,1,Energy,False,False,False,False,False,False
+2020,ASX:CPT,193,Information Technology,False,False,False,False,False,False
+2021,ASX:AQS,79,Consumer Discretionary,False,False,False,False,False,False
+2022,ASX:UUL,247,Real Estate,False,False,False,False,False,False
+2023,ASX:SAN,1,Energy,False,False,False,False,False,False
+2024,ASX:ABL,1,Energy,False,False,False,False,False,False
+2025,ASX:REF,216,Communication Services,False,False,False,False,False,False
+2026,ASX:LAM,1,Energy,False,False,False,False,False,False
+2027,ASX:CDH,12,Materials,False,False,False,False,False,False
+2028,ASX:SYS,1,Energy,False,False,False,False,False,False
+2029,ASX:KNH,36,Industrials,False,False,False,False,False,False
+2030,ASX:POT,,,False,False,False,False,False,False
+2031,ASX:MEQ,146,Health Care,False,False,False,False,False,False
+2032,ASX:RTD,,,False,False,False,False,False,False
+2033,ASX:EMI,,,False,False,False,False,False,False
+2034,ASX:AOL,,,False,False,False,False,False,False
