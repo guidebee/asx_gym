@@ -107,6 +107,5 @@ uritemplate==3.0.1
 urllib3==1.25.9
 wcwidth==0.1.9
 Werkzeug==1.0.1
-youtube-upload==0.8.0
 zipp==3.1.0
 zope.interface==5.1.0
