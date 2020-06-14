@@ -26,7 +26,7 @@ Australia Stock Market Simulations
   python update_stock_data.py
 ```
 
-This script retrieves new stock data and ASX index data. the data is updated daily
+This script retrieves new stock data and ASX index data. the data is updated weekly.
 
 # Update company Info
 
