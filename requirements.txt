@@ -48,7 +48,7 @@ google-auth-oauthlib==0.4.1
 googleapis-common-protos==1.52.0
 gym==0.17.1
 hiredis==1.0.1
-httplib2==0.18.1
+httplib2==0.19.0
 hyperlink==19.0.0
 idna==2.9
 importlib-metadata==1.6.0
