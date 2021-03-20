@@ -57,7 +57,7 @@ ipython==7.14.0
 ipython-genutils==0.2.0
 itsdangerous==1.1.0
 jedi==0.17.0
-Jinja2==2.11.2
+Jinja2==2.11.3
 jsonpickle==1.4.1
 kiwisolver==1.2.0
 MarkupSafe==1.1.1
