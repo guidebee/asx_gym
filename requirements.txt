@@ -104,7 +104,7 @@ traitlets==4.3.3
 Twisted==20.3.0
 txaio==20.4.1
 uritemplate==3.0.1
-urllib3==1.25.9
+urllib3==1.26.5
 wcwidth==0.1.9
 Werkzeug==1.0.1
 zipp==3.1.0
