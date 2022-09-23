@@ -75,7 +75,7 @@ pickleshare==0.7.5
 plotly==4.7.1
 progressbar2==3.51.3
 prompt-toolkit==3.0.5
-protobuf==3.12.2
+protobuf==3.18.3
 psutil==5.7.0
 ptyprocess==0.6.0
 pyasn1==0.4.8
