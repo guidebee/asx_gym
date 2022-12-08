@@ -11,7 +11,7 @@ beautifulsoup4==4.9.0
 bootstrap4==0.1.0
 Brotli==1.0.7
 cachetools==4.1.0
-certifi==2020.4.5.1
+certifi==2022.12.7
 cffi==1.14.0
 channels==2.4.0
 channels-redis==2.4.2
